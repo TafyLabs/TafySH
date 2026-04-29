@@ -22,8 +22,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv pip install agentsh
 
 # From source
-git clone https://github.com/agentsh/agentsh.git
-cd agentsh
+git clone https://github.com/TafyLabs/AgentSH.git
+cd AgentSH
 uv sync
 uv pip install -e ".[dev]"
 ```
@@ -134,16 +134,18 @@ See [docs/ARCHITECTURE_SUMMARY.md](docs/ARCHITECTURE_SUMMARY.md) for details.
 | Phase | Component | Status |
 |-------|-----------|--------|
 | 0 | Foundation | ✅ Complete |
-| 1 | Shell Wrapper | 🚧 In Progress |
-| 2 | LLM Integration | ⏳ Pending |
-| 3 | Security | ⏳ Pending |
-| 4 | Tool Interface | ⏳ Pending |
-| 5 | Workflows | ⏳ Pending |
-| 6 | Memory | ⏳ Pending |
-| 7 | Telemetry | ⏳ Pending |
-| 8 | Orchestration | ⏳ Pending |
-| 9 | Robotics | ⏳ Pending |
-| 10 | Polish | ⏳ Pending |
+| 1 | Shell Wrapper | ✅ Complete |
+| 2 | LLM Integration | ✅ Complete |
+| 3 | Security | ✅ Complete |
+| 4 | Tool Interface | ✅ Complete |
+| 5 | Workflows | ✅ Complete |
+| 6 | Memory | ✅ Complete |
+| 7 | Telemetry | ✅ Complete |
+| 8 | Orchestration | ✅ Complete |
+| 9 | Robotics | ✅ Complete |
+| 10 | Polish | ✅ Complete |
+| 11 | Testing & Coverage | ✅ Complete |
+| 12 | Release & Distribution | ✅ Complete |
 
 See [docs/IMPLEMENTATION_CHECKLIST.md](docs/IMPLEMENTATION_CHECKLIST.md) for details.
 
