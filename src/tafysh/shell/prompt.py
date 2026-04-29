@@ -76,16 +76,16 @@ class PromptRenderer:
     """Renders custom prompts for TafySH.
 
     The prompt includes:
-    - [AS] indicator showing TafySH is active
+    - [TS] indicator showing TafySH is active
     - Current directory (abbreviated)
     - Git branch and status (if in a repo)
     - Agent status indicator
     - Virtual environment name (if active)
 
     Example prompts:
-        [AS] ~/projects/myapp (main*) $
-        [AS] ~/projects/myapp (main) [thinking] $
-        [AS] /etc $
+        [TS] ~/projects/myapp (main*) $
+        [TS] ~/projects/myapp (main) [thinking] $
+        [TS] /etc $
     """
 
     # Status indicators
@@ -109,7 +109,7 @@ class PromptRenderer:
         style: PromptStyle = PromptStyle.STANDARD,
         use_color: bool = True,
         use_emoji: bool = False,
-        indicator: str = "AS",
+        indicator: str = "TS",
     ) -> None:
         """Initialize the prompt renderer.
 
@@ -117,7 +117,7 @@ class PromptRenderer:
             style: Prompt style (minimal, standard, full)
             use_color: Whether to use ANSI colors
             use_emoji: Whether to use emoji status indicators
-            indicator: Text to show in brackets (default: "AS")
+            indicator: Text to show in brackets (default: "TS")
         """
         self.style = style
         self.use_color = use_color

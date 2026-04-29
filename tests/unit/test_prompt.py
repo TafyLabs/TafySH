@@ -144,7 +144,7 @@ class TestPromptRenderer:
         assert renderer.style == PromptStyle.STANDARD
         assert renderer.use_color is True
         assert renderer.use_emoji is False
-        assert renderer.indicator == "AS"
+        assert renderer.indicator == "TS"
 
     def test_custom_indicator(self) -> None:
         """Test custom indicator."""
@@ -156,7 +156,7 @@ class TestPromptRenderer:
         """Test minimal style rendering."""
         renderer = PromptRenderer(style=PromptStyle.MINIMAL, use_color=False)
         prompt = renderer.render_ps1(context=basic_context)
-        assert "[AS]" in prompt
+        assert "[TS]" in prompt
         assert "$" in prompt
 
     def test_render_ps1_standard(
@@ -165,14 +165,14 @@ class TestPromptRenderer:
         """Test standard style rendering."""
         prompt = renderer.render_ps1(context=basic_context)
         stripped = strip_ansi(prompt)
-        assert "[AS]" in stripped
+        assert "[TS]" in stripped
         assert "$" in stripped
 
     def test_render_ps1_full(self, basic_context: PromptContext) -> None:
         """Test full style rendering."""
         renderer = PromptRenderer(style=PromptStyle.FULL, use_color=False)
         prompt = renderer.render_ps1(context=basic_context)
-        assert "[AS]" in prompt
+        assert "[TS]" in prompt
         assert "testuser@localhost" in prompt
         assert "$" in prompt
 
@@ -181,7 +181,7 @@ class TestPromptRenderer:
         # Should auto-gather context
         prompt = renderer.render_ps1()
         stripped = strip_ansi(prompt)
-        assert "[AS]" in stripped
+        assert "[TS]" in stripped
         assert "$" in stripped or "#" in stripped
 
     # Git info tests
