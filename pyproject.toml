@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tafysh"
-version = "0.2.0"
+version = "0.2.1"
 description = "AI-enhanced terminal shell with LLM-powered capabilities"
 readme = "README.md"
 license = {text = "Apache-2.0"}

@@ -1,5 +1,6 @@
 """Configuration schemas using Pydantic for validation."""
 
+import os
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
@@ -82,6 +83,11 @@ class LLMConfig(BaseModel):
         ge=0,
         description="Maximum retry attempts for failed calls",
     )
+
+    @property
+    def api_key(self) -> Optional[str]:
+        """Resolve the API key from the configured environment variable."""
+        return os.environ.get(self.api_key_env)
 
 
 class ShellConfig(BaseModel):
