@@ -124,7 +124,7 @@ class OpenRouterClient(LLMClient):
         headers = {
             "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": self._site_url or "https://github.com/agentsh",
+            "HTTP-Referer": self._site_url or "https://github.com/TafyLabs/TafySH",
             "X-Title": self._site_name,
         }
         return headers

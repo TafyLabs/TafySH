@@ -239,14 +239,14 @@ def install_completion(shell: str, script: str) -> Tuple[bool, str]:
         # Try system-wide first, then user
         paths = [
             Path("/etc/bash_completion.d/tafysh"),
-            Path("/usr/share/bash-completion/completions/agentsh"),
+            Path("/usr/share/bash-completion/completions/tafysh"),
             home / ".local" / "share" / "bash-completion" / "completions" / "tafysh",
         ]
     elif shell == "zsh":
         paths = [
             Path("/usr/share/zsh/site-functions/_tafysh"),
             Path("/usr/local/share/zsh/site-functions/_tafysh"),
-            home / ".zsh" / "completions" / "_agentsh",
+            home / ".zsh" / "completions" / "_tafysh",
         ]
     elif shell == "fish":
         paths = [

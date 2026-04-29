@@ -2,14 +2,14 @@
 TafySH CLI entry point.
 
 Usage:
-    agentsh                     Start interactive shell
-    agentsh --version           Show version
-    agentsh --config <path>     Use custom config file
-    agentsh --login             Run as login shell
-    agentsh config show         Show current configuration
-    agentsh status              Check system health
+    tafysh                     Start interactive shell
+    tafysh --version           Show version
+    tafysh --config <path>     Use custom config file
+    tafysh --login             Run as login shell
+    tafysh config show         Show current configuration
+    tafysh status              Check system health
     tafysh completions bash    Output bash completion script
-    agentsh --mcp-server        Run as MCP server (for remote LLM integration)
+    tafysh --mcp-server        Run as MCP server (for remote LLM integration)
 """
 
 import argparse
@@ -30,10 +30,10 @@ def create_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  agentsh                    Start interactive shell
-  agentsh --config ~/my.yaml Use custom configuration
-  agentsh config show        Display current settings
-  agentsh status             Check health of all components
+  tafysh                    Start interactive shell
+  tafysh --config ~/my.yaml Use custom configuration
+  tafysh config show        Display current settings
+  tafysh status             Check health of all components
 
 For more information, visit: https://github.com/TafyLabs/TafySH
         """,
@@ -225,7 +225,7 @@ def cmd_devices(args: argparse.Namespace) -> int:
         devices = inventory.list()
         if not devices:
             print("No devices in inventory")
-            print(f"\nTo add a device: agentsh devices add <hostname>")
+            print(f"\nTo add a device: tafysh devices add <hostname>")
             return 0
 
         print(f"Devices ({len(devices)} total):")

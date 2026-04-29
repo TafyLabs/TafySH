@@ -464,104 +464,104 @@ class TafySHMetrics:
 
         # Tool metrics
         self.tool_executions_total = self.registry.counter(
-            "agentsh_tool_executions_total",
+            "tafysh_tool_executions_total",
             "Total number of tool executions",
         )
         self.tool_duration_seconds = self.registry.histogram(
-            "agentsh_tool_duration_seconds",
+            "tafysh_tool_duration_seconds",
             "Tool execution duration in seconds",
             buckets=(0.01, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0, 30.0, 60.0),
         )
         self.tool_errors_total = self.registry.counter(
-            "agentsh_tool_errors_total",
+            "tafysh_tool_errors_total",
             "Total number of tool execution errors",
         )
 
         # LLM metrics
         self.llm_requests_total = self.registry.counter(
-            "agentsh_llm_requests_total",
+            "tafysh_llm_requests_total",
             "Total number of LLM requests",
         )
         self.llm_tokens_in_total = self.registry.counter(
-            "agentsh_llm_tokens_in_total",
+            "tafysh_llm_tokens_in_total",
             "Total input tokens to LLM",
         )
         self.llm_tokens_out_total = self.registry.counter(
-            "agentsh_llm_tokens_out_total",
+            "tafysh_llm_tokens_out_total",
             "Total output tokens from LLM",
         )
         self.llm_latency_seconds = self.registry.histogram(
-            "agentsh_llm_latency_seconds",
+            "tafysh_llm_latency_seconds",
             "LLM request latency in seconds",
             buckets=(0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 30.0),
         )
         self.llm_errors_total = self.registry.counter(
-            "agentsh_llm_errors_total",
+            "tafysh_llm_errors_total",
             "Total number of LLM errors",
         )
 
         # Workflow metrics
         self.workflow_executions_total = self.registry.counter(
-            "agentsh_workflow_executions_total",
+            "tafysh_workflow_executions_total",
             "Total number of workflow executions",
         )
         self.workflow_steps_total = self.registry.counter(
-            "agentsh_workflow_steps_total",
+            "tafysh_workflow_steps_total",
             "Total number of workflow steps executed",
         )
         self.workflow_duration_seconds = self.registry.histogram(
-            "agentsh_workflow_duration_seconds",
+            "tafysh_workflow_duration_seconds",
             "Workflow execution duration in seconds",
             buckets=(0.5, 1.0, 5.0, 10.0, 30.0, 60.0, 120.0, 300.0),
         )
 
         # Approval metrics
         self.approvals_requested_total = self.registry.counter(
-            "agentsh_approvals_requested_total",
+            "tafysh_approvals_requested_total",
             "Total number of approval requests",
         )
         self.approvals_granted_total = self.registry.counter(
-            "agentsh_approvals_granted_total",
+            "tafysh_approvals_granted_total",
             "Total number of approvals granted",
         )
         self.approvals_denied_total = self.registry.counter(
-            "agentsh_approvals_denied_total",
+            "tafysh_approvals_denied_total",
             "Total number of approvals denied",
         )
 
         # Session metrics
         self.active_sessions = self.registry.gauge(
-            "agentsh_active_sessions",
+            "tafysh_active_sessions",
             "Number of active sessions",
         )
         self.sessions_total = self.registry.counter(
-            "agentsh_sessions_total",
+            "tafysh_sessions_total",
             "Total number of sessions created",
         )
 
         # Memory metrics
         self.memory_operations_total = self.registry.counter(
-            "agentsh_memory_operations_total",
+            "tafysh_memory_operations_total",
             "Total number of memory operations",
         )
         self.memory_records_total = self.registry.gauge(
-            "agentsh_memory_records_total",
+            "tafysh_memory_records_total",
             "Total number of memory records",
         )
 
         # Security metrics
         self.security_blocks_total = self.registry.counter(
-            "agentsh_security_blocks_total",
+            "tafysh_security_blocks_total",
             "Total number of security blocks",
         )
         self.security_alerts_total = self.registry.counter(
-            "agentsh_security_alerts_total",
+            "tafysh_security_alerts_total",
             "Total number of security alerts",
         )
 
         # Error metrics
         self.errors_total = self.registry.counter(
-            "agentsh_errors_total",
+            "tafysh_errors_total",
             "Total number of errors",
         )
 

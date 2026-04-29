@@ -4,7 +4,7 @@
 # Install: brew install tafysh/tap/tafysh
 # Or:      brew tap tafysh/tap && brew install tafysh
 
-class Agentsh < Formula
+class Tafysh < Formula
   include Language::Python::Virtualenv
 
   desc "AI-enhanced terminal shell with natural language command generation"

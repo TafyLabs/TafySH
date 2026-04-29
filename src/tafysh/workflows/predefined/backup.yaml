@@ -10,7 +10,7 @@ parameters:
   backup_dir:
     type: string
     description: Directory to store backups
-    default: "~/.agentsh/backups"
+    default: "~/.tafysh/backups"
   compress:
     type: boolean
     description: Compress the backup with gzip
