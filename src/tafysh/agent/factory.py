@@ -33,13 +33,13 @@ def create_llm_client(config: TafySHConfig) -> LLMClient:
         return AnthropicClient(
             api_key=config.llm.api_key,
             model=config.llm.model,
-            timeout=config.llm.timeout,
+            timeout=config.llm.timeout_seconds,
         )
     elif config.llm.provider == LLMProvider.OPENAI:
         return OpenAIClient(
             api_key=config.llm.api_key,
             model=config.llm.model,
-            timeout=config.llm.timeout,
+            timeout=config.llm.timeout_seconds,
         )
     else:
         raise ValueError(f"Unsupported LLM provider: {config.llm.provider}")

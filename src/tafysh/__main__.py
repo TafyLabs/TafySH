@@ -388,7 +388,11 @@ def cmd_interactive_shell(
         if log_level:
             config.log_level = log_level
 
-        setup_logging(config.log_level, config.telemetry.log_file)
+        setup_logging(
+            config.log_level,
+            config.telemetry.log_file,
+            json_format=False,
+        )
         logger = get_logger(__name__)
 
         # Set up login shell if needed

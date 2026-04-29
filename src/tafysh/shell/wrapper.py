@@ -397,23 +397,15 @@ class ShellWrapper(LoggerMixin):
         print("AI context reset.")
 
     def _show_ai_placeholder(self, request: str) -> None:
-        """Show placeholder for AI functionality.
+        """Show message when AI handler is not available.
 
         Args:
             request: The AI request
         """
         print()
-        print("┌" + "─" * 58 + "┐")
-        print("│" + " AI Response (Coming in Phase 2)".ljust(58) + "│")
-        print("├" + "─" * 58 + "┤")
-        print("│" + f" Request: {request[:45]}...".ljust(58) + "│")
-        print("│" + " ".ljust(58) + "│")
-        print("│" + " The AI agent will:".ljust(58) + "│")
-        print("│" + "   • Understand your request".ljust(58) + "│")
-        print("│" + "   • Plan necessary steps".ljust(58) + "│")
-        print("│" + "   • Execute tools safely".ljust(58) + "│")
-        print("│" + "   • Report results".ljust(58) + "│")
-        print("└" + "─" * 58 + "┘")
+        print("AI is not configured. Set your API key to enable AI features:")
+        print("  export ANTHROPIC_API_KEY=sk-ant-...")
+        print("Then restart tafysh.")
         print()
 
     def stop(self) -> None:

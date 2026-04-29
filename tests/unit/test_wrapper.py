@@ -294,7 +294,7 @@ class TestShellWrapperHelpers:
             wrapper._show_ai_placeholder("test request")
 
         calls = [str(call) for call in mock_print.call_args_list]
-        assert any("Phase 2" in str(call) for call in calls)
+        assert any("not configured" in str(call) for call in calls)
 
     def test_show_status(self, wrapper: ShellWrapper) -> None:
         """Test status display."""

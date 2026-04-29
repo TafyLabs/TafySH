@@ -32,7 +32,7 @@ def mock_llm_config() -> MagicMock:
     config.model = "claude-3-sonnet"
     config.temperature = 0.7
     config.max_tokens = 4096
-    config.timeout = 60
+    config.timeout_seconds = 60
     return config
 
 
@@ -56,7 +56,7 @@ def openai_config() -> MagicMock:
     config.llm.model = "gpt-4"
     config.llm.temperature = 0.7
     config.llm.max_tokens = 4096
-    config.llm.timeout = 60
+    config.llm.timeout_seconds = 60
     config.shell = MagicMock()
     return config
 
