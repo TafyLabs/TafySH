@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "agentsh"
+name = "tafysh"
 version = "0.1.0"
 description = "AI-enhanced terminal shell with LLM-powered capabilities"
 readme = "README.md"
@@ -87,10 +87,11 @@ robotics = [
 ]
 
 all = [
-    "agentsh[dev,vector,ssh,metrics]",
+    "tafysh[dev,vector,ssh,metrics]",
 ]
 
 [project.scripts]
+tafysh = "agentsh.__main__:main"
 agentsh = "agentsh.__main__:main"
 
 [project.urls]
