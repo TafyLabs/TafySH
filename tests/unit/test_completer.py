@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.shell.completer import (
+from tafysh.shell.completer import (
     CompletionResult,
     CompletionType,
     ShellCompleter,
@@ -228,7 +228,7 @@ class TestShellCompleter:
         # Tools should not complete after !
         assert "shell.run" not in matches
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_complete_state_0(
         self, mock_readline: MagicMock, completer: ShellCompleter
     ) -> None:
@@ -237,7 +237,7 @@ class TestShellCompleter:
         result = completer.complete("h", 0)
         assert result in [":help", ":history"]
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_complete_state_1(
         self, mock_readline: MagicMock, completer: ShellCompleter
     ) -> None:
@@ -249,7 +249,7 @@ class TestShellCompleter:
         result = completer.complete("h", 1)
         assert result in [":help", ":history", None]
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_complete_no_more_matches(
         self, mock_readline: MagicMock, completer: ShellCompleter
     ) -> None:
@@ -260,7 +260,7 @@ class TestShellCompleter:
         result = completer.complete("h", 100)
         assert result is None
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_install(self, mock_readline: MagicMock) -> None:
         """Should install completer into readline."""
         c = ShellCompleter()
@@ -270,7 +270,7 @@ class TestShellCompleter:
         mock_readline.parse_and_bind.assert_called()
         assert c._installed is True
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_install_idempotent(self, mock_readline: MagicMock) -> None:
         """Should not reinstall if already installed."""
         c = ShellCompleter()
@@ -280,7 +280,7 @@ class TestShellCompleter:
         # Should only be called once
         assert mock_readline.set_completer.call_count == 1
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_uninstall(self, mock_readline: MagicMock) -> None:
         """Should uninstall completer."""
         c = ShellCompleter()
@@ -291,7 +291,7 @@ class TestShellCompleter:
         # Last call should be set_completer(None)
         mock_readline.set_completer.assert_called_with(None)
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_uninstall_not_installed(self, mock_readline: MagicMock) -> None:
         """Should do nothing if not installed."""
         c = ShellCompleter()
@@ -314,11 +314,11 @@ class TestGlobalCompleter:
         c2 = get_completer()
         assert c1 is c2
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_setup_completion(self, mock_readline: MagicMock) -> None:
         """Should set up completion with tools and commands."""
         # Reset global completer for this test
-        import agentsh.shell.completer as module
+        import tafysh.shell.completer as module
         module._completer = None
 
         completer = setup_completion(
@@ -332,10 +332,10 @@ class TestGlobalCompleter:
         assert "quit" in completer._special_commands
         assert completer._installed is True
 
-    @patch("agentsh.shell.completer.readline")
+    @patch("tafysh.shell.completer.readline")
     def test_setup_completion_empty(self, mock_readline: MagicMock) -> None:
         """Should work with no tools or commands."""
-        import agentsh.shell.completer as module
+        import tafysh.shell.completer as module
         module._completer = None
 
         completer = setup_completion()

@@ -1,7 +1,7 @@
 .PHONY: install dev test lint format type-check security clean build publish help sync lock
 
 help:
-	@echo "AgentSH Development Commands"
+	@echo "TafySH Development Commands"
 	@echo "============================"
 	@echo ""
 	@echo "Setup:"
@@ -49,7 +49,7 @@ test-unit:
 	uv run pytest tests/unit/ -v
 
 test-cov:
-	uv run pytest tests/ --cov=src/agentsh --cov-report=term-missing --cov-report=html
+	uv run pytest tests/ --cov=src/tafysh --cov-report=term-missing --cov-report=html
 
 # Code Quality
 lint:
@@ -60,10 +60,10 @@ format:
 	uv run ruff check --fix src tests
 
 type-check:
-	uv run mypy src/agentsh --ignore-missing-imports
+	uv run mypy src/tafysh --ignore-missing-imports
 
 security:
-	uv run bandit -r src/agentsh -ll
+	uv run bandit -r src/tafysh -ll
 
 check: lint type-check security
 
@@ -90,10 +90,10 @@ publish: build
 
 # Development helpers
 run:
-	uv run agentsh
+	uv run tafysh
 
 config-show:
-	uv run agentsh config show
+	uv run tafysh config show
 
 status:
-	uv run agentsh status
+	uv run tafysh status

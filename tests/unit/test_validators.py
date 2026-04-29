@@ -3,7 +3,7 @@
 import pytest
 from pathlib import Path
 
-from agentsh.utils.validators import (
+from tafysh.utils.validators import (
     CommandValidator,
     InputSanitizer,
     PathValidator,

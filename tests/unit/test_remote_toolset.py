@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.plugins.builtin.remote import RemoteToolset
-from agentsh.tools.base import ToolResult
+from tafysh.plugins.builtin.remote import RemoteToolset
+from tafysh.tools.base import ToolResult
 
 
 class MockDevice:
@@ -201,7 +201,7 @@ class TestRunCommand:
         """Should return error if device not found."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = None
             mock_inv.return_value = mock_inventory
@@ -216,12 +216,12 @@ class TestRunCommand:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = mock_device
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
+            with patch("tafysh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
                 mock_executor = MagicMock()
                 mock_executor.execute.return_value = MockCommandResult(
                     success=True,
@@ -240,17 +240,17 @@ class TestRunCommand:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = mock_device
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
+            with patch("tafysh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
                 mock_executor = MagicMock()
                 mock_executor.execute.return_value = MockCommandResult(success=True)
                 mock_exec.return_value = mock_executor
 
-                with patch("agentsh.plugins.builtin.remote.DeviceStatus") as mock_status:
+                with patch("tafysh.plugins.builtin.remote.DeviceStatus") as mock_status:
                     mock_status.ONLINE = "online"
                     toolset._run_command("test-device", "ls")
                     mock_inventory.update_status.assert_called()
@@ -260,12 +260,12 @@ class TestRunCommand:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = mock_device
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
+            with patch("tafysh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
                 mock_executor = MagicMock()
                 mock_executor.execute.return_value = MockCommandResult(
                     success=False,
@@ -273,7 +273,7 @@ class TestRunCommand:
                 )
                 mock_exec.return_value = mock_executor
 
-                with patch("agentsh.plugins.builtin.remote.DeviceStatus") as mock_status:
+                with patch("tafysh.plugins.builtin.remote.DeviceStatus") as mock_status:
                     mock_status.OFFLINE = "offline"
                     toolset._run_command("test-device", "ls")
                     mock_inventory.update_status.assert_called()
@@ -283,12 +283,12 @@ class TestRunCommand:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = mock_device
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
+            with patch("tafysh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
                 mock_executor = MagicMock()
                 mock_executor.execute.return_value = MockCommandResult(success=True)
                 mock_exec.return_value = mock_executor
@@ -315,7 +315,7 @@ class TestRunParallel:
         """Should return error if any device not found."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = None
             mock_inv.return_value = mock_inventory
@@ -329,7 +329,7 @@ class TestRunParallel:
         """Should return error if no valid devices."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = None
             mock_inv.return_value = mock_inventory
@@ -344,12 +344,12 @@ class TestRunParallel:
         mock_device1 = MockDevice(id="device-1")
         mock_device2 = MockDevice(id="device-2")
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.side_effect = lambda x: {"device-1": mock_device1, "device-2": mock_device2}.get(x)
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
+            with patch("tafysh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
                 mock_executor = MagicMock()
                 mock_executor.execute_parallel.return_value = MockParallelResult(
                     results={
@@ -375,7 +375,7 @@ class TestListDevices:
         """Should return message when no devices match."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.filter.return_value = []
             mock_inv.return_value = mock_inventory
@@ -390,7 +390,7 @@ class TestListDevices:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.filter.return_value = [mock_device]
             mock_inv.return_value = mock_inventory
@@ -405,7 +405,7 @@ class TestListDevices:
         """Should filter by role."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.filter.return_value = []
             mock_inv.return_value = mock_inventory
@@ -420,7 +420,7 @@ class TestListDevices:
         """Should filter by labels."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.filter.return_value = []
             mock_inv.return_value = mock_inventory
@@ -439,7 +439,7 @@ class TestGetDevice:
         """Should return error if device not found."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = None
             mock_inv.return_value = mock_inventory
@@ -454,7 +454,7 @@ class TestGetDevice:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = mock_device
             mock_inv.return_value = mock_inventory
@@ -473,7 +473,7 @@ class TestAddDevice:
         """Should return error for duplicate hostname."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get_by_hostname.return_value = MockDevice()
             mock_inv.return_value = mock_inventory
@@ -488,14 +488,14 @@ class TestAddDevice:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get_by_hostname.return_value = None
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.create_device") as mock_create:
+            with patch("tafysh.plugins.builtin.remote.create_device") as mock_create:
                 mock_create.return_value = mock_device
-                with patch("agentsh.plugins.builtin.remote.DeviceType") as mock_type:
+                with patch("tafysh.plugins.builtin.remote.DeviceType") as mock_type:
                     mock_type.SERVER = "server"
 
                     result = toolset._add_device("new.local")
@@ -507,15 +507,15 @@ class TestAddDevice:
         """Should handle add error."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get_by_hostname.return_value = None
             mock_inventory.add.side_effect = ValueError("Add failed")
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.create_device") as mock_create:
+            with patch("tafysh.plugins.builtin.remote.create_device") as mock_create:
                 mock_create.return_value = MockDevice()
-                with patch("agentsh.plugins.builtin.remote.DeviceType") as mock_type:
+                with patch("tafysh.plugins.builtin.remote.DeviceType") as mock_type:
                     mock_type.SERVER = "server"
 
                     result = toolset._add_device("new.local")
@@ -530,7 +530,7 @@ class TestRemoveDevice:
         """Should return error if device not found."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.remove.return_value = False
             mock_inv.return_value = mock_inventory
@@ -544,7 +544,7 @@ class TestRemoveDevice:
         """Should remove device successfully."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.remove.return_value = True
             mock_inv.return_value = mock_inventory
@@ -562,7 +562,7 @@ class TestCheckStatus:
         """Should return error if device not found."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = None
             mock_inv.return_value = mock_inventory
@@ -577,12 +577,12 @@ class TestCheckStatus:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = mock_device
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
+            with patch("tafysh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
                 mock_executor = MagicMock()
                 mock_executor.execute.return_value = MockCommandResult(
                     success=True,
@@ -590,7 +590,7 @@ class TestCheckStatus:
                 )
                 mock_exec.return_value = mock_executor
 
-                with patch("agentsh.plugins.builtin.remote.DeviceStatus") as mock_status:
+                with patch("tafysh.plugins.builtin.remote.DeviceStatus") as mock_status:
                     mock_status.ONLINE = "online"
                     result = toolset._check_status("test-device")
 
@@ -602,12 +602,12 @@ class TestCheckStatus:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.get.return_value = mock_device
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
+            with patch("tafysh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
                 mock_executor = MagicMock()
                 mock_executor.execute.return_value = MockCommandResult(
                     success=False,
@@ -615,7 +615,7 @@ class TestCheckStatus:
                 )
                 mock_exec.return_value = mock_executor
 
-                with patch("agentsh.plugins.builtin.remote.DeviceStatus") as mock_status:
+                with patch("tafysh.plugins.builtin.remote.DeviceStatus") as mock_status:
                     mock_status.OFFLINE = "offline"
                     result = toolset._check_status("test-device")
 
@@ -630,7 +630,7 @@ class TestFleetStatus:
         """Should handle empty inventory."""
         toolset = RemoteToolset()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.list.return_value = []
             mock_inv.return_value = mock_inventory
@@ -645,7 +645,7 @@ class TestFleetStatus:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.list.return_value = [mock_device]
             mock_status = MagicMock()
@@ -664,7 +664,7 @@ class TestFleetStatus:
         toolset = RemoteToolset()
         mock_device = MockDevice()
 
-        with patch("agentsh.plugins.builtin.remote.get_device_inventory") as mock_inv:
+        with patch("tafysh.plugins.builtin.remote.get_device_inventory") as mock_inv:
             mock_inventory = MagicMock()
             mock_inventory.list.return_value = [mock_device]
             mock_status = MagicMock()
@@ -673,12 +673,12 @@ class TestFleetStatus:
             mock_inventory.count.return_value = 1
             mock_inv.return_value = mock_inventory
 
-            with patch("agentsh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
+            with patch("tafysh.plugins.builtin.remote.get_ssh_executor") as mock_exec:
                 mock_executor = MagicMock()
                 mock_executor.execute.return_value = MockCommandResult(success=True)
                 mock_exec.return_value = mock_executor
 
-                with patch("agentsh.plugins.builtin.remote.DeviceStatus") as mock_status_enum:
+                with patch("tafysh.plugins.builtin.remote.DeviceStatus") as mock_status_enum:
                     mock_status_enum.ONLINE = "online"
                     toolset._fleet_status(check_connectivity=True)
 

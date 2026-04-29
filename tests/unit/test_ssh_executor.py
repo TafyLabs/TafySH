@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.orchestrator.ssh import (
+from tafysh.orchestrator.ssh import (
     CommandResult,
     ParallelResult,
     SSHConnection,
@@ -16,7 +16,7 @@ from agentsh.orchestrator.ssh import (
     get_ssh_executor,
     set_ssh_executor,
 )
-from agentsh.orchestrator.devices import (
+from tafysh.orchestrator.devices import (
     Device,
     DeviceStatus,
     DeviceType,
@@ -137,14 +137,14 @@ class TestSSHConnection:
 
     def test_create_connection_requires_paramiko(self, sample_device):
         """Should require paramiko to create connection."""
-        with patch("agentsh.orchestrator.ssh.PARAMIKO_AVAILABLE", False):
+        with patch("tafysh.orchestrator.ssh.PARAMIKO_AVAILABLE", False):
             with pytest.raises(ImportError, match="paramiko"):
                 SSHConnection(sample_device, SSHCredentials())
 
     def test_is_connected_false_initially(self, sample_device):
         """Should not be connected initially."""
-        with patch("agentsh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
-            with patch("agentsh.orchestrator.ssh.paramiko"):
+        with patch("tafysh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
+            with patch("tafysh.orchestrator.ssh.paramiko"):
                 conn = SSHConnection(sample_device, SSHCredentials())
                 assert conn.is_connected is False
 
@@ -300,8 +300,8 @@ class TestSSHConnectionExtended:
     @pytest.fixture
     def mock_paramiko(self):
         """Mock paramiko module."""
-        with patch("agentsh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
-            with patch("agentsh.orchestrator.ssh.paramiko") as mock:
+        with patch("tafysh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
+            with patch("tafysh.orchestrator.ssh.paramiko") as mock:
                 yield mock
 
     def test_connect_with_key(self, sample_device, mock_paramiko):
@@ -506,16 +506,16 @@ class TestSSHConnectionPoolExtended:
 
     def test_get_connection_creates_new(self, pool, sample_device):
         """Should create new connection for new device."""
-        with patch("agentsh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
-            with patch("agentsh.orchestrator.ssh.paramiko"):
+        with patch("tafysh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
+            with patch("tafysh.orchestrator.ssh.paramiko"):
                 conn = pool.get_connection(sample_device)
                 assert conn is not None
                 assert sample_device.id in pool._pools
 
     def test_get_connection_reuses_active(self, pool, sample_device):
         """Should reuse active connection."""
-        with patch("agentsh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
-            with patch("agentsh.orchestrator.ssh.paramiko"):
+        with patch("tafysh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
+            with patch("tafysh.orchestrator.ssh.paramiko"):
                 conn1 = pool.get_connection(sample_device)
                 conn1._connected = True
 
@@ -528,15 +528,15 @@ class TestSSHConnectionPoolExtended:
         """Should use custom credentials."""
         custom_creds = SSHCredentials(username="custom")
 
-        with patch("agentsh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
-            with patch("agentsh.orchestrator.ssh.paramiko"):
+        with patch("tafysh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
+            with patch("tafysh.orchestrator.ssh.paramiko"):
                 conn = pool.get_connection(sample_device, credentials=custom_creds)
                 assert conn.credentials.username == "custom"
 
     def test_close_device(self, pool, sample_device):
         """Should close all connections for a device."""
-        with patch("agentsh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
-            with patch("agentsh.orchestrator.ssh.paramiko"):
+        with patch("tafysh.orchestrator.ssh.PARAMIKO_AVAILABLE", True):
+            with patch("tafysh.orchestrator.ssh.paramiko"):
                 pool.get_connection(sample_device)
                 pool.close_device(sample_device.id)
                 assert sample_device.id not in pool._pools
@@ -552,7 +552,7 @@ class TestSSHExecutorExtended:
     @pytest.fixture
     def sample_device(self):
         """Create a sample device."""
-        from agentsh.orchestrator.devices import ConnectionMethod, ConnectionConfig
+        from tafysh.orchestrator.devices import ConnectionMethod, ConnectionConfig
 
         return Device(
             id="server-1",
@@ -565,7 +565,7 @@ class TestSSHExecutorExtended:
     @pytest.fixture
     def non_ssh_device(self):
         """Create a non-SSH device."""
-        from agentsh.orchestrator.devices import ConnectionMethod, ConnectionConfig
+        from tafysh.orchestrator.devices import ConnectionMethod, ConnectionConfig
 
         return Device(
             id="local-1",
@@ -610,7 +610,7 @@ class TestSSHExecutorExtended:
 
     def test_execute_parallel_with_multiple_devices(self):
         """Should execute on multiple devices."""
-        from agentsh.orchestrator.devices import ConnectionMethod, ConnectionConfig
+        from tafysh.orchestrator.devices import ConnectionMethod, ConnectionConfig
 
         devices = [
             Device(
@@ -643,7 +643,7 @@ class TestSSHExecutorExtended:
 
     def test_execute_parallel_with_max_concurrent(self):
         """Should respect max_concurrent limit."""
-        from agentsh.orchestrator.devices import ConnectionMethod, ConnectionConfig
+        from tafysh.orchestrator.devices import ConnectionMethod, ConnectionConfig
 
         devices = [
             Device(
@@ -696,7 +696,7 @@ class TestSSHExecutorExtended:
     @pytest.mark.asyncio
     async def test_execute_parallel_async(self):
         """Should execute parallel asynchronously."""
-        from agentsh.orchestrator.devices import ConnectionMethod, ConnectionConfig
+        from tafysh.orchestrator.devices import ConnectionMethod, ConnectionConfig
 
         devices = [
             Device(

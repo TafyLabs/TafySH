@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.utils.syntax import (
+from tafysh.utils.syntax import (
     AnsiColor,
     ColorScheme,
     DARK_SCHEME,

@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 #
-# AgentSH Universal Installer
+# TafySH Universal Installer
 #
 # Usage:
-#   curl -fsSL https://get.agentsh.dev | bash
-#   wget -qO- https://get.agentsh.dev | bash
+#   curl -fsSL https://get.tafysh.dev | bash
+#   wget -qO- https://get.tafysh.dev | bash
 #
 # Options (via environment variables):
-#   AGENTSH_VERSION     - Specific version to install (default: latest)
-#   AGENTSH_INSTALL_DIR - Installation directory (default: ~/.local/bin or /usr/local/bin)
-#   AGENTSH_NO_MODIFY_PATH - Don't modify PATH in shell rc files
-#   AGENTSH_SET_DEFAULT_SHELL - Set as default shell after install
+#   TAFYSH_VERSION     - Specific version to install (default: latest)
+#   TAFYSH_INSTALL_DIR - Installation directory (default: ~/.local/bin or /usr/local/bin)
+#   TAFYSH_NO_MODIFY_PATH - Don't modify PATH in shell rc files
+#   TAFYSH_SET_DEFAULT_SHELL - Set as default shell after install
 #
 # Examples:
-#   curl -fsSL https://get.agentsh.dev | bash
-#   curl -fsSL https://get.agentsh.dev | AGENTSH_VERSION=0.2.0 bash
-#   curl -fsSL https://get.agentsh.dev | AGENTSH_SET_DEFAULT_SHELL=1 bash
+#   curl -fsSL https://get.tafysh.dev | bash
+#   curl -fsSL https://get.tafysh.dev | TAFYSH_VERSION=0.2.0 bash
+#   curl -fsSL https://get.tafysh.dev | TAFYSH_SET_DEFAULT_SHELL=1 bash
 #
 
 set -euo pipefail
@@ -31,15 +31,15 @@ BOLD='\033[1m'
 NC='\033[0m' # No Color
 
 # Configuration
-GITHUB_REPO="agentsh/agentsh"
-PYPI_PACKAGE="agentsh"
+GITHUB_REPO="tafysh/tafysh"
+PYPI_PACKAGE="tafysh"
 MIN_PYTHON_VERSION="3.10"
 
 # Detect options from environment
-VERSION="${AGENTSH_VERSION:-latest}"
-INSTALL_DIR="${AGENTSH_INSTALL_DIR:-}"
-NO_MODIFY_PATH="${AGENTSH_NO_MODIFY_PATH:-0}"
-SET_DEFAULT_SHELL="${AGENTSH_SET_DEFAULT_SHELL:-0}"
+VERSION="${TAFYSH_VERSION:-latest}"
+INSTALL_DIR="${TAFYSH_INSTALL_DIR:-}"
+NO_MODIFY_PATH="${TAFYSH_NO_MODIFY_PATH:-0}"
+SET_DEFAULT_SHELL="${TAFYSH_SET_DEFAULT_SHELL:-0}"
 
 # -----------------------------------------------------------------------------
 # Utility Functions
@@ -209,13 +209,13 @@ install_via_brew() {
     info "Installing via Homebrew..."
 
     # Check if our tap exists
-    if brew tap | grep -q "agentsh/tap"; then
+    if brew tap | grep -q "tafysh/tap"; then
         brew update
     else
-        brew tap agentsh/tap || true
+        brew tap tafysh/tap || true
     fi
 
-    if brew install agentsh 2>/dev/null; then
+    if brew install tafysh 2>/dev/null; then
         return 0
     fi
 
@@ -228,11 +228,11 @@ install_via_apt() {
     info "Installing via APT..."
 
     # Add repository if available
-    if curl -fsSL "https://pkg.agentsh.dev/gpg.key" 2>/dev/null | sudo gpg --dearmor -o /usr/share/keyrings/agentsh-archive-keyring.gpg 2>/dev/null; then
-        echo "deb [signed-by=/usr/share/keyrings/agentsh-archive-keyring.gpg] https://pkg.agentsh.dev/apt stable main" | \
-            sudo tee /etc/apt/sources.list.d/agentsh.list > /dev/null
+    if curl -fsSL "https://pkg.tafysh.dev/gpg.key" 2>/dev/null | sudo gpg --dearmor -o /usr/share/keyrings/tafysh-archive-keyring.gpg 2>/dev/null; then
+        echo "deb [signed-by=/usr/share/keyrings/tafysh-archive-keyring.gpg] https://pkg.tafysh.dev/apt stable main" | \
+            sudo tee /etc/apt/sources.list.d/tafysh.list > /dev/null
         sudo apt-get update
-        if sudo apt-get install -y agentsh; then
+        if sudo apt-get install -y tafysh; then
             return 0
         fi
     fi
@@ -245,8 +245,8 @@ install_via_dnf() {
     info "Installing via DNF..."
 
     # Add repository if available
-    if sudo curl -fsSL "https://pkg.agentsh.dev/rpm/agentsh.repo" -o /etc/yum.repos.d/agentsh.repo 2>/dev/null; then
-        if sudo dnf install -y agentsh; then
+    if sudo curl -fsSL "https://pkg.tafysh.dev/rpm/tafysh.repo" -o /etc/yum.repos.d/tafysh.repo 2>/dev/null; then
+        if sudo dnf install -y tafysh; then
             return 0
         fi
     fi
@@ -260,11 +260,11 @@ install_via_pacman() {
 
     # Check AUR helpers
     if command_exists yay; then
-        if yay -S --noconfirm agentsh 2>/dev/null; then
+        if yay -S --noconfirm tafysh 2>/dev/null; then
             return 0
         fi
     elif command_exists paru; then
-        if paru -S --noconfirm agentsh 2>/dev/null; then
+        if paru -S --noconfirm tafysh 2>/dev/null; then
             return 0
         fi
     fi
@@ -395,63 +395,63 @@ add_to_path() {
 
     # Add to rc file
     echo "" >> "$rc_file"
-    echo "# Added by AgentSH installer" >> "$rc_file"
+    echo "# Added by TafySH installer" >> "$rc_file"
     echo "$path_line" >> "$rc_file"
 
     success "Added to PATH. Run 'source $rc_file' or start a new terminal."
 }
 
 add_to_shells() {
-    local agentsh_path="$1"
+    local tafysh_path="$1"
 
     if [[ ! -f /etc/shells ]]; then
         warn "/etc/shells not found, skipping shell registration"
         return 1
     fi
 
-    if grep -q "^${agentsh_path}$" /etc/shells 2>/dev/null; then
-        info "AgentSH already in /etc/shells"
+    if grep -q "^${tafysh_path}$" /etc/shells 2>/dev/null; then
+        info "TafySH already in /etc/shells"
         return 0
     fi
 
-    info "Adding AgentSH to /etc/shells (requires sudo)..."
-    echo "$agentsh_path" | sudo tee -a /etc/shells > /dev/null
+    info "Adding TafySH to /etc/shells (requires sudo)..."
+    echo "$tafysh_path" | sudo tee -a /etc/shells > /dev/null
     success "Added to /etc/shells"
 }
 
 set_default_shell() {
-    local agentsh_path="$1"
+    local tafysh_path="$1"
 
-    if ! grep -q "^${agentsh_path}$" /etc/shells 2>/dev/null; then
-        error "AgentSH not in /etc/shells, cannot set as default"
+    if ! grep -q "^${tafysh_path}$" /etc/shells 2>/dev/null; then
+        error "TafySH not in /etc/shells, cannot set as default"
         return 1
     fi
 
-    info "Setting AgentSH as default shell..."
-    chsh -s "$agentsh_path"
-    success "Default shell changed to AgentSH"
+    info "Setting TafySH as default shell..."
+    chsh -s "$tafysh_path"
+    success "Default shell changed to TafySH"
 }
 
 verify_installation() {
-    local agentsh_path="$1"
+    local tafysh_path="$1"
 
-    if [[ ! -x "$agentsh_path" ]]; then
+    if [[ ! -x "$tafysh_path" ]]; then
         # Try to find it
-        agentsh_path=$(command -v agentsh 2>/dev/null || echo "")
+        tafysh_path=$(command -v tafysh 2>/dev/null || echo "")
     fi
 
-    if [[ -z "$agentsh_path" ]] || [[ ! -x "$agentsh_path" ]]; then
-        error "Installation verification failed: agentsh not found"
+    if [[ -z "$tafysh_path" ]] || [[ ! -x "$tafysh_path" ]]; then
+        error "Installation verification failed: tafysh not found"
         return 1
     fi
 
     local version
-    version=$("$agentsh_path" --version 2>/dev/null || echo "unknown")
+    version=$("$tafysh_path" --version 2>/dev/null || echo "unknown")
 
-    success "AgentSH installed successfully!"
+    success "TafySH installed successfully!"
     echo ""
     echo -e "  ${CYAN}Version:${NC}  $version"
-    echo -e "  ${CYAN}Location:${NC} $agentsh_path"
+    echo -e "  ${CYAN}Location:${NC} $tafysh_path"
     echo ""
 
     return 0
@@ -558,11 +558,11 @@ main() {
     fi
 
     # Find the installed binary
-    local agentsh_path=""
-    if [[ -n "$INSTALL_DIR" ]] && [[ -x "$INSTALL_DIR/agentsh" ]]; then
-        agentsh_path="$INSTALL_DIR/agentsh"
+    local tafysh_path=""
+    if [[ -n "$INSTALL_DIR" ]] && [[ -x "$INSTALL_DIR/tafysh" ]]; then
+        tafysh_path="$INSTALL_DIR/tafysh"
     else
-        agentsh_path=$(command -v agentsh 2>/dev/null || echo "")
+        tafysh_path=$(command -v tafysh 2>/dev/null || echo "")
     fi
 
     # Add to PATH if needed
@@ -576,27 +576,27 @@ main() {
         export PATH="$INSTALL_DIR:$PATH"
     fi
 
-    verify_installation "$agentsh_path" || die "Installation verification failed"
+    verify_installation "$tafysh_path" || die "Installation verification failed"
 
     # Add to /etc/shells
-    if [[ -n "$agentsh_path" ]]; then
-        agentsh_path=$(command -v agentsh)  # Get absolute path
-        add_to_shells "$agentsh_path" || true
+    if [[ -n "$tafysh_path" ]]; then
+        tafysh_path=$(command -v tafysh)  # Get absolute path
+        add_to_shells "$tafysh_path" || true
 
         # Set as default shell if requested
         if [[ "$SET_DEFAULT_SHELL" == "1" ]]; then
-            set_default_shell "$agentsh_path"
+            set_default_shell "$tafysh_path"
         fi
     fi
 
     # Print next steps
     echo ""
     echo -e "${BOLD}Next steps:${NC}"
-    echo "  1. Start AgentSH:     agentsh"
-    echo "  2. Configure:         agentsh config init"
-    echo "  3. Check status:      agentsh status"
+    echo "  1. Start TafySH:     tafysh"
+    echo "  2. Configure:         tafysh config init"
+    echo "  3. Check status:      tafysh status"
     echo ""
-    echo -e "  Set as default shell: ${CYAN}chsh -s $(command -v agentsh)${NC}"
+    echo -e "  Set as default shell: ${CYAN}chsh -s $(command -v tafysh)${NC}"
     echo ""
     echo -e "Documentation: ${CYAN}https://github.com/$GITHUB_REPO${NC}"
     echo ""

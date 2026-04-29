@@ -4,14 +4,14 @@ import pytest
 from typing import AsyncIterator, Optional
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from agentsh.agent.agent_loop import (
+from tafysh.agent.agent_loop import (
     AgentConfig,
     AgentContext,
     AgentLoop,
     AgentResult,
     StreamingAgentLoop,
 )
-from agentsh.agent.llm_client import (
+from tafysh.agent.llm_client import (
     LLMClient,
     LLMResponse,
     Message,
@@ -19,8 +19,8 @@ from agentsh.agent.llm_client import (
     ToolCall,
     ToolDefinition,
 )
-from agentsh.tools.base import ToolResult
-from agentsh.tools.registry import ToolRegistry
+from tafysh.tools.base import ToolResult
+from tafysh.tools.registry import ToolRegistry
 
 
 class MockLLMClient(LLMClient):
@@ -334,7 +334,7 @@ class TestAgentLoopWithSecurity:
         self, tool_registry: ToolRegistry
     ) -> None:
         """Should block dangerous commands."""
-        from agentsh.security.controller import SecurityController
+        from tafysh.security.controller import SecurityController
 
         responses = [
             LLMResponse(

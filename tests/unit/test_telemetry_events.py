@@ -5,7 +5,7 @@ import pytest
 from datetime import datetime
 from unittest.mock import MagicMock
 
-from agentsh.telemetry.events import (
+from tafysh.telemetry.events import (
     EventType,
     TelemetryEvent,
     EventEmitter,
@@ -285,7 +285,7 @@ class TestConvenienceFunctions:
 
     def test_get_event_emitter(self) -> None:
         """Should return global emitter."""
-        import agentsh.telemetry.events as events_module
+        import tafysh.telemetry.events as events_module
         events_module._emitter = None
 
         emitter = get_event_emitter()
@@ -294,7 +294,7 @@ class TestConvenienceFunctions:
 
     def test_emit_event(self) -> None:
         """Should emit event using convenience function."""
-        import agentsh.telemetry.events as events_module
+        import tafysh.telemetry.events as events_module
         events_module._emitter = None
 
         event = emit_event(
@@ -312,7 +312,7 @@ class TestConvenienceFunctions:
     @pytest.mark.asyncio
     async def test_emit_event_async(self) -> None:
         """Should emit event asynchronously."""
-        import agentsh.telemetry.events as events_module
+        import tafysh.telemetry.events as events_module
         events_module._emitter = None
 
         event = await emit_event_async(

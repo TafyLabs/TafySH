@@ -7,15 +7,15 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.telemetry.events import EventType, TelemetryEvent
-from agentsh.telemetry.exporters import (
+from tafysh.telemetry.events import EventType, TelemetryEvent
+from tafysh.telemetry.exporters import (
     CompositeExporter,
     FileExporter,
     JSONExporter,
     MemoryExporter,
     PrometheusExporter,
 )
-from agentsh.telemetry.metrics import MetricsRegistry
+from tafysh.telemetry.metrics import MetricsRegistry
 
 
 class TestFileExporter:
@@ -560,7 +560,7 @@ class TestSetupDefaultExporters:
 
     def test_setup_with_log_path(self, tmp_path):
         """Should create file exporter with specified path."""
-        from agentsh.telemetry.exporters import setup_default_exporters, get_exporter
+        from tafysh.telemetry.exporters import setup_default_exporters, get_exporter
 
         log_path = tmp_path / "test.log"
         exporter = setup_default_exporters(log_path=log_path, enable_prometheus=False)
@@ -573,7 +573,7 @@ class TestSetupDefaultExporters:
 
     def test_setup_without_prometheus(self, tmp_path):
         """Should setup without prometheus exporter."""
-        from agentsh.telemetry.exporters import setup_default_exporters
+        from tafysh.telemetry.exporters import setup_default_exporters
 
         log_path = tmp_path / "test.log"
         exporter = setup_default_exporters(log_path=log_path, enable_prometheus=False)
@@ -586,7 +586,7 @@ class TestSetupDefaultExporters:
 
     def test_setup_with_prometheus(self, tmp_path):
         """Should setup with prometheus exporter."""
-        from agentsh.telemetry.exporters import setup_default_exporters, CompositeExporter
+        from tafysh.telemetry.exporters import setup_default_exporters, CompositeExporter
 
         log_path = tmp_path / "test.log"
         exporter = setup_default_exporters(log_path=log_path, enable_prometheus=True)
@@ -599,7 +599,7 @@ class TestSetupDefaultExporters:
 
     def test_setup_default_path(self, monkeypatch, tmp_path):
         """Should use default path when none specified."""
-        from agentsh.telemetry.exporters import setup_default_exporters
+        from tafysh.telemetry.exporters import setup_default_exporters
 
         # Mock expanduser to use tmp_path
         def mock_expanduser(self):
@@ -620,7 +620,7 @@ class TestExporterGlobalState:
 
     def test_get_set_exporter(self, tmp_path):
         """Should get and set global exporter."""
-        from agentsh.telemetry.exporters import get_exporter, set_exporter, FileExporter
+        from tafysh.telemetry.exporters import get_exporter, set_exporter, FileExporter
 
         log_path = tmp_path / "test.log"
         exporter = FileExporter(log_path, auto_subscribe=False)
@@ -633,7 +633,7 @@ class TestExporterGlobalState:
 
     def test_get_exporter_none(self):
         """Should return None when no exporter set."""
-        from agentsh.telemetry.exporters import get_exporter, set_exporter
+        from tafysh.telemetry.exporters import get_exporter, set_exporter
 
         # Reset global state
         set_exporter(None)
@@ -647,7 +647,7 @@ class TestExporterAbstract:
 
     def test_exporter_is_abstract(self):
         """Exporter should be abstract."""
-        from agentsh.telemetry.exporters import Exporter
+        from tafysh.telemetry.exporters import Exporter
 
         # Cannot instantiate directly
         with pytest.raises(TypeError):

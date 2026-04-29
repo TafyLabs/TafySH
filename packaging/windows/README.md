@@ -1,18 +1,18 @@
-# AgentSH Windows Installation
+# TafySH Windows Installation
 
-AgentSH supports Windows through Python installation. For the best experience, we recommend using WSL2 (Windows Subsystem for Linux).
+TafySH supports Windows through Python installation. For the best experience, we recommend using WSL2 (Windows Subsystem for Linux).
 
 ## Quick Install (PowerShell)
 
 ```powershell
-irm https://get.agentsh.dev/windows | iex
+irm https://get.tafysh.dev/windows | iex
 ```
 
 Or with execution policy bypass:
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
-iex ((New-Object System.Net.WebClient).DownloadString('https://get.agentsh.dev/windows'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://get.tafysh.dev/windows'))
 ```
 
 ## Manual Installation
@@ -33,19 +33,19 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://get.agentsh.dev/w
 
 2. **pip** (included with Python)
 
-### Install AgentSH
+### Install TafySH
 
 ```powershell
 # Via pip
-pip install agentsh
+pip install tafysh
 
 # Via pipx (recommended for isolation)
 pip install pipx
-pipx install agentsh
+pipx install tafysh
 
 # Via uv (fastest)
 pip install uv
-uv tool install agentsh
+uv tool install tafysh
 ```
 
 ## WSL2 (Recommended)
@@ -57,9 +57,9 @@ For the best experience with full PTY support and Unix-style shell features:
    wsl --install
    ```
 
-2. **Install AgentSH in WSL**
+2. **Install TafySH in WSL**
    ```bash
-   curl -fsSL https://get.agentsh.dev | bash
+   curl -fsSL https://get.tafysh.dev | bash
    ```
 
 ## Windows Terminal
@@ -77,26 +77,26 @@ winget install Microsoft.WindowsTerminal
 
 ## Configuration
 
-AgentSH stores configuration in:
-- `%USERPROFILE%\.config\agentsh\config.yaml`
-- `%APPDATA%\agentsh\config.yaml`
+TafySH stores configuration in:
+- `%USERPROFILE%\.config\tafysh\config.yaml`
+- `%APPDATA%\tafysh\config.yaml`
 
 Set your API key:
 ```powershell
 $env:ANTHROPIC_API_KEY = "your-key-here"
 # Or configure permanently:
-agentsh config init
+tafysh config init
 ```
 
 ## Known Limitations on Windows
 
 1. **No login shell support** - Windows doesn't use `/etc/shells` or `chsh`
 2. **Limited PTY support** - Some interactive features may not work as expected
-3. **Path handling** - Paths use backslashes, though AgentSH handles both
+3. **Path handling** - Paths use backslashes, though TafySH handles both
 
 ## Troubleshooting
 
-### "agentsh is not recognized"
+### "tafysh is not recognized"
 
 Add Python Scripts to PATH:
 ```powershell
@@ -107,7 +107,7 @@ $env:Path += ";$env:USERPROFILE\AppData\Local\Programs\Python\Python311\Scripts"
 
 Run PowerShell as Administrator, or use `--user` flag:
 ```powershell
-pip install --user agentsh
+pip install --user tafysh
 ```
 
 ### SSL Certificate Errors

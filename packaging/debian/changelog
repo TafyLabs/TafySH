@@ -1,4 +1,4 @@
-agentsh (0.1.0-1) unstable; urgency=medium
+tafysh (0.1.0-1) unstable; urgency=medium
 
   * Initial release.
   * AI-enhanced terminal shell with natural language support
@@ -6,4 +6,4 @@ agentsh (0.1.0-1) unstable; urgency=medium
   * Full PTY support for interactive programs
   * Bash/Zsh/Fish compatible completions
 
- -- AgentSH Team <team@agentsh.dev>  Thu, 05 Dec 2024 00:00:00 +0000
+ -- TafySH Team <team@tafysh.dev>  Thu, 05 Dec 2024 00:00:00 +0000

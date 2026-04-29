@@ -1,45 +1,45 @@
 version: '3.8'
 
 services:
-  # Main AgentSH service
-  agentsh:
+  # Main TafySH service
+  tafysh:
     build:
       context: ../..
       dockerfile: packaging/docker/Dockerfile
-    image: agentsh:latest
-    container_name: agentsh
+    image: tafysh:latest
+    container_name: tafysh
     stdin_open: true
     tty: true
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
-      - AGENTSH_CONFIG_DIR=/home/agentsh/.config/agentsh
+      - TAFYSH_CONFIG_DIR=/home/tafysh/.config/tafysh
     volumes:
-      - agentsh-config:/home/agentsh/.config/agentsh
-      - agentsh-history:/home/agentsh/.local/share/agentsh
+      - tafysh-config:/home/tafysh/.config/tafysh
+      - tafysh-history:/home/tafysh/.local/share/tafysh
 
   # Alpine minimal image
-  agentsh-alpine:
+  tafysh-alpine:
     build:
       context: ../..
       dockerfile: packaging/docker/Dockerfile.alpine
-    image: agentsh:alpine
-    container_name: agentsh-alpine
+    image: tafysh:alpine
+    container_name: tafysh-alpine
     stdin_open: true
     tty: true
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
     volumes:
-      - agentsh-config:/home/agentsh/.config/agentsh
+      - tafysh-config:/home/tafysh/.config/tafysh
 
   # Development image
-  agentsh-dev:
+  tafysh-dev:
     build:
       context: ../..
       dockerfile: packaging/docker/Dockerfile.dev
-    image: agentsh:dev
-    container_name: agentsh-dev
+    image: tafysh:dev
+    container_name: tafysh-dev
     stdin_open: true
     tty: true
     environment:
@@ -53,7 +53,7 @@ services:
   # Ollama companion service for local LLMs
   ollama:
     image: ollama/ollama:latest
-    container_name: agentsh-ollama
+    container_name: tafysh-ollama
     ports:
       - "11434:11434"
     volumes:
@@ -67,26 +67,26 @@ services:
     #           count: 1
     #           capabilities: [gpu]
 
-  # AgentSH with Ollama (local LLM)
-  agentsh-local:
+  # TafySH with Ollama (local LLM)
+  tafysh-local:
     build:
       context: ../..
       dockerfile: packaging/docker/Dockerfile
-    image: agentsh:latest
-    container_name: agentsh-local
+    image: tafysh:latest
+    container_name: tafysh-local
     stdin_open: true
     tty: true
     environment:
       - OLLAMA_HOST=http://ollama:11434
-      - AGENTSH_PROVIDER=ollama
-      - AGENTSH_MODEL=llama3.2
+      - TAFYSH_PROVIDER=ollama
+      - TAFYSH_MODEL=llama3.2
     depends_on:
       - ollama
     volumes:
-      - agentsh-config:/home/agentsh/.config/agentsh
+      - tafysh-config:/home/tafysh/.config/tafysh
 
 volumes:
-  agentsh-config:
-  agentsh-history:
+  tafysh-config:
+  tafysh-history:
   ollama-models:
   dev-pip-cache:

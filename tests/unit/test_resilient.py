@@ -5,15 +5,15 @@ import pytest
 from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from agentsh.agent.cache import CacheConfig, LLMCache
-from agentsh.agent.llm_client import (
+from tafysh.agent.cache import CacheConfig, LLMCache
+from tafysh.agent.llm_client import (
     LLMClient,
     LLMResponse,
     Message,
     StopReason,
     ToolDefinition,
 )
-from agentsh.agent.resilient import (
+from tafysh.agent.resilient import (
     CircuitBreakerConfig,
     CircuitBreakerState,
     CircuitState,

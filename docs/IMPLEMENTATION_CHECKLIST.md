@@ -1,6 +1,6 @@
-# AgentSH Implementation Checklist
+# TafySH Implementation Checklist
 
-**Purpose**: Master tracking document for AgentSH buildout
+**Purpose**: Master tracking document for TafySH buildout
 **Version**: 1.0
 **Last Updated**: December 2025
 **Status**: Ready for Implementation
@@ -43,16 +43,16 @@
 
 - [x] Create project directory structure:
   ```
-  agentsh/
-  ├── src/agentsh/
+  tafysh/
+  ├── src/tafysh/
   ├── tests/
   ├── docs/
   ├── examples/
   └── .github/workflows/
   ```
 - [x] Initialize `pyproject.toml` with metadata
-- [x] Create `src/agentsh/__init__.py` with version
-- [x] Create `src/agentsh/__main__.py` entry point
+- [x] Create `src/tafysh/__init__.py` with version
+- [x] Create `src/tafysh/__main__.py` entry point
 
 ### 0.2 Dependencies Setup
 
@@ -81,19 +81,19 @@
 
 ### 0.3 Configuration System
 
-- [x] Create `src/agentsh/config/__init__.py`
+- [x] Create `src/tafysh/config/__init__.py`
 - [x] Implement `config/schemas.py`:
   - [x] `LLMConfig` Pydantic model
   - [x] `ShellConfig` Pydantic model
   - [x] `SecurityConfig` Pydantic model
   - [x] `MemoryConfig` Pydantic model
   - [x] `TelemetryConfig` Pydantic model
-  - [x] `AgentSHConfig` root model
+  - [x] `TafySHConfig` root model
 - [x] Implement `config/loader.py`:
-  - [x] Load from `/etc/agentsh/config.yaml` (system)
-  - [x] Load from `~/.agentsh/config.yaml` (user)
-  - [x] Load from `.agentsh.yaml` (project)
-  - [x] Environment variable overrides (`AGENTSH_*`)
+  - [x] Load from `/etc/tafysh/config.yaml` (system)
+  - [x] Load from `~/.tafysh/config.yaml` (user)
+  - [x] Load from `.tafysh.yaml` (project)
+  - [x] Environment variable overrides (`TAFYSH_*`)
   - [ ] CLI argument overrides
 - [x] Implement `config/defaults.py`:
   - [x] Default LLM settings
@@ -103,7 +103,7 @@
 
 ### 0.4 Plugin Registry Foundation
 
-- [x] Create `src/agentsh/plugins/__init__.py`
+- [x] Create `src/tafysh/plugins/__init__.py`
 - [x] Implement `plugins/base.py`:
   - [x] `Toolset` abstract base class
   - [x] `@property name: str`
@@ -111,20 +111,20 @@
   - [x] `register_tools(registry: ToolRegistry)`
   - [x] `configure(config: dict)`
 - [x] Implement `plugins/loader.py`:
-  - [x] Entry point discovery (`agentsh.plugins`)
-  - [x] Directory scan (`~/.agentsh/plugins/`)
+  - [x] Entry point discovery (`tafysh.plugins`)
+  - [x] Directory scan (`~/.tafysh/plugins/`)
   - [x] Plugin validation
   - [x] Dependency injection
 
 ### 0.5 CLI Entry Point
 
 - [x] Implement `__main__.py`:
-  - [x] `agentsh` - start interactive shell
-  - [x] `agentsh --version` - show version
-  - [x] `agentsh --config <path>` - custom config
-  - [x] `agentsh config show` - debug config
-  - [x] `agentsh status` - health check
-  - [x] `agentsh --mcp-server` - MCP mode (placeholder)
+  - [x] `tafysh` - start interactive shell
+  - [x] `tafysh --version` - show version
+  - [x] `tafysh --config <path>` - custom config
+  - [x] `tafysh config show` - debug config
+  - [x] `tafysh status` - health check
+  - [x] `tafysh --mcp-server` - MCP mode (placeholder)
 - [x] Create shell wrapper entry:
   ```python
   def main():
@@ -156,7 +156,7 @@
 
 ### 0.7 Logging Foundation
 
-- [x] Create `src/agentsh/telemetry/__init__.py`
+- [x] Create `src/tafysh/telemetry/__init__.py`
 - [x] Implement `telemetry/logger.py`:
   - [x] Configure structlog
   - [x] JSON output format
@@ -166,8 +166,8 @@
 
 ### Phase 0 Deliverables
 
-- [x] `agentsh --help` works
-- [x] `agentsh --version` shows version
+- [x] `tafysh --help` works
+- [x] `tafysh --version` shows version
 - [x] Config loads from all sources
 - [x] Logging outputs structured JSON
 - [x] CI passes lint + type checks
@@ -183,7 +183,7 @@
 
 ### 1.1 PTY Manager
 
-- [x] Create `src/agentsh/shell/__init__.py`
+- [x] Create `src/tafysh/shell/__init__.py`
 - [x] Implement `shell/pty_manager.py`:
   - [x] `PTYManager` class:
     - [x] `__init__(shell_path: str)` - configure shell
@@ -223,7 +223,7 @@
     - [x] `render_ps1() -> str` - primary prompt
     - [x] `render_ps2() -> str` - continuation prompt
   - [x] Components:
-    - [x] `[AS]` indicator (AgentSH active)
+    - [x] `[AS]` indicator (TafySH active)
     - [x] Current working directory
     - [x] Git branch (if in repo)
     - [x] Agent status icon (idle/busy/error)
@@ -272,7 +272,7 @@
 
 ### Phase 1 Deliverables
 
-- [x] `agentsh` starts and shows custom prompt
+- [x] `tafysh` starts and shows custom prompt
 - [x] Regular shell commands work normally
 - [x] `!ls` forces shell execution
 - [x] `ai hello` triggers AI path (stub response)
@@ -306,7 +306,7 @@
 
 ### 2.1 LLM Client Abstraction
 
-- [x] Create `src/agentsh/agent/__init__.py`
+- [x] Create `src/tafysh/agent/__init__.py`
 - [x] Implement `agent/llm_client.py`:
   - [x] Data classes:
     - [x] `Message(role, content, tool_calls)`
@@ -446,7 +446,7 @@
 
 ### 3.1 Risk Classifier
 
-- [x] Create `src/agentsh/security/__init__.py`
+- [x] Create `src/tafysh/security/__init__.py`
 - [x] Implement `security/classifier.py`:
   - [x] `RiskLevel` enum: SAFE, LOW, MEDIUM, HIGH, CRITICAL
   - [x] `CommandRiskAssessment` dataclass:
@@ -591,7 +591,7 @@
 
 ### 4.1 Tool Registry
 
-- [x] Create `src/agentsh/tools/__init__.py`
+- [x] Create `src/tafysh/tools/__init__.py`
 - [x] Implement `tools/registry.py`:
   - [x] `ToolRegistry` class (singleton):
     - [x] `register_tool(name, handler, schema, risk_level)`
@@ -747,7 +747,7 @@
 
 ### 5.1 State Definitions
 
-- [x] Create `src/agentsh/workflows/__init__.py`
+- [x] Create `src/tafysh/workflows/__init__.py`
 - [x] Implement `workflows/states.py`:
   - [x] `AgentState` TypedDict:
     - [x] messages: List[Message]
@@ -891,7 +891,7 @@
 
 ### 6.1 Session Memory
 
-- [x] Create `src/agentsh/memory/__init__.py`
+- [x] Create `src/tafysh/memory/__init__.py`
 - [x] Implement `memory/session.py`:
   - [x] `Turn` dataclass:
     - [x] user_input, agent_response, tools_used, timestamp
@@ -1074,7 +1074,7 @@
   - [x] LLM metrics:
     - [x] tokens_in_total, tokens_out_total
     - [x] llm_calls_total (by provider)
-  - [x] `AgentSHMetrics` class with pre-defined metrics
+  - [x] `TafySHMetrics` class with pre-defined metrics
   - [x] Global `MetricsRegistry` singleton
 
 ### 7.3 Event System
@@ -1148,7 +1148,7 @@
 - [x] `tests/unit/test_telemetry_metrics.py`:
   - [x] Test Counter, Gauge, Histogram
   - [x] Test MetricsRegistry
-  - [x] Test AgentSHMetrics
+  - [x] Test TafySHMetrics
 - [x] `tests/unit/test_telemetry_exporters.py`:
   - [x] Test FileExporter with rotation
   - [x] Test JSONExporter
@@ -1170,7 +1170,7 @@
 
 ### 8.1 Device Inventory
 
-- [x] Create `src/agentsh/orchestrator/__init__.py`
+- [x] Create `src/tafysh/orchestrator/__init__.py`
 - [x] Implement `orchestrator/devices.py`:
   - [x] `Device` dataclass (per JSON schema):
     - [x] id, hostname, ip, port
@@ -1270,17 +1270,17 @@
     - [x] Wildcard pattern matching
     - [x] Configurable allowed tools
   - [x] Exposed resources:
-    - [x] `agentsh://health` - health status
-    - [x] `agentsh://tools` - available tools
-  - [x] `agentsh --mcp-server` mode
+    - [x] `tafysh://health` - health status
+    - [x] `tafysh://tools` - available tools
+  - [x] `tafysh --mcp-server` mode
 
 ### 8.7 Integration
 
 - [x] Add device management commands:
-  - [x] `agentsh devices list`
-  - [x] `agentsh devices add <host>`
-  - [x] `agentsh devices remove <id>`
-  - [x] `agentsh devices status [device_id]`
+  - [x] `tafysh devices list`
+  - [x] `tafysh devices add <host>`
+  - [x] `tafysh devices remove <id>`
+  - [x] `tafysh devices status [device_id]`
 - [x] Update agent to use remote tools
 - [x] Add fleet-aware workflows
 
@@ -1320,7 +1320,7 @@
 
 ### 9.1 ROS2 Interface
 
-- [x] Create `src/agentsh/plugins/robotics/__init__.py`
+- [x] Create `src/tafysh/plugins/robotics/__init__.py`
 - [x] Implement `plugins/robotics/ros_interface.py`:
   - [x] `ROS2Client` class:
     - [x] Initialize ROS2 node
@@ -1544,9 +1544,9 @@ Implement configurable tab completion that integrates with the underlying shell.
 
 - [x] Create `shell/completion_modes.py`:
   - [x] `CompletionMode` enum:
-    - [x] `NATIVE` - Only AgentSH completions (current behavior)
+    - [x] `NATIVE` - Only TafySH completions (current behavior)
     - [x] `PASSTHROUGH` - Full PTY passthrough for completions
-    - [x] `HYBRID` - Merge AgentSH + shell completions (default)
+    - [x] `HYBRID` - Merge TafySH + shell completions (default)
   - [x] `ShellCompletionProxy` class:
     - [x] `query_shell_completions(partial: str) -> list[str]`
     - [x] Support for bash (`compgen`)
@@ -1561,8 +1561,8 @@ Implement configurable tab completion that integrates with the underlying shell.
     - [x] Parse shell completion output
     - [x] Handle executable path completion
     - [x] Handle argument completion (flags, options)
-  - [x] Merge shell completions with AgentSH completions in hybrid mode
-  - [x] Prioritization: AgentSH special commands > tools > shell completions
+  - [x] Merge shell completions with TafySH completions in hybrid mode
+  - [x] Prioritization: TafySH special commands > tools > shell completions
   - [x] Deduplication of merged completions
 
 - [x] Update `config/schemas.py`:
@@ -1572,11 +1572,11 @@ Implement configurable tab completion that integrates with the underlying shell.
 - [x] PTY passthrough completion mode:
   - [x] Raw terminal mode for tab key passthrough
   - [x] Capture and display shell's native completion UI
-  - [x] Return to AgentSH prompt after completion
+  - [x] Return to TafySH prompt after completion
 
 ### 11.2 Login Shell Support
 
-Make AgentSH compatible as a login shell for `/etc/shells`, `chsh`, and PAM.
+Make TafySH compatible as a login shell for `/etc/shells`, `chsh`, and PAM.
 
 - [x] Create `shell/login.py`:
   - [x] `is_login_shell() -> bool` - detect if invoked as login shell
@@ -1585,7 +1585,7 @@ Make AgentSH compatible as a login shell for `/etc/shells`, `chsh`, and PAM.
 
 - [x] Login shell requirements:
   - [x] Handle `-l` / `--login` flag
-  - [x] Handle invocation as `-agentsh` (leading dash = login shell)
+  - [x] Handle invocation as `-tafysh` (leading dash = login shell)
   - [x] Source appropriate profile files:
     - [x] `/etc/profile` (all users)
     - [x] `~/.bash_profile` or `~/.profile` (user)
@@ -1600,7 +1600,7 @@ Make AgentSH compatible as a login shell for `/etc/shells`, `chsh`, and PAM.
 
 - [x] `chsh` considerations:
   - [x] Must be in `/etc/shells` to be valid
-  - [x] Document user instructions for `chsh -s /path/to/agentsh`
+  - [x] Document user instructions for `chsh -s /path/to/tafysh`
   - [x] Handle `chsh` restrictions on some systems
 
 - [x] PAM integration:
@@ -1610,18 +1610,18 @@ Make AgentSH compatible as a login shell for `/etc/shells`, `chsh`, and PAM.
   - [x] Document `/etc/security/limits.conf` considerations
 
 - [x] `/etc/passwd` and `shadow` considerations:
-  - [x] AgentSH path must be absolute in passwd entry
+  - [x] TafySH path must be absolute in passwd entry
   - [x] Handle restricted shells (`/bin/false`, `/sbin/nologin`)
   - [x] Document admin procedures for setting login shell
 
 - [x] `sudoers` considerations:
   - [x] Handle `sudo -s` (spawn shell)
   - [x] Handle `sudo -i` (login shell)
-  - [x] `Defaults env_keep` for AgentSH env vars
+  - [x] `Defaults env_keep` for TafySH env vars
   - [x] Document `secure_path` considerations
 
 - [x] Create `scripts/install-login-shell.sh`:
-  - [x] Check if AgentSH is installed properly
+  - [x] Check if TafySH is installed properly
   - [x] Add to `/etc/shells` (requires sudo)
   - [x] Optionally set as user's default shell
   - [x] Verify PAM configuration
@@ -1633,11 +1633,11 @@ Make AgentSH compatible as a login shell for `/etc/shells`, `chsh`, and PAM.
   - [x] `--norc` flag to skip config loading
   - [x] `--noprofile` flag to skip profile loading (login shells)
   - [x] `--rcfile <file>` to specify custom init file
-  - [x] `AGENTSH_INIT_FILE` environment variable
+  - [x] `TAFYSH_INIT_FILE` environment variable
 
-- [x] Create `~/.agentshrc` support:
+- [x] Create `~/.tafyshrc` support:
   - [x] Source after underlying shell init
-  - [x] AgentSH-specific aliases and functions
+  - [x] TafySH-specific aliases and functions
   - [x] Tool registration
   - [x] Completion customization
 
@@ -1649,22 +1649,22 @@ Make AgentSH compatible as a login shell for `/etc/shells`, `chsh`, and PAM.
 
 ### 11.4 External Completion Scripts
 
-Generate completion scripts for shell installations where AgentSH is NOT the shell.
+Generate completion scripts for shell installations where TafySH is NOT the shell.
 
-- [x] Create `agentsh completions` subcommand:
-  - [x] `agentsh completions bash` - output bash completion script
-  - [x] `agentsh completions zsh` - output zsh completion script
-  - [x] `agentsh completions fish` - output fish completion script
-  - [x] `agentsh completions --install` - install to appropriate location
+- [x] Create `tafysh completions` subcommand:
+  - [x] `tafysh completions bash` - output bash completion script
+  - [x] `tafysh completions zsh` - output zsh completion script
+  - [x] `tafysh completions fish` - output fish completion script
+  - [x] `tafysh completions --install` - install to appropriate location
 
 - [x] Bash completion script:
-  - [x] Complete `agentsh` command and subcommands
+  - [x] Complete `tafysh` command and subcommands
   - [x] Complete `--config`, `--log-level` options
   - [x] Complete `devices add/remove/list` subcommands
   - [x] Install to `/etc/bash_completion.d/` or `~/.local/share/bash-completion/`
 
 - [x] Zsh completion script:
-  - [x] `_agentsh` completion function
+  - [x] `_tafysh` completion function
   - [x] Subcommand completion with descriptions
   - [x] Install to `$fpath` location
 
@@ -1676,7 +1676,7 @@ Generate completion scripts for shell installations where AgentSH is NOT the she
 
 - [x] Implement proper session handling:
   - [x] Session ID generation and tracking
-  - [x] `$AGENTSH_SESSION_ID` environment variable
+  - [x] `$TAFYSH_SESSION_ID` environment variable
   - [x] Session persistence across shell restarts
   - [x] Session cleanup on logout
 
@@ -1737,14 +1737,14 @@ Generate completion scripts for shell installations where AgentSH is NOT the she
   - [x] /etc/shells registration
   - [x] Default shell setting option
   - [x] Environment variable configuration:
-    - [x] `AGENTSH_VERSION` - Specific version
-    - [x] `AGENTSH_INSTALL_DIR` - Custom install location
-    - [x] `AGENTSH_NO_MODIFY_PATH` - Skip PATH modification
-    - [x] `AGENTSH_SET_DEFAULT_SHELL` - Set as default
+    - [x] `TAFYSH_VERSION` - Specific version
+    - [x] `TAFYSH_INSTALL_DIR` - Custom install location
+    - [x] `TAFYSH_NO_MODIFY_PATH` - Skip PATH modification
+    - [x] `TAFYSH_SET_DEFAULT_SHELL` - Set as default
 
 ### 12.2 macOS (Homebrew)
 
-- [x] Create `packaging/homebrew/agentsh.rb`:
+- [x] Create `packaging/homebrew/tafysh.rb`:
   - [x] Formula with virtualenv support
   - [x] Python dependencies as resources
   - [x] Shell completion generation
@@ -1766,7 +1766,7 @@ Generate completion scripts for shell installations where AgentSH is NOT the she
 
 ### 12.4 Fedora/RHEL (RPM)
 
-- [x] Create `packaging/rpm/agentsh.spec`:
+- [x] Create `packaging/rpm/tafysh.spec`:
   - [x] RPM spec file
   - [x] Python dependencies
   - [x] Shell completions
@@ -1777,7 +1777,7 @@ Generate completion scripts for shell installations where AgentSH is NOT the she
 
 - [x] Create `packaging/arch/`:
   - [x] `PKGBUILD` - Build script
-  - [x] `agentsh.install` - Install hooks
+  - [x] `tafysh.install` - Install hooks
   - [x] Optional dependencies for providers
   - [x] Shell completions
 
@@ -1812,9 +1812,9 @@ Generate completion scripts for shell installations where AgentSH is NOT the she
 ### 12.9 Shell Completions
 
 - [x] Create `completions/` directory:
-  - [x] `agentsh.bash` - Bash completions
-  - [x] `agentsh.zsh` - Zsh completions
-  - [x] `agentsh.fish` - Fish completions
+  - [x] `tafysh.bash` - Bash completions
+  - [x] `tafysh.zsh` - Zsh completions
+  - [x] `tafysh.fish` - Fish completions
   - [x] Command/subcommand completions
   - [x] Option completions
   - [x] Model and provider completions
@@ -1854,7 +1854,7 @@ Development-focused containers for testing and experimentation.
 - [ ] Create `docker/dev/`:
   - [ ] `Dockerfile.dev` - Full development environment:
     - [ ] Python dev tools (pytest, black, ruff, mypy)
-    - [ ] Pre-configured with sample .agentshrc
+    - [ ] Pre-configured with sample .tafyshrc
     - [ ] Volume mounts for live code reloading
     - [ ] Non-root user with sudo access
   - [ ] `Dockerfile.test` - CI test runner:
@@ -1862,7 +1862,7 @@ Development-focused containers for testing and experimentation.
     - [ ] All test dependencies installed
     - [ ] Entrypoint runs pytest
   - [ ] `docker-compose.dev.yml`:
-    - [ ] AgentSH dev container
+    - [ ] TafySH dev container
     - [ ] Ollama service for local LLM
     - [ ] Redis for caching (optional)
     - [ ] Hot reload on code changes
@@ -1882,7 +1882,7 @@ Optimized images for production deployment.
 - [ ] Create `docker/prod/`:
   - [ ] `Dockerfile` - Production image:
     - [ ] Multi-stage build for minimal size
-    - [ ] Non-root user (agentsh:agentsh)
+    - [ ] Non-root user (tafysh:tafysh)
     - [ ] Health check endpoint
     - [ ] Signal handling (SIGTERM graceful shutdown)
     - [ ] Read-only root filesystem support
@@ -1904,18 +1904,18 @@ Optimized images for production deployment.
 
 ### 13.3 Kubernetes Deployment
 
-Deploy AgentSH as a managed service in Kubernetes clusters.
+Deploy TafySH as a managed service in Kubernetes clusters.
 
 - [ ] Create `k8s/` directory:
-  - [ ] `namespace.yaml` - agentsh namespace
-  - [ ] `deployment.yaml` - AgentSH deployment:
+  - [ ] `namespace.yaml` - tafysh namespace
+  - [ ] `deployment.yaml` - TafySH deployment:
     - [ ] Replica configuration
     - [ ] Resource limits (CPU, memory)
     - [ ] Liveness/readiness probes
     - [ ] Security context (non-root, read-only fs)
   - [ ] `service.yaml` - ClusterIP/LoadBalancer service
   - [ ] `configmap.yaml` - Configuration:
-    - [ ] agentsh.yaml configuration
+    - [ ] tafysh.yaml configuration
     - [ ] Environment-specific settings
   - [ ] `secret.yaml` - API keys (template):
     - [ ] ANTHROPIC_API_KEY
@@ -1930,21 +1930,21 @@ Deploy AgentSH as a managed service in Kubernetes clusters.
   - [ ] `ingress.yaml` - Ingress/Gateway API
 
 - [ ] Helm chart:
-  - [ ] `charts/agentsh/Chart.yaml`
-  - [ ] `charts/agentsh/values.yaml` - Default values
-  - [ ] `charts/agentsh/templates/` - All K8s manifests
-  - [ ] `charts/agentsh/README.md` - Chart documentation
+  - [ ] `charts/tafysh/Chart.yaml`
+  - [ ] `charts/tafysh/values.yaml` - Default values
+  - [ ] `charts/tafysh/templates/` - All K8s manifests
+  - [ ] `charts/tafysh/README.md` - Chart documentation
   - [ ] Support for Ollama sidecar
   - [ ] Configurable providers via values
 
 ### 13.4 Remote Agent Control
 
-Send commands to AgentSH containers remotely.
+Send commands to TafySH containers remotely.
 
-- [ ] Create `src/agentsh/remote/`:
-  - [ ] `client.py` - Remote AgentSH client:
-    - [ ] `AgentSHClient` class
-    - [ ] Connect to remote AgentSH instance
+- [ ] Create `src/tafysh/remote/`:
+  - [ ] `client.py` - Remote TafySH client:
+    - [ ] `TafySHClient` class
+    - [ ] Connect to remote TafySH instance
     - [ ] Execute commands via MCP/API
     - [ ] Stream output back
   - [ ] `server.py` - Remote control server:
@@ -1954,13 +1954,13 @@ Send commands to AgentSH containers remotely.
     - [ ] Command queuing
 
 - [ ] CLI remote commands:
-  - [ ] `agentsh remote connect <host>` - Connect to remote instance
-  - [ ] `agentsh remote exec <host> "<command>"` - Execute single command
-  - [ ] `agentsh remote list` - List connected agents
-  - [ ] `agentsh remote logs <host>` - Stream logs
+  - [ ] `tafysh remote connect <host>` - Connect to remote instance
+  - [ ] `tafysh remote exec <host> "<command>"` - Execute single command
+  - [ ] `tafysh remote list` - List connected agents
+  - [ ] `tafysh remote logs <host>` - Stream logs
 
 - [ ] Kubernetes operator (future):
-  - [ ] `AgentSH` CRD for declarative agent management
+  - [ ] `TafySH` CRD for declarative agent management
   - [ ] Auto-scaling based on command queue
   - [ ] Self-healing and restart policies
 
@@ -2023,7 +2023,7 @@ Comprehensive onboarding documentation and examples.
 - [ ] Create `examples/`:
   - [ ] `examples/README.md` - Examples index
   - [ ] `examples/basic/`:
-    - [ ] `hello-world.md` - First AgentSH session
+    - [ ] `hello-world.md` - First TafySH session
     - [ ] `file-operations.md` - File manipulation
     - [ ] `git-workflow.md` - Git operations
   - [ ] `examples/docker/`:
@@ -2124,7 +2124,7 @@ Documentation for releases and versioning.
 
 ## Appendix A: File Checklist by Package
 
-### Shell Package (`src/agentsh/shell/`)
+### Shell Package (`src/tafysh/shell/`)
 - [x] `__init__.py`
 - [x] `wrapper.py` - ShellWrapper class
 - [x] `pty_manager.py` - PTY lifecycle
@@ -2135,7 +2135,7 @@ Documentation for releases and versioning.
 - [x] `memory.py` - Shell memory commands
 - [x] `completer.py` - Tab completion
 
-### Agent Package (`src/agentsh/agent/`)
+### Agent Package (`src/tafysh/agent/`)
 - [x] `__init__.py`
 - [x] `llm_client.py` - LLM abstraction
 - [x] `providers/__init__.py` - Provider exports + factory
@@ -2153,7 +2153,7 @@ Documentation for releases and versioning.
 - [ ] `executor.py` - Tool execution
 - [ ] `tool_schema.py` - Schema generation
 
-### Tools Package (`src/agentsh/tools/`)
+### Tools Package (`src/tafysh/tools/`)
 - [ ] `__init__.py`
 - [ ] `registry.py` - Tool registry
 - [ ] `base.py` - Tool base classes
@@ -2161,7 +2161,7 @@ Documentation for releases and versioning.
 - [ ] `timeout.py` - Timeout management
 - [ ] `errors.py` - Tool errors
 
-### Workflows Package (`src/agentsh/workflows/`)
+### Workflows Package (`src/tafysh/workflows/`)
 - [ ] `__init__.py`
 - [ ] `states.py` - LangGraph states
 - [ ] `nodes.py` - Graph nodes
@@ -2173,7 +2173,7 @@ Documentation for releases and versioning.
 - [ ] `predefined/backup.yaml`
 - [ ] `predefined/deploy.yaml`
 
-### Memory Package (`src/agentsh/memory/`)
+### Memory Package (`src/tafysh/memory/`)
 - [x] `__init__.py`
 - [x] `manager.py` - Memory manager
 - [x] `session.py` - Session store
@@ -2182,7 +2182,7 @@ Documentation for releases and versioning.
 - [x] `retrieval.py` - Search and retrieval
 - [ ] `embeddings.py` - Vector embeddings (deferred)
 
-### Security Package (`src/agentsh/security/`)
+### Security Package (`src/tafysh/security/`)
 - [x] `__init__.py`
 - [x] `controller.py` - Security controller
 - [x] `classifier.py` - Risk classification
@@ -2192,7 +2192,7 @@ Documentation for releases and versioning.
 - [x] `audit.py` - Audit logging
 - [ ] `sandbox.py` - Sandboxing hooks
 
-### Telemetry Package (`src/agentsh/telemetry/`)
+### Telemetry Package (`src/tafysh/telemetry/`)
 - [x] `__init__.py`
 - [x] `logger.py` - Structured logging
 - [x] `metrics.py` - Prometheus-style metrics
@@ -2200,14 +2200,14 @@ Documentation for releases and versioning.
 - [x] `exporters.py` - Log exporters
 - [x] `health.py` - Health checks
 
-### Orchestrator Package (`src/agentsh/orchestrator/`)
+### Orchestrator Package (`src/tafysh/orchestrator/`)
 - [x] `__init__.py`
 - [x] `devices.py` - Device inventory
 - [x] `ssh.py` - SSH executor
 - [x] `coordinator.py` - Orchestration
 - [x] `mcp_server.py` - MCP server
 
-### Plugins Package (`src/agentsh/plugins/`)
+### Plugins Package (`src/tafysh/plugins/`)
 - [x] `__init__.py`
 - [x] `base.py` - Toolset ABC
 - [x] `loader.py` - Plugin loader
@@ -2220,13 +2220,13 @@ Documentation for releases and versioning.
 - [x] `robotics/ros_interface.py`
 - [x] `robotics/safety.py`
 
-### Config Package (`src/agentsh/config/`)
+### Config Package (`src/tafysh/config/`)
 - [ ] `__init__.py`
 - [ ] `schemas.py` - Config schemas
 - [ ] `loader.py` - Config loading
 - [ ] `defaults.py` - Default values
 
-### Utils Package (`src/agentsh/utils/`)
+### Utils Package (`src/tafysh/utils/`)
 - [x] `__init__.py`
 - [x] `env.py` - Environment helpers
 - [x] `crypto.py` - Encryption and secure storage
@@ -2420,7 +2420,7 @@ Documentation for releases and versioning.
   - [ ] detect-private-key - security
 
 ### Container Registry
-- [ ] GitHub Container Registry (ghcr.io/org/agentsh)
+- [ ] GitHub Container Registry (ghcr.io/org/tafysh)
 - [ ] Automated builds on release
 - [ ] Multi-arch manifests
 - [ ] Semantic version tags (latest, v1, v1.0, v1.0.0)

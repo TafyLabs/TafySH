@@ -6,7 +6,7 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
-from agentsh.config.defaults import (
+from tafysh.config.defaults import (
     # Paths
     DEFAULT_CONFIG_DIR,
     DEFAULT_CONFIG_FILE,
@@ -63,7 +63,7 @@ class TestDefaultPaths:
     def test_config_dir_in_home(self) -> None:
         """Config dir should be in home directory."""
         assert DEFAULT_CONFIG_DIR.parent == Path.home()
-        assert ".agentsh" in str(DEFAULT_CONFIG_DIR)
+        assert ".tafysh" in str(DEFAULT_CONFIG_DIR)
 
     def test_config_file_in_config_dir(self) -> None:
         """Config file should be in config dir."""
@@ -88,7 +88,7 @@ class TestDefaultPaths:
     def test_log_file_in_config_dir(self) -> None:
         """Log file should be in config dir."""
         assert DEFAULT_LOG_FILE.parent == DEFAULT_CONFIG_DIR
-        assert DEFAULT_LOG_FILE.name == "agentsh.log"
+        assert DEFAULT_LOG_FILE.name == "tafysh.log"
 
     def test_devices_file_in_config_dir(self) -> None:
         """Devices file should be in config dir."""
@@ -357,11 +357,11 @@ class TestEnsureDefaultDirs:
 
     def test_creates_config_dir(self, tmp_path: Path) -> None:
         """Should create config directory."""
-        with patch("agentsh.config.defaults.DEFAULT_CONFIG_DIR", tmp_path / ".agentsh"):
-            with patch("agentsh.config.defaults.DEFAULT_PLUGINS_DIR", tmp_path / ".agentsh" / "plugins"):
-                from agentsh.config import defaults
-                defaults.DEFAULT_CONFIG_DIR = tmp_path / ".agentsh"
-                defaults.DEFAULT_PLUGINS_DIR = tmp_path / ".agentsh" / "plugins"
+        with patch("tafysh.config.defaults.DEFAULT_CONFIG_DIR", tmp_path / ".tafysh"):
+            with patch("tafysh.config.defaults.DEFAULT_PLUGINS_DIR", tmp_path / ".tafysh" / "plugins"):
+                from tafysh.config import defaults
+                defaults.DEFAULT_CONFIG_DIR = tmp_path / ".tafysh"
+                defaults.DEFAULT_PLUGINS_DIR = tmp_path / ".tafysh" / "plugins"
 
                 ensure_default_dirs()
 
@@ -370,11 +370,11 @@ class TestEnsureDefaultDirs:
 
     def test_idempotent(self, tmp_path: Path) -> None:
         """Should be safe to call multiple times."""
-        with patch("agentsh.config.defaults.DEFAULT_CONFIG_DIR", tmp_path / ".agentsh"):
-            with patch("agentsh.config.defaults.DEFAULT_PLUGINS_DIR", tmp_path / ".agentsh" / "plugins"):
-                from agentsh.config import defaults
-                defaults.DEFAULT_CONFIG_DIR = tmp_path / ".agentsh"
-                defaults.DEFAULT_PLUGINS_DIR = tmp_path / ".agentsh" / "plugins"
+        with patch("tafysh.config.defaults.DEFAULT_CONFIG_DIR", tmp_path / ".tafysh"):
+            with patch("tafysh.config.defaults.DEFAULT_PLUGINS_DIR", tmp_path / ".tafysh" / "plugins"):
+                from tafysh.config import defaults
+                defaults.DEFAULT_CONFIG_DIR = tmp_path / ".tafysh"
+                defaults.DEFAULT_PLUGINS_DIR = tmp_path / ".tafysh" / "plugins"
 
                 ensure_default_dirs()
                 ensure_default_dirs()  # Should not raise

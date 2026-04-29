@@ -5,7 +5,7 @@ import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from agentsh.agent.cache import (
+from tafysh.agent.cache import (
     CacheConfig,
     CacheEntry,
     CacheKeyBuilder,

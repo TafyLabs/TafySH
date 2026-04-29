@@ -6,37 +6,37 @@ from pathlib import Path
 import tempfile
 import json
 
-from agentsh.security.classifier import (
+from tafysh.security.classifier import (
     RiskLevel,
     RiskPattern,
     RiskClassifier,
     CommandRiskAssessment,
 )
-from agentsh.security.policies import (
+from tafysh.security.policies import (
     SecurityMode,
     SecurityPolicy,
     DevicePolicy,
     PolicyManager,
 )
-from agentsh.security.rbac import (
+from tafysh.security.rbac import (
     Role,
     Permission,
     User,
     RBAC,
 )
-from agentsh.security.approval import (
+from tafysh.security.approval import (
     ApprovalResult,
     ApprovalRequest,
     ApprovalResponse,
     ApprovalFlow,
     AutoApprover,
 )
-from agentsh.security.audit import (
+from tafysh.security.audit import (
     AuditAction,
     AuditEvent,
     AuditLogger,
 )
-from agentsh.security.controller import (
+from tafysh.security.controller import (
     ValidationResult,
     SecurityContext,
     SecurityDecision,
@@ -722,7 +722,7 @@ class TestAuditLoggerExtended:
     def test_default_path(self):
         """Test default audit log path."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            import agentsh.security.audit as audit_module
+            import tafysh.security.audit as audit_module
 
             original_home = Path.home
 
@@ -731,7 +731,7 @@ class TestAuditLoggerExtended:
                 Path.home = lambda: Path(tmpdir)
 
                 audit_logger = AuditLogger()
-                expected_path = Path(tmpdir) / ".agentsh" / "audit.log"
+                expected_path = Path(tmpdir) / ".tafysh" / "audit.log"
                 assert audit_logger.log_path == expected_path
             finally:
                 Path.home = original_home

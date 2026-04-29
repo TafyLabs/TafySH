@@ -4,11 +4,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.workflows.single_agent import (
+from tafysh.workflows.single_agent import (
     create_react_graph,
     create_simple_react_graph,
 )
-from agentsh.workflows.states import AgentState
+from tafysh.workflows.states import AgentState
 
 
 class TestCreateReactGraph:

@@ -5,13 +5,13 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from agentsh.workflows.executor import (
+from tafysh.workflows.executor import (
     SimpleWorkflowExecutor,
     WorkflowEvent,
     WorkflowExecutor,
     WorkflowResult,
 )
-from agentsh.workflows.states import WorkflowStatus
+from tafysh.workflows.states import WorkflowStatus
 
 
 class TestWorkflowResult:

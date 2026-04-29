@@ -5,14 +5,14 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.security.approval import (
+from tafysh.security.approval import (
     ApprovalFlow,
     ApprovalRequest,
     ApprovalResponse,
     ApprovalResult,
     AutoApprover,
 )
-from agentsh.security.classifier import RiskLevel
+from tafysh.security.classifier import RiskLevel
 
 
 class TestApprovalResult:

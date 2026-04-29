@@ -2,7 +2,7 @@
 
 import pytest
 
-from agentsh.plugins.robotics.safety import (
+from tafysh.plugins.robotics.safety import (
     MotionCommand,
     MotionRiskLevel,
     MotionValidation,

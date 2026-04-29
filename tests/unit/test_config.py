@@ -5,13 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.config.schemas import (
-    AgentSHConfig,
+from tafysh.config.schemas import (
+    TafySHConfig,
     LLMConfig,
     LLMProvider,
     SecurityMode,
 )
-from agentsh.config.loader import (
+from tafysh.config.loader import (
     load_config,
     deep_merge,
     get_env_overrides,
@@ -24,7 +24,7 @@ class TestConfigSchemas:
 
     def test_default_config_valid(self) -> None:
         """Default configuration should be valid."""
-        config = AgentSHConfig()
+        config = TafySHConfig()
         assert config.llm.provider == LLMProvider.ANTHROPIC
         assert config.shell.backend == "zsh"
         assert config.security.mode == SecurityMode.NORMAL
@@ -39,15 +39,15 @@ class TestConfigSchemas:
 
     def test_log_level_validation(self) -> None:
         """Log level should be validated."""
-        config = AgentSHConfig(log_level="DEBUG")
+        config = TafySHConfig(log_level="DEBUG")
         assert config.log_level == "DEBUG"
 
         with pytest.raises(ValueError):
-            AgentSHConfig(log_level="INVALID")
+            TafySHConfig(log_level="INVALID")
 
     def test_plugin_config_access(self) -> None:
         """Test plugin configuration access."""
-        config = AgentSHConfig()
+        config = TafySHConfig()
 
         assert config.is_plugin_enabled("shell") is True
         assert config.is_plugin_enabled("nonexistent") is False
@@ -63,7 +63,7 @@ class TestConfigLoader:
     def test_load_default_config(self) -> None:
         """Loading without file should return defaults."""
         config = load_config(include_env=False)
-        assert isinstance(config, AgentSHConfig)
+        assert isinstance(config, TafySHConfig)
 
     def test_load_from_file(self, temp_config_file: Path) -> None:
         """Should load config from file."""
@@ -98,8 +98,8 @@ class TestConfigLoader:
 
     def test_env_overrides(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test environment variable overrides."""
-        monkeypatch.setenv("AGENTSH_LOG_LEVEL", "DEBUG")
-        monkeypatch.setenv("AGENTSH_LLM__PROVIDER", "openai")
+        monkeypatch.setenv("TAFYSH_LOG_LEVEL", "DEBUG")
+        monkeypatch.setenv("TAFYSH_LLM__PROVIDER", "openai")
 
         overrides = get_env_overrides()
 
@@ -112,14 +112,14 @@ class TestConfigLoaderExtended:
 
     def test_get_default_config_path(self) -> None:
         """Test getting default config path."""
-        from agentsh.config.loader import get_default_config_path
+        from tafysh.config.loader import get_default_config_path
 
         path = get_default_config_path()
-        assert path == Path.home() / ".agentsh" / "config.yaml"
+        assert path == Path.home() / ".tafysh" / "config.yaml"
 
     def test_get_config_paths_empty(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test getting config paths when none exist."""
-        from agentsh.config.loader import get_config_paths
+        from tafysh.config.loader import get_config_paths
 
         # Change to temp directory where no configs exist
         monkeypatch.chdir(tmp_path)
@@ -133,10 +133,10 @@ class TestConfigLoaderExtended:
 
     def test_get_config_paths_with_project_config(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test getting config paths with project config."""
-        from agentsh.config.loader import get_config_paths
+        from tafysh.config.loader import get_config_paths
 
         # Create a project config
-        project_config = tmp_path / ".agentsh.yaml"
+        project_config = tmp_path / ".tafysh.yaml"
         project_config.write_text("log_level: INFO")
 
         monkeypatch.chdir(tmp_path)
@@ -147,7 +147,7 @@ class TestConfigLoaderExtended:
 
     def test_load_yaml_config(self, tmp_path: Path) -> None:
         """Test loading YAML config file."""
-        from agentsh.config.loader import load_yaml_config
+        from tafysh.config.loader import load_yaml_config
 
         config_file = tmp_path / "test.yaml"
         config_file.write_text("""
@@ -163,7 +163,7 @@ llm:
 
     def test_load_yaml_config_empty(self, tmp_path: Path) -> None:
         """Test loading empty YAML config file."""
-        from agentsh.config.loader import load_yaml_config
+        from tafysh.config.loader import load_yaml_config
 
         config_file = tmp_path / "empty.yaml"
         config_file.write_text("")
@@ -173,25 +173,25 @@ llm:
 
     def test_create_default_config(self, tmp_path: Path) -> None:
         """Test creating default configuration file."""
-        from agentsh.config.loader import create_default_config
+        from tafysh.config.loader import create_default_config
 
         config_path = tmp_path / "newconfig" / "config.yaml"
         create_default_config(config_path)
 
         assert config_path.exists()
         content = config_path.read_text()
-        assert "# AgentSH Configuration" in content
+        assert "# TafySH Configuration" in content
 
     def test_load_config_with_env_overrides(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test loading config with environment variable overrides."""
-        monkeypatch.setenv("AGENTSH_LOG_LEVEL", "WARNING")
+        monkeypatch.setenv("TAFYSH_LOG_LEVEL", "WARNING")
 
         config = load_config(include_env=True)
         assert config.log_level == "WARNING"
 
     def test_load_config_without_env(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test loading config without environment variables."""
-        monkeypatch.setenv("AGENTSH_LOG_LEVEL", "INVALID_LEVEL")
+        monkeypatch.setenv("TAFYSH_LOG_LEVEL", "INVALID_LEVEL")
 
         # Should not fail because env is not included
         config = load_config(include_env=False)
@@ -219,8 +219,8 @@ llm:
 
     def test_env_overrides_deeply_nested(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test deeply nested environment variable overrides."""
-        monkeypatch.setenv("AGENTSH_LLM__PARAMETERS__MAX_TOKENS", "4096")
-        monkeypatch.setenv("AGENTSH_LLM__PARAMETERS__TEMPERATURE", "0.7")
+        monkeypatch.setenv("TAFYSH_LLM__PARAMETERS__MAX_TOKENS", "4096")
+        monkeypatch.setenv("TAFYSH_LLM__PARAMETERS__TEMPERATURE", "0.7")
 
         overrides = get_env_overrides()
 
@@ -229,10 +229,10 @@ llm:
 
     def test_load_config_merges_multiple_files(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test that config files are merged properly."""
-        from agentsh.config.loader import load_yaml_config
+        from tafysh.config.loader import load_yaml_config
 
         # Create project config
-        project_config = tmp_path / ".agentsh.yaml"
+        project_config = tmp_path / ".tafysh.yaml"
         project_config.write_text("""
 log_level: DEBUG
 shell:

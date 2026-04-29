@@ -2,7 +2,7 @@
 
 import pytest
 
-from agentsh.workflows.predefined import (
+from tafysh.workflows.predefined import (
     AVAILABLE_WORKFLOWS,
     get_workflow_info,
     list_predefined_workflows,

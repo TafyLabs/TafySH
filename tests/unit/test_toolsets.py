@@ -6,12 +6,12 @@ import pytest
 import tempfile
 from pathlib import Path
 
-from agentsh.tools.base import RiskLevel, ToolResult
-from agentsh.tools.registry import ToolRegistry
-from agentsh.plugins.builtin.shell import ShellToolset
-from agentsh.plugins.builtin.filesystem import FilesystemToolset
-from agentsh.plugins.builtin.process import ProcessToolset
-from agentsh.plugins.builtin.code import CodeToolset
+from tafysh.tools.base import RiskLevel, ToolResult
+from tafysh.tools.registry import ToolRegistry
+from tafysh.plugins.builtin.shell import ShellToolset
+from tafysh.plugins.builtin.filesystem import FilesystemToolset
+from tafysh.plugins.builtin.process import ProcessToolset
+from tafysh.plugins.builtin.code import CodeToolset
 
 
 class TestShellToolset:

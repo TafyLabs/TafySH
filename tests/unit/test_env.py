@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
-from agentsh.utils.env import (
+from tafysh.utils.env import (
     get_env,
     get_env_bool,
     get_env_int,

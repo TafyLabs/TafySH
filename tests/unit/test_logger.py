@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 import structlog
 
-from agentsh.telemetry.logger import (
+from tafysh.telemetry.logger import (
     setup_logging,
     get_logger,
     bind_context,

@@ -3,8 +3,8 @@
 import pytest
 from unittest.mock import MagicMock, patch
 
-from agentsh.plugins.base import Toolset, ToolsetRegistry
-from agentsh.plugins.lazy import (
+from tafysh.plugins.base import Toolset, ToolsetRegistry
+from tafysh.plugins.lazy import (
     LazyPlugin,
     LazyPluginRegistry,
     PluginState,
@@ -128,7 +128,7 @@ class TestLazyPlugin:
         """Should load and return instance."""
         plugin = LazyPlugin(
             name="shell",
-            module_path="agentsh.plugins.builtin.shell",
+            module_path="tafysh.plugins.builtin.shell",
             class_name="ShellToolset",
         )
 
@@ -142,7 +142,7 @@ class TestLazyPlugin:
         """Should return cached instance on second call."""
         plugin = LazyPlugin(
             name="shell",
-            module_path="agentsh.plugins.builtin.shell",
+            module_path="tafysh.plugins.builtin.shell",
             class_name="ShellToolset",
         )
 
@@ -170,7 +170,7 @@ class TestLazyPlugin:
         """Should fail if class is not a Toolset."""
         plugin = LazyPlugin(
             name="invalid",
-            module_path="agentsh.plugins.lazy",
+            module_path="tafysh.plugins.lazy",
             class_name="PluginState",  # Not a Toolset
         )
 
@@ -226,7 +226,7 @@ class TestLazyPluginRegistry:
 
     def test_get_loads_plugin(self, registry: LazyPluginRegistry) -> None:
         """Should load plugin on get."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
 
         toolset = registry.get("shell")
 
@@ -239,13 +239,13 @@ class TestLazyPluginRegistry:
 
     def test_is_loaded_false_initially(self, registry: LazyPluginRegistry) -> None:
         """Should return False before loading."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
 
         assert registry.is_loaded("shell") is False
 
     def test_is_loaded_true_after_get(self, registry: LazyPluginRegistry) -> None:
         """Should return True after loading."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         registry.get("shell")
 
         assert registry.is_loaded("shell") is True
@@ -262,8 +262,8 @@ class TestLazyPluginRegistry:
 
     def test_list_loaded(self, registry: LazyPluginRegistry) -> None:
         """Should list only loaded plugins."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
-        registry.register("fs", "agentsh.plugins.builtin.filesystem", "FilesystemToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
+        registry.register("fs", "tafysh.plugins.builtin.filesystem", "FilesystemToolset")
 
         # Load only shell
         registry.get("shell")
@@ -274,7 +274,7 @@ class TestLazyPluginRegistry:
 
     def test_list_available(self, registry: LazyPluginRegistry) -> None:
         """Should list available plugins."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         registry.register("bad", "nonexistent.module", "NoToolset")
 
         # Try to load bad plugin to mark as failed
@@ -286,14 +286,14 @@ class TestLazyPluginRegistry:
 
     def test_get_status(self, registry: LazyPluginRegistry) -> None:
         """Should return status of all plugins."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         registry.get("shell")
 
         status = registry.get_status()
 
         assert "shell" in status
         assert status["shell"]["state"] == "loaded"
-        assert status["shell"]["module"] == "agentsh.plugins.builtin.shell"
+        assert status["shell"]["module"] == "tafysh.plugins.builtin.shell"
 
     def test_add_load_hook(self, registry: LazyPluginRegistry) -> None:
         """Should call load hooks when loading."""
@@ -303,15 +303,15 @@ class TestLazyPluginRegistry:
             hook_called.append(plugin.name)
 
         registry.add_load_hook(hook)
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         registry.get("shell")
 
         assert "shell" in hook_called
 
     def test_preload_all(self, registry: LazyPluginRegistry) -> None:
         """Should preload all plugins."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
-        registry.register("fs", "agentsh.plugins.builtin.filesystem", "FilesystemToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
+        registry.register("fs", "tafysh.plugins.builtin.filesystem", "FilesystemToolset")
 
         loaded = registry.preload()
 
@@ -321,8 +321,8 @@ class TestLazyPluginRegistry:
 
     def test_preload_specific(self, registry: LazyPluginRegistry) -> None:
         """Should preload specific plugins."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
-        registry.register("fs", "agentsh.plugins.builtin.filesystem", "FilesystemToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
+        registry.register("fs", "tafysh.plugins.builtin.filesystem", "FilesystemToolset")
 
         loaded = registry.preload(["shell"])
 
@@ -332,7 +332,7 @@ class TestLazyPluginRegistry:
 
     def test_unload_plugin(self, registry: LazyPluginRegistry) -> None:
         """Should unload plugin."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         registry.get("shell")
 
         result = registry.unload("shell")
@@ -348,10 +348,10 @@ class TestLazyPluginRegistry:
 
     def test_dependency_loading(self, registry: LazyPluginRegistry) -> None:
         """Should load dependencies first."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         registry.register(
             "dependent",
-            "agentsh.plugins.builtin.filesystem",
+            "tafysh.plugins.builtin.filesystem",
             "FilesystemToolset",
             dependencies=["shell"],
         )
@@ -429,7 +429,7 @@ class TestLazyPluginEdgeCases:
         """Should handle concurrent loading attempts."""
         plugin = LazyPlugin(
             name="test",
-            module_path="agentsh.plugins.builtin.shell",
+            module_path="tafysh.plugins.builtin.shell",
             class_name="ShellToolset",
         )
         # Set state to loading
@@ -444,7 +444,7 @@ class TestLazyPluginEdgeCases:
     def test_plugin_reset_after_unload(self) -> None:
         """Plugin state should reset after unload."""
         registry = LazyPluginRegistry()
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         registry.get("shell")
 
         # Unload
@@ -460,7 +460,7 @@ class TestLazyPluginEdgeCases:
         registry = LazyPluginRegistry()
         registry.register(
             "dependent",
-            "agentsh.plugins.builtin.shell",
+            "tafysh.plugins.builtin.shell",
             "ShellToolset",
             dependencies=["nonexistent"],
         )
@@ -473,8 +473,8 @@ class TestLazyPluginEdgeCases:
     def test_preload_specific_plugins_only(self) -> None:
         """Should only preload specified plugins."""
         registry = LazyPluginRegistry()
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
-        registry.register("fs", "agentsh.plugins.builtin.filesystem", "FilesystemToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
+        registry.register("fs", "tafysh.plugins.builtin.filesystem", "FilesystemToolset")
 
         # Preload only fs, not shell
         loaded = registry.preload(["fs"])
@@ -509,7 +509,7 @@ class TestLazyPluginRegistryExtended:
 
     def test_list_loaded_empty(self, registry: LazyPluginRegistry) -> None:
         """Should return empty list when nothing loaded."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         assert registry.list_loaded() == []
 
     def test_multiple_load_hooks(self, registry: LazyPluginRegistry) -> None:
@@ -524,7 +524,7 @@ class TestLazyPluginRegistryExtended:
 
         registry.add_load_hook(hook1)
         registry.add_load_hook(hook2)
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         registry.get("shell")
 
         assert ("hook1", "shell") in calls
@@ -532,7 +532,7 @@ class TestLazyPluginRegistryExtended:
 
     def test_get_already_loaded(self, registry: LazyPluginRegistry) -> None:
         """Should return cached instance for loaded plugin."""
-        registry.register("shell", "agentsh.plugins.builtin.shell", "ShellToolset")
+        registry.register("shell", "tafysh.plugins.builtin.shell", "ShellToolset")
         toolset = registry.get("shell")
 
         # Plugin should be cached

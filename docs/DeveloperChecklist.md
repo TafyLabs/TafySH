@@ -1,6 +1,6 @@
-# AgentSH: Developer Implementation Checklist
+# TafySH: Developer Implementation Checklist
 
-**Purpose**: Detailed task breakdown for implementing AgentSH based on Architectural Specification.
+**Purpose**: Detailed task breakdown for implementing TafySH based on Architectural Specification.
 **Last Updated**: December 2025
 
 ---
@@ -10,7 +10,7 @@
 ### Phase 0: Foundation & Project Setup
 
 - [ ] **Repository Structure**
-  - [ ] Create `src/agentsh/` with `__init__.py` and `__main__.py`
+  - [ ] Create `src/tafysh/` with `__init__.py` and `__main__.py`
   - [ ] Create `tests/`, `examples/`, `docs/` directories
   - [ ] Set up `pyproject.toml` with dependencies:
     - [ ] LangChain & LangGraph (workflow orchestration)
@@ -24,7 +24,7 @@
 
 - [ ] **Configuration System**
   - [ ] Implement `config/parser.py` - load YAML/JSON configs
-  - [ ] Implement `config/resolver.py` - hierarchy: `/etc/agentsh.conf` → `~/.agentsh/config.yaml` → env vars → CLI args
+  - [ ] Implement `config/resolver.py` - hierarchy: `/etc/tafysh.conf` → `~/.tafysh/config.yaml` → env vars → CLI args
   - [ ] Create `config/schemas.py` - Pydantic models for validation
   - [ ] Create default config template in `config/defaults.py`
 
@@ -34,15 +34,15 @@
     - [ ] `register_tools(registry: ToolRegistry)`
     - [ ] `configure(config: dict)`
   - [ ] Implement `plugins/loader.py` - dynamic plugin loading via entry points + directory scan
-  - [ ] Create plugin discovery mechanism (iterate `~/.agentsh/plugins/`)
+  - [ ] Create plugin discovery mechanism (iterate `~/.tafysh/plugins/`)
 
 - [ ] **CLI Entrypoint**
   - [ ] Implement `__main__.py` with argparse:
-    - [ ] `agentsh` (start interactive shell)
-    - [ ] `agentsh --config <path>` (custom config)
-    - [ ] `agentsh --mcp-server` (run as MCP server)
-    - [ ] `agentsh status` (health check)
-    - [ ] `agentsh config show` (debug config)
+    - [ ] `tafysh` (start interactive shell)
+    - [ ] `tafysh --config <path>` (custom config)
+    - [ ] `tafysh --mcp-server` (run as MCP server)
+    - [ ] `tafysh status` (health check)
+    - [ ] `tafysh config show` (debug config)
 
 ---
 
@@ -79,7 +79,7 @@
 - [ ] **shell/prompt_renderer.py - Custom Prompt**
   - [ ] `PromptRenderer` class:
     - [ ] Build PS1 with:
-      - [ ] `[AS]` indicator (AgentSH active)
+      - [ ] `[AS]` indicator (TafySH active)
       - [ ] Current directory
       - [ ] Git branch (if applicable)
       - [ ] Agent status (busy/idle/error)
@@ -88,7 +88,7 @@
 
 - [ ] **shell/history.py - Command History**
   - [ ] `HistoryManager` class:
-    - [ ] Store commands in `~/.agentsh/history`
+    - [ ] Store commands in `~/.tafysh/history`
     - [ ] Backward/forward search (Ctrl+R)
     - [ ] Deduplicate consecutive identical commands
     - [ ] Integration with shell readline
@@ -391,7 +391,7 @@
 - [ ] **orchestrator/devices.py - Device Inventory**
   - [ ] `Device` dataclass (per schema in Architectural Spec)
   - [ ] `DeviceInventory` class:
-    - [ ] Load from YAML file (`~/.agentsh/devices.yaml`)
+    - [ ] Load from YAML file (`~/.tafysh/devices.yaml`)
     - [ ] `get_device(id) → Device`
     - [ ] `get_by_role(role) → List[Device]`
     - [ ] `get_by_label(key, value) → List[Device]`
@@ -562,12 +562,12 @@
   - [ ] Verify on PyPI
 
 - [ ] **Installation Testing**
-  - [ ] `pip install agentsh`
-  - [ ] `agentsh --help` works
-  - [ ] `agentsh` starts interactive shell
+  - [ ] `pip install tafysh`
+  - [ ] `tafysh --help` works
+  - [ ] `tafysh` starts interactive shell
 
 - [ ] **Configuration Deployment**
-  - [ ] Install script creates `~/.agentsh/` directory
+  - [ ] Install script creates `~/.tafysh/` directory
   - [ ] Generate default config
   - [ ] Document first-time setup (API keys, etc.)
 

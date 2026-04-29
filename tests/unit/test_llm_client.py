@@ -3,7 +3,7 @@
 import pytest
 from typing import AsyncIterator, Optional
 
-from agentsh.agent.llm_client import (
+from tafysh.agent.llm_client import (
     LLMClient,
     LLMResponse,
     Message,

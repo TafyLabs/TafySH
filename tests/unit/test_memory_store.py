@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.memory.schemas import MemoryMetadata, MemoryRecord, MemoryType
-from agentsh.memory.store import InMemoryStore, SQLiteMemoryStore
+from tafysh.memory.schemas import MemoryMetadata, MemoryRecord, MemoryType
+from tafysh.memory.store import InMemoryStore, SQLiteMemoryStore
 
 
 class TestInMemoryStore:

@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.orchestrator.mcp_server import (
+from tafysh.orchestrator.mcp_server import (
     MCPMessageType,
     MCPRequest,
     MCPResponse,
@@ -156,7 +156,7 @@ class TestMCPServerConfig:
     def test_default_config(self):
         """Should have sensible defaults."""
         config = MCPServerConfig()
-        assert config.name == "agentsh"
+        assert config.name == "tafysh"
         assert config.version == "1.0.0"
         assert config.allowed_tools is None
         assert config.require_auth is False
@@ -229,7 +229,7 @@ class TestMCPServer:
     def test_create_server(self, server):
         """Should create server instance."""
         assert server is not None
-        assert server.config.name == "agentsh"
+        assert server.config.name == "tafysh"
 
     def test_create_server_with_config(self, config_server):
         """Should create server with custom config."""
@@ -286,7 +286,7 @@ class TestMCPServer:
         assert response.error is None
         assert response.result["protocolVersion"] == "2024-11-05"
         assert "capabilities" in response.result
-        assert response.result["serverInfo"]["name"] == "agentsh"
+        assert response.result["serverInfo"]["name"] == "tafysh"
 
     @pytest.mark.asyncio
     async def test_handle_list_tools(self, server):
@@ -394,8 +394,8 @@ class TestMCPServer:
         assert response.error is None
         assert "resources" in response.result
         resources = response.result["resources"]
-        assert any(r["uri"] == "agentsh://health" for r in resources)
-        assert any(r["uri"] == "agentsh://tools" for r in resources)
+        assert any(r["uri"] == "tafysh://health" for r in resources)
+        assert any(r["uri"] == "tafysh://tools" for r in resources)
 
     @pytest.mark.asyncio
     async def test_handle_read_resource_health(self, server):
@@ -404,10 +404,10 @@ class TestMCPServer:
             jsonrpc="2.0",
             id=9,
             method="resources/read",
-            params={"uri": "agentsh://health"},
+            params={"uri": "tafysh://health"},
         )
 
-        with patch("agentsh.orchestrator.mcp_server.check_health") as mock_health:
+        with patch("tafysh.orchestrator.mcp_server.check_health") as mock_health:
             mock_health.return_value = MagicMock(
                 to_dict=lambda: {"status": "healthy", "healthy": True}
             )
@@ -416,7 +416,7 @@ class TestMCPServer:
         assert response.error is None
         assert "contents" in response.result
         content = response.result["contents"][0]
-        assert content["uri"] == "agentsh://health"
+        assert content["uri"] == "tafysh://health"
         assert content["mimeType"] == "application/json"
 
     @pytest.mark.asyncio
@@ -426,13 +426,13 @@ class TestMCPServer:
             jsonrpc="2.0",
             id=10,
             method="resources/read",
-            params={"uri": "agentsh://tools"},
+            params={"uri": "tafysh://tools"},
         )
         response = await server.handle_request(request)
 
         assert response.error is None
         content = response.result["contents"][0]
-        assert content["uri"] == "agentsh://tools"
+        assert content["uri"] == "tafysh://tools"
         # Should be JSON containing tool list
         tools_data = json.loads(content["text"])
         assert len(tools_data) == 2
@@ -444,7 +444,7 @@ class TestMCPServer:
             jsonrpc="2.0",
             id=11,
             method="resources/read",
-            params={"uri": "agentsh://unknown"},
+            params={"uri": "tafysh://unknown"},
         )
         response = await server.handle_request(request)
 

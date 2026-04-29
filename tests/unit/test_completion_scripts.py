@@ -7,14 +7,14 @@ from unittest.mock import patch
 
 import pytest
 
-from agentsh.shell.completion_scripts import (
+from tafysh.shell.completion_scripts import (
     get_bash_completion,
     get_zsh_completion,
     get_fish_completion,
     get_completion_script,
     install_completion,
 )
-from agentsh import __version__
+from tafysh import __version__
 
 
 class TestBashCompletion:
@@ -34,12 +34,12 @@ class TestBashCompletion:
     def test_contains_function(self) -> None:
         """Should define completion function."""
         script = get_bash_completion()
-        assert "_agentsh_completions()" in script
+        assert "_tafysh_completions()" in script
 
     def test_contains_complete_command(self) -> None:
         """Should have complete command."""
         script = get_bash_completion()
-        assert "complete -F _agentsh_completions agentsh" in script
+        assert "complete -F _tafysh_completions tafysh" in script
 
     def test_contains_subcommands(self) -> None:
         """Should include subcommands."""
@@ -62,12 +62,12 @@ class TestZshCompletion:
     def test_contains_compdef(self) -> None:
         """Should have compdef directive."""
         script = get_zsh_completion()
-        assert "#compdef agentsh" in script
+        assert "#compdef tafysh" in script
 
     def test_contains_function(self) -> None:
         """Should define completion function."""
         script = get_zsh_completion()
-        assert "_agentsh()" in script
+        assert "_tafysh()" in script
 
     def test_contains_commands(self) -> None:
         """Should include command descriptions."""
@@ -88,7 +88,7 @@ class TestFishCompletion:
     def test_contains_complete_commands(self) -> None:
         """Should have complete commands."""
         script = get_fish_completion()
-        assert "complete -c agentsh" in script
+        assert "complete -c tafysh" in script
 
     def test_contains_subcommands(self) -> None:
         """Should include subcommand completions."""
@@ -111,17 +111,17 @@ class TestGetCompletionScript:
     def test_get_bash(self) -> None:
         """Should return bash script."""
         script = get_completion_script("bash")
-        assert "_agentsh_completions()" in script
+        assert "_tafysh_completions()" in script
 
     def test_get_zsh(self) -> None:
         """Should return zsh script."""
         script = get_completion_script("zsh")
-        assert "#compdef agentsh" in script
+        assert "#compdef tafysh" in script
 
     def test_get_fish(self) -> None:
         """Should return fish script."""
         script = get_completion_script("fish")
-        assert "complete -c agentsh" in script
+        assert "complete -c tafysh" in script
 
     def test_unsupported_shell(self) -> None:
         """Should raise for unsupported shell."""
@@ -173,7 +173,7 @@ class TestCompletionScriptContent:
     def test_fish_disables_file_completions(self) -> None:
         """Fish script should disable default file completions."""
         script = get_fish_completion()
-        assert "complete -c agentsh -f" in script
+        assert "complete -c tafysh -f" in script
 
     def test_all_scripts_have_global_options(self) -> None:
         """All scripts should include global options."""

@@ -4,7 +4,7 @@ import json
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from agentsh.agent.llm_client import (
+from tafysh.agent.llm_client import (
     Message,
     MessageRole,
     StopReason,
@@ -46,54 +46,54 @@ class TestLiteLLMClientInit:
 
     def test_provider_detection_openai(self) -> None:
         """Should detect OpenAI provider."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 client = LiteLLMClient(model="gpt-4o")
                 assert client._provider_name == "openai"
 
     def test_provider_detection_anthropic(self) -> None:
         """Should detect Anthropic provider."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 client = LiteLLMClient(model="claude-sonnet-4-20250514")
                 assert client._provider_name == "anthropic"
 
     def test_provider_detection_ollama(self) -> None:
         """Should detect Ollama provider."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 client = LiteLLMClient(model="ollama/llama3.2")
                 assert client._provider_name == "ollama"
 
     def test_provider_detection_bedrock(self) -> None:
         """Should detect Bedrock provider."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 client = LiteLLMClient(model="bedrock/anthropic.claude-3-sonnet")
                 assert client._provider_name == "bedrock"
 
     def test_provider_detection_groq(self) -> None:
         """Should detect Groq provider."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 client = LiteLLMClient(model="groq/llama-3.1-70b")
                 assert client._provider_name == "groq"
 
     def test_provider_detection_gemini(self) -> None:
         """Should detect Google provider."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 client = LiteLLMClient(model="gemini/gemini-1.5-pro")
                 assert client._provider_name == "google"
@@ -105,9 +105,9 @@ class TestLiteLLMClientMessageConversion:
     @pytest.fixture
     def client(self):
         """Create client instance."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 return LiteLLMClient(model="gpt-4o")
 
@@ -153,9 +153,9 @@ class TestLiteLLMClientResponseParsing:
     @pytest.fixture
     def client(self):
         """Create client instance."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 return LiteLLMClient(model="gpt-4o")
 
@@ -212,9 +212,9 @@ class TestLiteLLMClientInvoke:
     @pytest.fixture
     def client(self):
         """Create client instance."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 return LiteLLMClient(model="gpt-4o")
 
@@ -232,7 +232,7 @@ class TestLiteLLMClientInvoke:
         mock_response.model = "gpt-4o"
 
         with patch(
-            "agentsh.agent.providers.litellm.acompletion",
+            "tafysh.agent.providers.litellm.acompletion",
             new_callable=AsyncMock,
         ) as mock_acompletion:
             mock_acompletion.return_value = mock_response
@@ -263,7 +263,7 @@ class TestLiteLLMClientInvoke:
         ]
 
         with patch(
-            "agentsh.agent.providers.litellm.acompletion",
+            "tafysh.agent.providers.litellm.acompletion",
             new_callable=AsyncMock,
         ) as mock_acompletion:
             mock_acompletion.return_value = mock_response
@@ -278,9 +278,9 @@ class TestLiteLLMClientUtilities:
 
     def test_list_supported_models(self) -> None:
         """Should list supported models."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 models = LiteLLMClient.list_supported_models()
 
@@ -290,12 +290,12 @@ class TestLiteLLMClientUtilities:
 
     def test_count_tokens_fallback(self) -> None:
         """Should fallback to character estimate."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
             mock_litellm = MagicMock()
             mock_litellm.token_counter.side_effect = Exception("Not available")
 
-            with patch("agentsh.agent.providers.litellm.litellm", mock_litellm):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+            with patch("tafysh.agent.providers.litellm.litellm", mock_litellm):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 client = LiteLLMClient(model="gpt-4o")
                 count = client.count_tokens("Hello world")
@@ -309,9 +309,9 @@ class TestLiteLLMProviderProperty:
 
     def test_provider_includes_underlying(self) -> None:
         """Provider should include underlying provider."""
-        with patch("agentsh.agent.providers.litellm.LITELLM_AVAILABLE", True):
-            with patch("agentsh.agent.providers.litellm.litellm"):
-                from agentsh.agent.providers.litellm import LiteLLMClient
+        with patch("tafysh.agent.providers.litellm.LITELLM_AVAILABLE", True):
+            with patch("tafysh.agent.providers.litellm.litellm"):
+                from tafysh.agent.providers.litellm import LiteLLMClient
 
                 client = LiteLLMClient(model="gpt-4o")
                 assert client.provider == "litellm/openai"

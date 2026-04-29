@@ -1,5 +1,5 @@
-# AgentSH Example Configuration
-# Copy to ~/.agentsh/config.yaml and customize
+# TafySH Example Configuration
+# Copy to ~/.tafysh/config.yaml and customize
 
 # LLM Provider Settings
 llm:
@@ -29,7 +29,7 @@ security:
   mode: normal  # strict, normal, lenient
   require_confirmation: true  # Require confirmation for risky commands
   allow_autonomous: false  # Allow agent to execute without approval
-  # audit_log_path: ~/.agentsh/audit.log
+  # audit_log_path: ~/.tafysh/audit.log
   max_command_length: 10000
   approval_timeout_seconds: 60
 
@@ -41,7 +41,7 @@ security:
 # Memory Settings
 memory:
   type: persistent  # in_memory, persistent
-  # db_path: ~/.agentsh/memory.db
+  # db_path: ~/.tafysh/memory.db
   session_max_entries: 100
   enable_semantic_search: false  # Requires vector dependencies
   embedding_model: all-MiniLM-L6-v2
@@ -55,7 +55,7 @@ memory:
 # Telemetry Settings
 telemetry:
   enabled: true
-  # log_file: ~/.agentsh/agentsh.log
+  # log_file: ~/.tafysh/tafysh.log
   metrics_enabled: false  # Enable Prometheus metrics
   metrics_port: 9090
   health_check_interval_seconds: 60
@@ -63,14 +63,14 @@ telemetry:
 # Multi-Device Orchestration (Phase 8)
 orchestrator:
   enabled: false
-  # devices_file: ~/.agentsh/devices.yaml
+  # devices_file: ~/.tafysh/devices.yaml
   ssh_timeout: 30
   max_parallel_connections: 10
 
   mcp_server:
     enabled: false
     port: 9999
-    auth_token_env: AGENTSH_MCP_TOKEN
+    auth_token_env: TAFYSH_MCP_TOKEN
 
 # Plugins
 plugins:

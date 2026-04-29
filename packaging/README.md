@@ -1,6 +1,6 @@
-# AgentSH Packaging & Distribution
+# TafySH Packaging & Distribution
 
-This directory contains packaging configurations for distributing AgentSH across various platforms and package managers.
+This directory contains packaging configurations for distributing TafySH across various platforms and package managers.
 
 ## Quick Install
 
@@ -8,51 +8,51 @@ This directory contains packaging configurations for distributing AgentSH across
 
 ```bash
 # curl
-curl -fsSL https://get.agentsh.dev | bash
+curl -fsSL https://get.tafysh.dev | bash
 
 # wget
-wget -qO- https://get.agentsh.dev | bash
+wget -qO- https://get.tafysh.dev | bash
 
 # With options
-curl -fsSL https://get.agentsh.dev | AGENTSH_VERSION=0.1.0 bash
-curl -fsSL https://get.agentsh.dev | AGENTSH_SET_DEFAULT_SHELL=1 bash
+curl -fsSL https://get.tafysh.dev | TAFYSH_VERSION=0.1.0 bash
+curl -fsSL https://get.tafysh.dev | TAFYSH_SET_DEFAULT_SHELL=1 bash
 ```
 
 ### macOS (Homebrew)
 
 ```bash
-brew tap agentsh/tap
-brew install agentsh
+brew tap tafysh/tap
+brew install tafysh
 ```
 
 ### Debian/Ubuntu (APT)
 
 ```bash
-curl -fsSL https://pkg.agentsh.dev/gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/agentsh-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/agentsh-archive-keyring.gpg] https://pkg.agentsh.dev/apt stable main" | sudo tee /etc/apt/sources.list.d/agentsh.list
+curl -fsSL https://pkg.tafysh.dev/gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/tafysh-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/tafysh-archive-keyring.gpg] https://pkg.tafysh.dev/apt stable main" | sudo tee /etc/apt/sources.list.d/tafysh.list
 sudo apt update
-sudo apt install agentsh
+sudo apt install tafysh
 ```
 
 ### Fedora/RHEL (DNF)
 
 ```bash
-sudo curl -fsSL https://pkg.agentsh.dev/rpm/agentsh.repo -o /etc/yum.repos.d/agentsh.repo
-sudo dnf install agentsh
+sudo curl -fsSL https://pkg.tafysh.dev/rpm/tafysh.repo -o /etc/yum.repos.d/tafysh.repo
+sudo dnf install tafysh
 ```
 
 ### Arch Linux (AUR)
 
 ```bash
 # Via yay
-yay -S agentsh
+yay -S tafysh
 
 # Via paru
-paru -S agentsh
+paru -S tafysh
 
 # Manual
-git clone https://aur.archlinux.org/agentsh.git
-cd agentsh
+git clone https://aur.archlinux.org/tafysh.git
+cd tafysh
 makepkg -si
 ```
 
@@ -60,47 +60,47 @@ makepkg -si
 
 ```bash
 # Add repository
-echo "https://pkg.agentsh.dev/alpine/edge/main" >> /etc/apk/repositories
+echo "https://pkg.tafysh.dev/alpine/edge/main" >> /etc/apk/repositories
 apk update
-apk add agentsh
+apk add tafysh
 ```
 
 ### Python (pip/pipx/uv)
 
 ```bash
 # pip (system)
-pip install agentsh
+pip install tafysh
 
 # pipx (isolated)
-pipx install agentsh
+pipx install tafysh
 
 # uv (fastest)
-uv tool install agentsh
+uv tool install tafysh
 ```
 
 ### Docker
 
 ```bash
 # Standard image
-docker run -it --rm -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY ghcr.io/agentsh/agentsh
+docker run -it --rm -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY ghcr.io/tafysh/tafysh
 
 # Alpine (minimal)
-docker run -it --rm -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY ghcr.io/agentsh/agentsh:alpine
+docker run -it --rm -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY ghcr.io/tafysh/tafysh:alpine
 
 # With Ollama (local LLM)
-docker-compose up -d ollama agentsh-local
+docker-compose up -d ollama tafysh-local
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://get.agentsh.dev/windows | iex
+irm https://get.tafysh.dev/windows | iex
 ```
 
 ## Package Contents
 
 ### `homebrew/`
-- `agentsh.rb` - Homebrew formula for macOS
+- `tafysh.rb` - Homebrew formula for macOS
 
 ### `debian/`
 - `control` - Package metadata
@@ -111,11 +111,11 @@ irm https://get.agentsh.dev/windows | iex
 - `postrm` - Post-removal script (removes from /etc/shells)
 
 ### `rpm/`
-- `agentsh.spec` - RPM spec file for Fedora/RHEL/CentOS
+- `tafysh.spec` - RPM spec file for Fedora/RHEL/CentOS
 
 ### `arch/`
 - `PKGBUILD` - Arch Linux build script
-- `agentsh.install` - Install hooks
+- `tafysh.install` - Install hooks
 
 ### `alpine/`
 - `APKBUILD` - Alpine Linux build script
@@ -150,7 +150,7 @@ dpkg-buildpackage -us -uc -b
 sudo dnf install rpm-build python3-devel python3-setuptools
 
 # Build
-rpmbuild -ba packaging/rpm/agentsh.spec
+rpmbuild -ba packaging/rpm/tafysh.spec
 ```
 
 ### Arch Package
@@ -164,8 +164,8 @@ makepkg -s
 
 ```bash
 cd packaging/docker
-docker build -t agentsh:latest -f Dockerfile ../..
-docker build -t agentsh:alpine -f Dockerfile.alpine ../..
+docker build -t tafysh:latest -f Dockerfile ../..
+docker build -t tafysh:alpine -f Dockerfile.alpine ../..
 ```
 
 ## Shell Completions
@@ -174,32 +174,32 @@ Shell completion scripts are installed automatically by package managers. For ma
 
 ```bash
 # Bash
-cp completions/agentsh.bash /usr/share/bash-completion/completions/agentsh
+cp completions/tafysh.bash /usr/share/bash-completion/completions/tafysh
 
 # Zsh
-cp completions/agentsh.zsh /usr/share/zsh/site-functions/_agentsh
+cp completions/tafysh.zsh /usr/share/zsh/site-functions/_tafysh
 
 # Fish
-cp completions/agentsh.fish ~/.config/fish/completions/agentsh.fish
+cp completions/tafysh.fish ~/.config/fish/completions/tafysh.fish
 ```
 
 ## Setting as Default Shell
 
-After installation, AgentSH can be set as your default login shell:
+After installation, TafySH can be set as your default login shell:
 
 ```bash
 # Add to /etc/shells (done automatically by packages)
-echo "$(which agentsh)" | sudo tee -a /etc/shells
+echo "$(which tafysh)" | sudo tee -a /etc/shells
 
 # Set as default
-chsh -s $(which agentsh)
+chsh -s $(which tafysh)
 ```
 
 ## Release Process
 
 1. Update version in `pyproject.toml`
 2. Update `packaging/debian/changelog`
-3. Update `packaging/rpm/agentsh.spec` version
+3. Update `packaging/rpm/tafysh.spec` version
 4. Update `packaging/arch/PKGBUILD` version
 5. Update `packaging/alpine/APKBUILD` version
 6. Build and test packages
@@ -211,18 +211,18 @@ chsh -s $(which agentsh)
 
 For production deployment, set up:
 
-1. **Package hosting** (pkg.agentsh.dev)
+1. **Package hosting** (pkg.tafysh.dev)
    - APT repository with GPG signing
    - RPM repository
    - Alpine repository
 
-2. **Installer hosting** (get.agentsh.dev)
+2. **Installer hosting** (get.tafysh.dev)
    - Redirect to `scripts/install.sh`
    - `/windows` redirect to `packaging/windows/install.ps1`
 
-3. **Docker registry** (ghcr.io/agentsh/agentsh)
+3. **Docker registry** (ghcr.io/tafysh/tafysh)
    - Multi-arch builds (amd64, arm64)
    - Tags: latest, alpine, dev, version numbers
 
-4. **Homebrew tap** (github.com/agentsh/homebrew-tap)
+4. **Homebrew tap** (github.com/tafysh/homebrew-tap)
    - Formula auto-updated on release

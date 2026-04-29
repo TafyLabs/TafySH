@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.orchestrator.devices import (
+from tafysh.orchestrator.devices import (
     ConnectionConfig,
     ConnectionMethod,
     Device,

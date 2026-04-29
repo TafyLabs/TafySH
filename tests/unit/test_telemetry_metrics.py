@@ -4,8 +4,8 @@ import time
 
 import pytest
 
-from agentsh.telemetry.metrics import (
-    AgentSHMetrics,
+from tafysh.telemetry.metrics import (
+    TafySHMetrics,
     Counter,
     Gauge,
     Histogram,
@@ -247,8 +247,8 @@ class TestMetricsRegistrySingleton:
         assert reg1 is reg2
 
 
-class TestAgentSHMetrics:
-    """Tests for AgentSH-specific metrics."""
+class TestTafySHMetrics:
+    """Tests for TafySH-specific metrics."""
 
     @pytest.fixture
     def metrics(self):
@@ -259,7 +259,7 @@ class TestAgentSHMetrics:
         registry._gauges = {}
         registry._histograms = {}
         registry._initialized = True
-        return AgentSHMetrics(registry)
+        return TafySHMetrics(registry)
 
     def test_has_expected_metrics(self, metrics):
         """Should have all expected metrics."""
@@ -317,7 +317,7 @@ class TestAgentSHMetrics:
 
 
 class TestGetMetrics:
-    """Tests for global AgentSH metrics."""
+    """Tests for global TafySH metrics."""
 
     def test_get_metrics(self):
         """Should return singleton metrics instance."""

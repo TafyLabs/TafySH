@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
-from agentsh.agent.prompts import (
+from tafysh.agent.prompts import (
     SYSTEM_PROMPT_TEMPLATE,
     FEW_SHOT_EXAMPLES,
     CODE_REVIEW_PROMPT,

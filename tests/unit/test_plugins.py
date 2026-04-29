@@ -2,8 +2,8 @@
 
 import pytest
 
-from agentsh.plugins.base import Toolset, ToolsetRegistry
-from agentsh.tools.registry import ToolRegistry
+from tafysh.plugins.base import Toolset, ToolsetRegistry
+from tafysh.tools.registry import ToolRegistry
 
 
 class DummyToolset(Toolset):

@@ -1,0 +1,26 @@
+# TafySH pacman install hooks
+
+post_install() {
+    # Add to /etc/shells if not present
+    local tafysh_path="/usr/bin/tafysh"
+    if [[ -x "$tafysh_path" ]] && ! grep -q "^${tafysh_path}$" /etc/shells 2>/dev/null; then
+        echo "$tafysh_path" >> /etc/shells
+    fi
+
+    echo "==> TafySH has been installed!"
+    echo "==> To start: tafysh"
+    echo "==> To configure: tafysh config init"
+    echo "==> To set as default shell: chsh -s /usr/bin/tafysh"
+}
+
+post_upgrade() {
+    post_install
+}
+
+post_remove() {
+    # Remove from /etc/shells
+    local tafysh_path="/usr/bin/tafysh"
+    if [[ -f /etc/shells ]]; then
+        sed -i "\|^${tafysh_path}$|d" /etc/shells
+    fi
+}

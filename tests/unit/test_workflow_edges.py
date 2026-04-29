@@ -2,7 +2,7 @@
 
 import pytest
 
-from agentsh.workflows.edges import (
+from tafysh.workflows.edges import (
     after_approval,
     after_recovery,
     after_tools,
@@ -12,8 +12,8 @@ from agentsh.workflows.edges import (
     needs_approval,
     should_continue,
 )
-from agentsh.workflows.states import AgentState, ApprovalRequest, create_initial_state
-from agentsh.security.classifier import RiskLevel
+from tafysh.workflows.states import AgentState, ApprovalRequest, create_initial_state
+from tafysh.security.classifier import RiskLevel
 
 
 class TestShouldContinue:
@@ -45,7 +45,7 @@ class TestShouldContinue:
 
     def test_routes_to_tools_with_pending_calls(self) -> None:
         """Should route to tools with pending calls."""
-        from agentsh.agent.llm_client import ToolCall
+        from tafysh.agent.llm_client import ToolCall
 
         state = create_initial_state("test")
         state["pending_tool_calls"] = [
@@ -57,7 +57,7 @@ class TestShouldContinue:
 
     def test_routes_to_approval_with_pending_approvals(self) -> None:
         """Should route to approval with pending approvals."""
-        from agentsh.agent.llm_client import ToolCall
+        from tafysh.agent.llm_client import ToolCall
 
         state = create_initial_state("test")
         state["pending_tool_calls"] = [
@@ -115,7 +115,7 @@ class TestAfterApproval:
 
     def test_routes_to_tools_with_approved_calls(self) -> None:
         """Should route to tools with approved calls."""
-        from agentsh.agent.llm_client import ToolCall
+        from tafysh.agent.llm_client import ToolCall
 
         state = create_initial_state("test")
         state["pending_tool_calls"] = [
@@ -166,7 +166,7 @@ class TestHelperFunctions:
 
     def test_has_pending_tools(self) -> None:
         """Should detect pending tools."""
-        from agentsh.agent.llm_client import ToolCall
+        from tafysh.agent.llm_client import ToolCall
 
         state = create_initial_state("test")
         assert has_pending_tools(state) is False
@@ -218,7 +218,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_continue_fleet_to_device(self) -> None:
         """Should continue to device if not all processed."""
-        from agentsh.workflows.edges import should_continue_fleet
+        from tafysh.workflows.edges import should_continue_fleet
 
         state = {
             "devices": ["device-1", "device-2", "device-3"],
@@ -230,7 +230,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_continue_fleet_to_aggregate(self) -> None:
         """Should go to aggregate when all devices processed."""
-        from agentsh.workflows.edges import should_continue_fleet
+        from tafysh.workflows.edges import should_continue_fleet
         from unittest.mock import MagicMock
 
         mock_result = MagicMock()
@@ -249,7 +249,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_continue_fleet_canary_failure_ends(self) -> None:
         """Should end when canary fails with rollback enabled."""
-        from agentsh.workflows.edges import should_continue_fleet
+        from tafysh.workflows.edges import should_continue_fleet
         from unittest.mock import MagicMock
 
         failed_result = MagicMock()
@@ -269,7 +269,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_continue_fleet_canary_success(self) -> None:
         """Should continue to next device when canary succeeds."""
-        from agentsh.workflows.edges import should_continue_fleet
+        from tafysh.workflows.edges import should_continue_fleet
         from unittest.mock import MagicMock
 
         success_result = MagicMock()
@@ -289,7 +289,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_continue_fleet_no_canary(self) -> None:
         """Should continue normally without canary configuration."""
-        from agentsh.workflows.edges import should_continue_fleet
+        from tafysh.workflows.edges import should_continue_fleet
         from unittest.mock import MagicMock
 
         mock_result = MagicMock()
@@ -306,7 +306,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_rollback_true(self) -> None:
         """Should return True when rollback is needed."""
-        from agentsh.workflows.edges import should_rollback
+        from tafysh.workflows.edges import should_rollback
         from unittest.mock import MagicMock
 
         failed_result = MagicMock()
@@ -321,7 +321,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_rollback_false_no_failures(self) -> None:
         """Should return False when no failures."""
-        from agentsh.workflows.edges import should_rollback
+        from tafysh.workflows.edges import should_rollback
         from unittest.mock import MagicMock
 
         success_result = MagicMock()
@@ -336,7 +336,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_rollback_disabled(self) -> None:
         """Should return False when rollback disabled."""
-        from agentsh.workflows.edges import should_rollback
+        from tafysh.workflows.edges import should_rollback
         from unittest.mock import MagicMock
 
         failed_result = MagicMock()
@@ -351,7 +351,7 @@ class TestFleetWorkflowEdges:
 
     def test_should_rollback_empty_results(self) -> None:
         """Should return False with empty results."""
-        from agentsh.workflows.edges import should_rollback
+        from tafysh.workflows.edges import should_rollback
 
         state = {
             "rollback_on_failure": True,

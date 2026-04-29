@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.shell.login import (
+from tafysh.shell.login import (
     LoginShellManager,
     SessionInfo,
     is_login_shell,
@@ -114,9 +114,9 @@ class TestLoginShellManager:
         manager = LoginShellManager()
         manager.setup_environment()
 
-        assert "AGENTSH_SESSION_ID" in os.environ
-        assert "AGENTSH_SHELL" in os.environ
-        assert os.environ["AGENTSH_SHELL"] == "agentsh"
+        assert "TAFYSH_SESSION_ID" in os.environ
+        assert "TAFYSH_SHELL" in os.environ
+        assert os.environ["TAFYSH_SHELL"] == "tafysh"
 
     def test_setup_environment_login(self) -> None:
         """Should set LOGIN_SHELL for login shells."""
@@ -154,19 +154,19 @@ class TestLoginShellDetection:
 
     def test_argv_leading_dash(self) -> None:
         """Should detect leading dash in argv[0]."""
-        with patch.object(sys, "argv", ["-agentsh"]):
+        with patch.object(sys, "argv", ["-tafysh"]):
             manager = LoginShellManager()
             assert manager.is_login_shell() is True
 
     def test_argv_login_flag(self) -> None:
         """Should detect --login flag."""
-        with patch.object(sys, "argv", ["agentsh", "--login"]):
+        with patch.object(sys, "argv", ["tafysh", "--login"]):
             manager = LoginShellManager()
             assert manager.is_login_shell() is True
 
     def test_argv_l_flag(self) -> None:
         """Should detect -l flag."""
-        with patch.object(sys, "argv", ["agentsh", "-l"]):
+        with patch.object(sys, "argv", ["tafysh", "-l"]):
             manager = LoginShellManager()
             assert manager.is_login_shell() is True
 
@@ -187,7 +187,7 @@ class TestLoginShellFunctions:
             skip_rc=True,
         )
         assert isinstance(manager, LoginShellManager)
-        assert "AGENTSH_SESSION_ID" in os.environ
+        assert "TAFYSH_SESSION_ID" in os.environ
 
     def test_get_shell_for_user(self) -> None:
         """Should find a shell."""
@@ -206,9 +206,9 @@ class TestProfileSourcing:
         assert len(LoginShellManager.SYSTEM_RC_FILES) > 0
         assert len(LoginShellManager.USER_RC_FILES) > 0
 
-    def test_agentshrc_constant(self) -> None:
-        """Should have AGENTSH_RC constant."""
-        assert LoginShellManager.AGENTSH_RC == ".agentshrc"
+    def test_tafyshrc_constant(self) -> None:
+        """Should have TAFYSH_RC constant."""
+        assert LoginShellManager.TAFYSH_RC == ".tafyshrc"
 
     def test_source_file_nonexistent(self) -> None:
         """Should handle nonexistent files."""
@@ -216,10 +216,10 @@ class TestProfileSourcing:
         result = manager._source_file(Path("/nonexistent/file"), "bash")
         assert result is False
 
-    def test_source_agentshrc_nonexistent(self) -> None:
-        """Should handle nonexistent agentshrc."""
+    def test_source_tafyshrc_nonexistent(self) -> None:
+        """Should handle nonexistent tafyshrc."""
         manager = LoginShellManager()
-        result = manager._source_agentsh_rc(Path("/nonexistent/.agentshrc"))
+        result = manager._source_tafysh_rc(Path("/nonexistent/.tafyshrc"))
         assert result is False
 
 
@@ -242,5 +242,5 @@ class TestLoginShellEnvironment:
         """Session ID should be 8 characters."""
         manager = LoginShellManager()
         manager.setup_environment()
-        session_id = os.environ.get("AGENTSH_SESSION_ID", "")
+        session_id = os.environ.get("TAFYSH_SESSION_ID", "")
         assert len(session_id) == 8

@@ -2,8 +2,8 @@
 
 import pytest
 
-from agentsh.tools.base import RiskLevel, Tool, ToolResult
-from agentsh.tools.registry import ToolRegistry
+from tafysh.tools.base import RiskLevel, Tool, ToolResult
+from tafysh.tools.registry import ToolRegistry
 
 
 class TestToolRegistry:
@@ -261,8 +261,8 @@ class TestGetToolRegistry:
 
     def test_get_tool_registry_returns_same_instance(self) -> None:
         """Should return same instance on multiple calls."""
-        from agentsh.tools.registry import get_tool_registry, _tool_registry
-        import agentsh.tools.registry as registry_module
+        from tafysh.tools.registry import get_tool_registry, _tool_registry
+        import tafysh.tools.registry as registry_module
 
         # Reset global
         registry_module._tool_registry = None
@@ -274,8 +274,8 @@ class TestGetToolRegistry:
 
     def test_get_tool_registry_creates_new_if_none(self) -> None:
         """Should create new registry if global is None."""
-        import agentsh.tools.registry as registry_module
-        from agentsh.tools.registry import get_tool_registry
+        import tafysh.tools.registry as registry_module
+        from tafysh.tools.registry import get_tool_registry
 
         # Reset global
         registry_module._tool_registry = None

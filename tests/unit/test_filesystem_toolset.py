@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.plugins.builtin.filesystem import FilesystemToolset
+from tafysh.plugins.builtin.filesystem import FilesystemToolset
 
 
 class TestFilesystemToolsetProperties:

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.utils.crypto import (
+from tafysh.utils.crypto import (
     EncryptedData,
     EncryptionAlgorithm,
     EncryptionError,

@@ -30,7 +30,7 @@ jobs:
       - name: Run tests with pytest
         run: |
           uv run pytest tests/ \
-            --cov=src/agentsh \
+            --cov=src/tafysh \
             --cov-report=term-missing \
             --cov-report=xml \
             --cov-fail-under=70 \

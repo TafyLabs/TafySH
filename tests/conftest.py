@@ -4,14 +4,14 @@ import pytest
 from pathlib import Path
 from typing import Generator
 
-from agentsh.config.schemas import AgentSHConfig
-from agentsh.tools.registry import ToolRegistry
+from tafysh.config.schemas import TafySHConfig
+from tafysh.tools.registry import ToolRegistry
 
 
 @pytest.fixture
-def test_config() -> AgentSHConfig:
+def test_config() -> TafySHConfig:
     """Create a test configuration."""
-    return AgentSHConfig()
+    return TafySHConfig()
 
 
 @pytest.fixture

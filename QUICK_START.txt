@@ -1,5 +1,5 @@
 ╔════════════════════════════════════════════════════════════════════════════╗
-║                         AGENTSH ARCHITECTURE                              ║
+║                         TAFYSH ARCHITECTURE                              ║
 ║                         QUICK START GUIDE                                 ║
 ╚════════════════════════════════════════════════════════════════════════════╝
 
@@ -163,7 +163,7 @@ Phase 8-10 (Scale-Out):
 
 📍 FILE LOCATIONS
 
-All documentation in: /Users/b/src/robotics/agentsh/docs/
+All documentation in: /Users/b/src/robotics/tafysh/docs/
 
 Main Documents:
   📄 README.md                          (Start here!)
@@ -173,13 +173,13 @@ Main Documents:
   📄 DesignSpec.md                      (Original design)
   📄 ImplementationPlan.md              (Roadmap)
 
-This file: /Users/b/src/robotics/agentsh/QUICK_START.txt
+This file: /Users/b/src/robotics/tafysh/QUICK_START.txt
 
 ────────────────────────────────────────────────────────────────────────────
 
 💡 QUICK ANSWERS
 
-Q: What's AgentSH?
+Q: What's TafySH?
 A: An AI-enhanced terminal shell that understands natural language, executes
    multi-step tasks, orchestrates multiple devices, and provides strong
    security controls with human oversight.
@@ -268,7 +268,7 @@ Status: ALL COMPLETE ✓
 
 📌 KEY TAKEAWAY
 
-AgentSH is architected as a layered, modular system with:
+TafySH is architected as a layered, modular system with:
   • Clear separation of concerns (10 packages)
   • Strong security (3-layer defense)
   • Extensibility (plugin system)

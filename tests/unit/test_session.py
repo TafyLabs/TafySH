@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.shell.session import (
+from tafysh.shell.session import (
     Job,
     JobState,
     SessionManager,

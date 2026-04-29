@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch, PropertyMock
 
 import pytest
 
-from agentsh.shell.pty_manager import PTYManager
+from tafysh.shell.pty_manager import PTYManager
 
 
 class TestPTYManagerInit:

@@ -1,10 +1,10 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: agentsh
-Upstream-Contact: AgentSH Team <team@agentsh.dev>
-Source: https://github.com/agentsh/agentsh
+Upstream-Name: tafysh
+Upstream-Contact: TafySH Team <team@tafysh.dev>
+Source: https://github.com/tafysh/tafysh
 
 Files: *
-Copyright: 2024 AgentSH Team
+Copyright: 2024 TafySH Team
 License: MIT
 
 License: MIT

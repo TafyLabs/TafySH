@@ -2,7 +2,7 @@
 
 import pytest
 
-from agentsh.shell.input_classifier import (
+from tafysh.shell.input_classifier import (
     ClassifiedInput,
     InputClassifier,
     InputType,

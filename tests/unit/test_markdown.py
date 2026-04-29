@@ -2,7 +2,7 @@
 
 import pytest
 
-from agentsh.utils.markdown import (
+from tafysh.utils.markdown import (
     MarkdownRenderer,
     MarkdownStyle,
     RenderConfig,
@@ -10,7 +10,7 @@ from agentsh.utils.markdown import (
     render_markdown,
     strip_markdown,
 )
-from agentsh.utils.ux import Color
+from tafysh.utils.ux import Color
 
 
 class TestRenderConfig:

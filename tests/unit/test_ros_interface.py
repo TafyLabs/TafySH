@@ -2,7 +2,7 @@
 
 import pytest
 
-from agentsh.plugins.robotics.ros_interface import (
+from tafysh.plugins.robotics.ros_interface import (
     ActionInfo,
     ROS2_AVAILABLE,
     ROS2Client,
@@ -190,7 +190,7 @@ class TestROS2Client:
         """Should create client with defaults."""
         client = ROS2Client()
 
-        assert client.node_name == "agentsh_ros_client"
+        assert client.node_name == "tafysh_ros_client"
         assert client.namespace == ""
         assert client.status == ROSConnectionStatus.DISCONNECTED
         assert client.is_connected is False

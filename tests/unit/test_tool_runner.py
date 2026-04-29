@@ -4,9 +4,9 @@ import asyncio
 import pytest
 from unittest.mock import MagicMock, AsyncMock
 
-from agentsh.tools.base import RiskLevel, ToolResult
-from agentsh.tools.registry import ToolRegistry
-from agentsh.tools.runner import ExecutionContext, ToolRunner
+from tafysh.tools.base import RiskLevel, ToolResult
+from tafysh.tools.registry import ToolRegistry
+from tafysh.tools.runner import ExecutionContext, ToolRunner
 
 
 class TestToolRunner:
@@ -426,7 +426,7 @@ class TestToolRunnerSecurity:
     @pytest.fixture
     def mock_risk_assessment(self) -> MagicMock:
         """Create a mock risk assessment."""
-        from agentsh.security.classifier import CommandRiskAssessment, RiskLevel
+        from tafysh.security.classifier import CommandRiskAssessment, RiskLevel
         return CommandRiskAssessment(
             command="ls -la",
             risk_level=RiskLevel.SAFE,
@@ -435,7 +435,7 @@ class TestToolRunnerSecurity:
     @pytest.fixture
     def mock_security_controller(self, mock_risk_assessment: MagicMock) -> MagicMock:
         """Create a mock security controller."""
-        from agentsh.security.controller import SecurityDecision, ValidationResult
+        from tafysh.security.controller import SecurityDecision, ValidationResult
 
         controller = MagicMock()
         # Default to allowing commands
@@ -454,7 +454,7 @@ class TestToolRunnerSecurity:
         mock_risk_assessment: MagicMock,
     ) -> None:
         """Should allow commands that pass security check."""
-        from agentsh.security.controller import SecurityDecision, ValidationResult
+        from tafysh.security.controller import SecurityDecision, ValidationResult
 
         mock_security_controller.validate_and_approve.return_value = SecurityDecision(
             result=ValidationResult.ALLOW,
@@ -488,7 +488,7 @@ class TestToolRunnerSecurity:
         mock_risk_assessment: MagicMock,
     ) -> None:
         """Should block commands that fail security check."""
-        from agentsh.security.controller import SecurityDecision, ValidationResult
+        from tafysh.security.controller import SecurityDecision, ValidationResult
 
         mock_security_controller.validate_and_approve.return_value = SecurityDecision(
             result=ValidationResult.BLOCKED,
@@ -523,7 +523,7 @@ class TestToolRunnerSecurity:
         mock_risk_assessment: MagicMock,
     ) -> None:
         """Should require approval for certain commands."""
-        from agentsh.security.controller import SecurityDecision, ValidationResult
+        from tafysh.security.controller import SecurityDecision, ValidationResult
 
         mock_security_controller.validate_and_approve.return_value = SecurityDecision(
             result=ValidationResult.NEED_APPROVAL,
@@ -799,8 +799,8 @@ class TestToolRunnerContext:
         self, tool_registry: ToolRegistry
     ) -> None:
         """Should pass context to security controller."""
-        from agentsh.security.classifier import CommandRiskAssessment, RiskLevel
-        from agentsh.security.controller import SecurityDecision, ValidationResult
+        from tafysh.security.classifier import CommandRiskAssessment, RiskLevel
+        from tafysh.security.controller import SecurityDecision, ValidationResult
 
         risk_assessment = CommandRiskAssessment(
             command="ls",

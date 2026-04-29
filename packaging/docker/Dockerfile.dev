@@ -1,17 +1,17 @@
-# AgentSH Development Docker Image
+# TafySH Development Docker Image
 #
 # Build:
-#   docker build -t agentsh:dev -f Dockerfile.dev .
+#   docker build -t tafysh:dev -f Dockerfile.dev .
 #
 # Run with source mounted:
 #   docker run -it --rm \
 #     -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
 #     -v $(pwd):/app \
-#     agentsh:dev
+#     tafysh:dev
 
 FROM python:3.11-bookworm
 
-LABEL org.opencontainers.image.title="AgentSH Development"
+LABEL org.opencontainers.image.title="TafySH Development"
 LABEL org.opencontainers.image.description="AI-enhanced terminal shell - Development image"
 
 # Install system dependencies
@@ -56,4 +56,4 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["/usr/local/bin/agentsh"]
+CMD ["/usr/local/bin/tafysh"]

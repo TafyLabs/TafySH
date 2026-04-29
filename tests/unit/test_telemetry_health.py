@@ -4,7 +4,7 @@ import asyncio
 
 import pytest
 
-from agentsh.telemetry.health import (
+from tafysh.telemetry.health import (
     HealthChecker,
     HealthResult,
     HealthStatus,
@@ -452,7 +452,7 @@ class TestCheckHealthAsync:
     @pytest.mark.asyncio
     async def test_check_health_async(self):
         """Should return overall health status asynchronously."""
-        from agentsh.telemetry.health import check_health_async
+        from tafysh.telemetry.health import check_health_async
 
         health = await check_health_async()
         assert isinstance(health, OverallHealth)
@@ -478,7 +478,7 @@ class TestDefaultCheckImplementations:
         """Should call load_config to verify configuration."""
         from unittest.mock import patch
 
-        with patch("agentsh.config.loader.load_config") as mock_load:
+        with patch("tafysh.config.loader.load_config") as mock_load:
             mock_load.return_value = {}
             result = checker._check_config()
             assert result.healthy is True or result.status == HealthStatus.UNKNOWN
@@ -524,7 +524,7 @@ class TestDefaultCheckImplementations:
         """Should handle exceptions gracefully."""
         from unittest.mock import patch
 
-        with patch("agentsh.config.loader.load_config", side_effect=Exception("Config error")):
+        with patch("tafysh.config.loader.load_config", side_effect=Exception("Config error")):
             result = checker._check_config()
             # Should not crash, should return unhealthy or unknown
             assert result.status in list(HealthStatus)

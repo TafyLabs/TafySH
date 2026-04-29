@@ -2,7 +2,7 @@
 
 import pytest
 
-from agentsh.agent.http_client import (
+from tafysh.agent.http_client import (
     ClientStats,
     HTTPClientConfig,
     HTTPClientManager,

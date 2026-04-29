@@ -4,14 +4,14 @@ import json
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from agentsh.agent.llm_client import (
+from tafysh.agent.llm_client import (
     Message,
     MessageRole,
     StopReason,
     ToolCall,
     ToolDefinition,
 )
-from agentsh.agent.providers.openrouter import OpenRouterClient
+from tafysh.agent.providers.openrouter import OpenRouterClient
 
 
 class TestOpenRouterClientInit:

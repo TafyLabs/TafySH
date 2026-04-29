@@ -7,8 +7,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.plugins.base import Toolset, ToolsetRegistry, get_toolset_registry
-from agentsh.plugins.loader import (
+from tafysh.plugins.base import Toolset, ToolsetRegistry, get_toolset_registry
+from tafysh.plugins.loader import (
     ENTRY_POINT_GROUP,
     _find_toolset_class,
     discover_builtin_plugins,
@@ -67,7 +67,7 @@ class TestDiscoverBuiltinPlugins:
 
     def test_handles_import_error_gracefully(self) -> None:
         """Should handle ImportError without raising."""
-        with patch("agentsh.plugins.loader.importlib") as mock_importlib:
+        with patch("tafysh.plugins.loader.importlib") as mock_importlib:
             mock_importlib.import_module.side_effect = ImportError("No module")
 
             # Should not raise
@@ -80,7 +80,7 @@ class TestDiscoverEntryPointPlugins:
 
     def test_returns_empty_list_when_no_entry_points(self) -> None:
         """Should return empty list when no entry points exist."""
-        with patch("agentsh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
+        with patch("tafysh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
             mock_eps.return_value = []
 
             plugins = discover_entry_point_plugins()
@@ -93,7 +93,7 @@ class TestDiscoverEntryPointPlugins:
         mock_ep.name = "test_plugin"
         mock_ep.load.return_value = MockToolset
 
-        with patch("agentsh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
+        with patch("tafysh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
             mock_eps.return_value = [mock_ep]
 
             plugins = discover_entry_point_plugins()
@@ -107,7 +107,7 @@ class TestDiscoverEntryPointPlugins:
         mock_ep.name = "not_a_toolset"
         mock_ep.load.return_value = str  # Not a Toolset
 
-        with patch("agentsh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
+        with patch("tafysh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
             mock_eps.return_value = [mock_ep]
 
             plugins = discover_entry_point_plugins()
@@ -120,7 +120,7 @@ class TestDiscoverEntryPointPlugins:
         mock_ep.name = "failing_plugin"
         mock_ep.load.side_effect = ImportError("Module not found")
 
-        with patch("agentsh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
+        with patch("tafysh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
             mock_eps.return_value = [mock_ep]
 
             plugins = discover_entry_point_plugins()
@@ -129,7 +129,7 @@ class TestDiscoverEntryPointPlugins:
 
     def test_handles_entry_points_exception(self) -> None:
         """Should handle exception when getting entry points."""
-        with patch("agentsh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
+        with patch("tafysh.plugins.loader.importlib.metadata.entry_points") as mock_eps:
             mock_eps.side_effect = Exception("Metadata error")
 
             plugins = discover_entry_point_plugins()
@@ -138,7 +138,7 @@ class TestDiscoverEntryPointPlugins:
 
     def test_uses_correct_entry_point_group(self) -> None:
         """Should use the correct entry point group name."""
-        assert ENTRY_POINT_GROUP == "agentsh.plugins"
+        assert ENTRY_POINT_GROUP == "tafysh.plugins"
 
 
 class TestDiscoverDirectoryPlugins:
@@ -270,14 +270,14 @@ class TestLoadPlugins:
         self, mock_config: MagicMock, mock_tool_registry: MagicMock
     ) -> None:
         """Should return a ToolsetRegistry."""
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_discover:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_discover:
                 mock_discover.return_value = []
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = []
 
                     result = load_plugins(mock_config, mock_tool_registry)
@@ -288,14 +288,14 @@ class TestLoadPlugins:
         self, mock_config: MagicMock, mock_tool_registry: MagicMock
     ) -> None:
         """Should discover built-in plugins."""
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_discover:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_discover:
                 mock_discover.return_value = [MockToolset]
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = []
 
                     load_plugins(mock_config, mock_tool_registry)
@@ -306,14 +306,14 @@ class TestLoadPlugins:
         self, mock_config: MagicMock, mock_tool_registry: MagicMock
     ) -> None:
         """Should discover entry point plugins."""
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_discover:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_discover:
                 mock_discover.return_value = []
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = [MockToolset]
 
                     load_plugins(mock_config, mock_tool_registry)
@@ -324,17 +324,17 @@ class TestLoadPlugins:
         self, mock_config: MagicMock, mock_tool_registry: MagicMock, tmp_path: Path
     ) -> None:
         """Should discover plugins from custom directory."""
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_builtin:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_builtin:
                 mock_builtin.return_value = []
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = []
 
-                    with patch("agentsh.plugins.loader.discover_directory_plugins") as mock_dir:
+                    with patch("tafysh.plugins.loader.discover_directory_plugins") as mock_dir:
                         mock_dir.return_value = []
 
                         load_plugins(mock_config, mock_tool_registry, plugins_dir=tmp_path)
@@ -345,19 +345,19 @@ class TestLoadPlugins:
         self, mock_config: MagicMock, mock_tool_registry: MagicMock, tmp_path: Path
     ) -> None:
         """Should discover plugins from default directory if it exists."""
-        default_plugins_dir = Path.home() / ".agentsh" / "plugins"
+        default_plugins_dir = Path.home() / ".tafysh" / "plugins"
 
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_builtin:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_builtin:
                 mock_builtin.return_value = []
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = []
 
-                    with patch("agentsh.plugins.loader.discover_directory_plugins") as mock_dir:
+                    with patch("tafysh.plugins.loader.discover_directory_plugins") as mock_dir:
                         mock_dir.return_value = []
 
                         with patch.object(Path, "exists", return_value=True):
@@ -370,14 +370,14 @@ class TestLoadPlugins:
         self, mock_config: MagicMock, mock_tool_registry: MagicMock
     ) -> None:
         """Should register discovered plugins."""
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_discover:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_discover:
                 mock_discover.return_value = [MockToolset]
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = []
 
                     load_plugins(mock_config, mock_tool_registry)
@@ -389,15 +389,15 @@ class TestLoadPlugins:
         self, mock_config: MagicMock, mock_tool_registry: MagicMock
     ) -> None:
         """Should handle errors during plugin registration."""
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_registry.register.side_effect = ValueError("Already registered")
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_discover:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_discover:
                 mock_discover.return_value = [MockToolset]
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = []
 
                     # Should not raise
@@ -416,15 +416,15 @@ class TestLoadPlugins:
         mock_config = MagicMock()
         mock_config.plugins = [mock_plugin_config]
 
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_registry.load_toolset.return_value = True
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_discover:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_discover:
                 mock_discover.return_value = []
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = []
 
                     load_plugins(mock_config, mock_tool_registry)
@@ -446,14 +446,14 @@ class TestLoadPlugins:
         mock_config = MagicMock()
         mock_config.plugins = [mock_plugin_config]
 
-        with patch("agentsh.plugins.loader.get_toolset_registry") as mock_get:
+        with patch("tafysh.plugins.loader.get_toolset_registry") as mock_get:
             mock_registry = MagicMock(spec=ToolsetRegistry)
             mock_get.return_value = mock_registry
 
-            with patch("agentsh.plugins.loader.discover_builtin_plugins") as mock_discover:
+            with patch("tafysh.plugins.loader.discover_builtin_plugins") as mock_discover:
                 mock_discover.return_value = []
 
-                with patch("agentsh.plugins.loader.discover_entry_point_plugins") as mock_ep:
+                with patch("tafysh.plugins.loader.discover_entry_point_plugins") as mock_ep:
                     mock_ep.return_value = []
 
                     load_plugins(mock_config, mock_tool_registry)
@@ -629,14 +629,14 @@ class TestGetToolsetRegistry:
 
     def test_returns_toolset_registry(self) -> None:
         """Should return a ToolsetRegistry."""
-        with patch("agentsh.plugins.base._toolset_registry", None):
+        with patch("tafysh.plugins.base._toolset_registry", None):
             registry = get_toolset_registry()
 
             assert isinstance(registry, ToolsetRegistry)
 
     def test_returns_same_instance(self) -> None:
         """Should return the same instance on multiple calls."""
-        with patch("agentsh.plugins.base._toolset_registry", None):
+        with patch("tafysh.plugins.base._toolset_registry", None):
             registry1 = get_toolset_registry()
             registry2 = get_toolset_registry()
 

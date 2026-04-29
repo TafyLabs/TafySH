@@ -1,8 +1,8 @@
-# AgentSH
+# TafySH
 
 **AI-Enhanced Terminal Shell with LLM-Powered Capabilities**
 
-AgentSH wraps traditional shells (Bash/Zsh/Fish) with intelligent features:
+TafySH wraps traditional shells (Bash/Zsh/Fish) with intelligent features:
 
 - Natural language to command translation
 - Multi-step autonomous task execution
@@ -19,11 +19,11 @@ Requires [uv](https://docs.astral.sh/uv/) for dependency management.
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # From PyPI (when released)
-uv pip install agentsh
+uv pip install tafysh
 
 # From source
-git clone https://github.com/TafyLabs/AgentSH.git
-cd AgentSH
+git clone https://github.com/TafyLabs/TafySH.git
+cd TafySH
 uv sync
 uv pip install -e ".[dev]"
 ```
@@ -34,16 +34,16 @@ uv pip install -e ".[dev]"
 # Set your API key
 export ANTHROPIC_API_KEY="your-key-here"
 
-# Start AgentSH
-uv run agentsh
+# Start TafySH
+uv run tafysh
 
 # Or with custom config
-uv run agentsh --config ~/.agentsh/config.yaml
+uv run tafysh --config ~/.tafysh/config.yaml
 ```
 
 ## Usage
 
-Inside the AgentSH shell:
+Inside the TafySH shell:
 
 ```bash
 # Regular shell commands work normally
@@ -61,7 +61,7 @@ ai help me set up a Python virtual environment
 
 ## Configuration
 
-Create `~/.agentsh/config.yaml`:
+Create `~/.tafysh/config.yaml`:
 
 ```yaml
 llm:
@@ -111,10 +111,10 @@ make lock
 
 ## Architecture
 
-AgentSH is built with a modular architecture:
+TafySH is built with a modular architecture:
 
 ```
-agentsh/
+tafysh/
 ├── shell/         # User I/O, PTY management
 ├── agent/         # LLM client, planning, execution
 ├── tools/         # Tool interface, registry
@@ -151,7 +151,7 @@ See [docs/IMPLEMENTATION_CHECKLIST.md](docs/IMPLEMENTATION_CHECKLIST.md) for det
 
 ## Security
 
-AgentSH includes multiple security layers:
+TafySH includes multiple security layers:
 
 - **Risk Classification**: Commands classified as SAFE, MEDIUM, HIGH, CRITICAL
 - **RBAC**: Role-based access control (VIEWER, OPERATOR, ADMIN)

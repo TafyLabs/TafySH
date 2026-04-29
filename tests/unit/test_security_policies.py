@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, patch, mock_open
 
 import pytest
 
-from agentsh.security.classifier import RiskLevel
-from agentsh.security.policies import (
+from tafysh.security.classifier import RiskLevel
+from tafysh.security.policies import (
     DevicePolicy,
     PolicyManager,
     SecurityMode,

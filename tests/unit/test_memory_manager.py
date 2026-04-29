@@ -5,9 +5,9 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.memory.manager import MemoryManager
-from agentsh.memory.schemas import MemoryMetadata, MemoryRecord, MemoryType
-from agentsh.memory.store import InMemoryStore
+from tafysh.memory.manager import MemoryManager
+from tafysh.memory.schemas import MemoryMetadata, MemoryRecord, MemoryType
+from tafysh.memory.store import InMemoryStore
 
 
 class TestMemoryManager:

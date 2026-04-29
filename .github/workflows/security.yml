@@ -28,7 +28,7 @@ jobs:
         run: uv sync --dev
 
       - name: Run Bandit security linter
-        run: uv run bandit -r src/agentsh -ll -ii
+        run: uv run bandit -r src/tafysh -ll -ii
 
       - name: Check for known vulnerabilities with pip-audit
         run: uv run pip-audit

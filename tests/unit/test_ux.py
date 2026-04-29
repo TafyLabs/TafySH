@@ -4,7 +4,7 @@ import io
 import pytest
 import time
 
-from agentsh.utils.ux import (
+from tafysh.utils.ux import (
     Color,
     ErrorContext,
     ErrorFormatter,
@@ -421,7 +421,7 @@ class TestStatusContextManager:
 
     def test_status_success(self) -> None:
         """Should show success on normal completion."""
-        from agentsh.utils.ux import status
+        from tafysh.utils.ux import status
 
         stream = io.StringIO()
         with status("Testing", stream=stream, use_color=False) as s:
@@ -430,7 +430,7 @@ class TestStatusContextManager:
 
     def test_status_with_update(self) -> None:
         """Should update spinner message."""
-        from agentsh.utils.ux import status
+        from tafysh.utils.ux import status
 
         stream = io.StringIO()
         with status("Initial", stream=stream, use_color=False) as s:
@@ -439,7 +439,7 @@ class TestStatusContextManager:
 
     def test_status_exception(self) -> None:
         """Should show error on exception."""
-        from agentsh.utils.ux import status
+        from tafysh.utils.ux import status
 
         stream = io.StringIO()
         with pytest.raises(ValueError):

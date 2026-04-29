@@ -1,4 +1,4 @@
-# AgentSH: Architectural Analysis Complete
+# TafySH: Architectural Analysis Complete
 
 **Status**: Architecture & Specification Phase Complete
 **Date**: December 3, 2025
@@ -8,7 +8,7 @@
 
 ## Deliverables Summary
 
-I have created a complete architectural specification for AgentSH without modifying any implementation code. The analysis includes:
+I have created a complete architectural specification for TafySH without modifying any implementation code. The analysis includes:
 
 ### 📄 Documentation Created (6 files, 4,176 lines, 244KB)
 
@@ -173,7 +173,7 @@ Execution Backends (Shell, SSH, ROS, APIs)
 ## Package Structure (Detailed)
 
 ```
-agentsh/
+tafysh/
 ├── shell/               # User I/O & PTY management
 │   ├── wrapper.py
 │   ├── pty_manager.py
@@ -333,7 +333,7 @@ agentsh/
 
 ## Documentation Files Location
 
-All documentation is available in `/Users/b/src/robotics/agentsh/docs/`:
+All documentation is available in `/Users/b/src/robotics/tafysh/docs/`:
 
 ```
 docs/
@@ -475,7 +475,7 @@ For questions about specific sections:
 
 ### Key Takeaway
 
-AgentSH is architecturally sound for building an AI-enhanced terminal shell with:
+TafySH is architecturally sound for building an AI-enhanced terminal shell with:
 - **Modularity**: 10 independent packages with clear interfaces
 - **Safety**: Multi-layer security (classification, RBAC, approval, audit)
 - **Extensibility**: Plugin system for custom tools & workflows

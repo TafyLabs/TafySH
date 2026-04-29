@@ -1,4 +1,4 @@
-Here’s a concrete, end‑to‑end implementation plan for **AgentSH**, based on the design spec and current ecosystem patterns for AI shells, LangGraph, and MCP. 
+Here’s a concrete, end‑to‑end implementation plan for **TafySH**, based on the design spec and current ecosystem patterns for AI shells, LangGraph, and MCP. 
 
 ---
 
@@ -27,15 +27,15 @@ Here’s a concrete, end‑to‑end implementation plan for **AgentSH**, based o
 
 **Core components** (from spec, mapped to code packages):
 
-* `agentsh.shell` – Shell wrapper / interactive UI.
-* `agentsh.agent` – AI core (planning loop, tool use).
-* `agentsh.tools` – Tool interface + plugin system.
-* `agentsh.workflows` – LangGraph graphs for complex tasks.
-* `agentsh.memory` – Session + long‑term memory.
-* `agentsh.security` – Command validator, RBAC, sandbox hooks.
-* `agentsh.telemetry` – Logs, metrics, health checks.
-* `agentsh.orchestrator` – Multi-device coordination, SSH, MCP.
-* `agentsh.plugins` – Robotics, Kubernetes, Git, etc.
+* `tafysh.shell` – Shell wrapper / interactive UI.
+* `tafysh.agent` – AI core (planning loop, tool use).
+* `tafysh.tools` – Tool interface + plugin system.
+* `tafysh.workflows` – LangGraph graphs for complex tasks.
+* `tafysh.memory` – Session + long‑term memory.
+* `tafysh.security` – Command validator, RBAC, sandbox hooks.
+* `tafysh.telemetry` – Logs, metrics, health checks.
+* `tafysh.orchestrator` – Multi-device coordination, SSH, MCP.
+* `tafysh.plugins` – Robotics, Kubernetes, Git, etc.
 
 Data flows:
 
@@ -61,19 +61,19 @@ Data flows:
 
    * Create monorepo or single project:
 
-     * `src/agentsh/…`, `tests/`, `examples/`.
-   * Package with `pyproject.toml` and entrypoint `agentsh` console script.
+     * `src/tafysh/…`, `tests/`, `examples/`.
+   * Package with `pyproject.toml` and entrypoint `tafysh` console script.
    * Add CI for linting, unit tests, type checks.
 
 2. **Configuration system**
 
-   * Define `~/.agentsh/config.yaml` with:
+   * Define `~/.tafysh/config.yaml` with:
 
      * `llm.provider`, `llm.model`, `llm.api_key_env`.
      * `shell.backend` (bash/zsh/fish path).
      * `security.mode` (`strict`, `normal`, `lenient`).
      * `plugins.enabled` list.
-   * Implement config resolution (global `/etc`, user, env overrides, per‑project `.agentsh.yml`).
+   * Implement config resolution (global `/etc`, user, env overrides, per‑project `.tafysh.yml`).
 
 3. **Plugin registry**
 
@@ -85,7 +85,7 @@ Data flows:
          def register_tools(self, registry: ToolRegistry): ...
          def configure(self, config: dict): ...
      ```
-   * Load plugins dynamically from entry points (e.g., `agentsh_plugins`) or `plugins/` directory, similar to AI Shell Agent’s “toolsets” model.([laelhalawani.github.io][5])
+   * Load plugins dynamically from entry points (e.g., `tafysh_plugins`) or `plugins/` directory, similar to AI Shell Agent’s “toolsets” model.([laelhalawani.github.io][5])
 
 4. **Observability basics**
 
@@ -94,7 +94,7 @@ Data flows:
 
 **Deliverables**
 
-* Running `agentsh --help`.
+* Running `tafysh --help`.
 * Config file loaded & printed.
 * Plugin registry that can load a dummy `FileSystemToolset` and list it.
 
@@ -102,7 +102,7 @@ Data flows:
 
 ## 4. Phase 1 – Shell Wrapper MVP
 
-**Goal:** Replace the user’s shell with AgentSH while preserving normal shell behavior.
+**Goal:** Replace the user’s shell with TafySH while preserving normal shell behavior.
 
 **Key tasks**
 
@@ -128,7 +128,7 @@ Data flows:
 
    * Custom PS1/PS2 wrapper that:
 
-     * Shows `[AS]` or similar when AgentSH is active.
+     * Shows `[AS]` or similar when TafySH is active.
      * Reflects current directory and Git branch (like modern shells).
    * Reserve a keystroke (e.g. `Ctrl+Space`) for “Ask Agent about last error” (later keybinding, but design now).
 
@@ -141,7 +141,7 @@ Data flows:
 
 **Deliverables**
 
-* AgentSH works as a drop‑in shell.
+* TafySH works as a drop‑in shell.
 * Users can type commands normally.
 * `ai "what’s using disk space"` returns a textual suggestion (no auto‑execution yet).
 
@@ -345,7 +345,7 @@ Deliverables:
 
 ## 9. Phase 6 – Memory & context management
 
-**Goal:** Give AgentSH real “memory” across commands and sessions.
+**Goal:** Give TafySH real “memory” across commands and sessions.
 
 ### 9.1 Session memory
 
@@ -419,14 +419,14 @@ Deliverables:
 
 Deliverables:
 
-* `agentsh status` command shows basic system and AgentSH health.
+* `tafysh status` command shows basic system and TafySH health.
 * Simple alert configuration (e.g. log a warning if disk usage > 90%).
 
 ---
 
 ## 11. Phase 8 – Multi‑device orchestration & MCP server
 
-**Goal:** Turn AgentSH into a fleet orchestrator and MCP server.
+**Goal:** Turn TafySH into a fleet orchestrator and MCP server.
 
 ### 11.1 Device inventory model
 
@@ -435,8 +435,8 @@ Deliverables:
   * Fields: ID, hostname/IP, labels (e.g. `role=db`, `robot=true`), connection method (`ssh`, `local_agent`), credentials profile.
 * CLI:
 
-  * `agentsh devices add HOST --role web --labels env=prod`
-  * `agentsh devices list`
+  * `tafysh devices add HOST --role web --labels env=prod`
+  * `tafysh devices list`
 
 ### 11.2 SSH execution layer
 
@@ -462,7 +462,7 @@ Deliverables:
 
 ### 11.4 MCP server implementation
 
-* Implement an MCP server around AgentSH functionality:
+* Implement an MCP server around TafySH functionality:
 
   * Define tools like `execute_command`, `list_files`, `run_workflow`.
   * Use official MCP spec for message schemas.([Model Context Protocol][4])
@@ -471,11 +471,11 @@ Deliverables:
   * Default listen on `localhost` only.
   * API token / mTLS for remote access.
   * Fine‑grained tool exposure (don’t expose high‑risk tools by default).
-* This allows external AI clients (e.g. VS Code Copilot, other LLMs) to use AgentSH as their “shell MCP server”.([Glama – MCP Hosting Platform][10])
+* This allows external AI clients (e.g. VS Code Copilot, other LLMs) to use TafySH as their “shell MCP server”.([Glama – MCP Hosting Platform][10])
 
 Deliverables:
 
-* `agentsh --mcp-server` exposes a limited tool set.
+* `tafysh --mcp-server` exposes a limited tool set.
 * Basic multi‑device workflow: “Check uptime on all servers labeled `web`.”
 
 ---
@@ -527,7 +527,7 @@ Deliverables:
 
 * For one robot host:
 
-  * Ability to query ROS topics via AgentSH.
+  * Ability to query ROS topics via TafySH.
   * Run a simple safe motion command via natural language (with confirmation).
 * For a small fleet:
 
@@ -557,7 +557,7 @@ Deliverables:
    * Tool adapters (fs, shell).
 2. **Integration tests**
 
-   * Local: run AgentSH against a fake shell in CI.
+   * Local: run TafySH against a fake shell in CI.
    * Remote: spin up disposable containers/VMs to test orchestrator.
 3. **Red‑team style tests**
 

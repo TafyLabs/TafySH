@@ -1,6 +1,6 @@
-# AgentSH Release & Distribution Setup
+# TafySH Release & Distribution Setup
 
-This document describes how to set up the complete release and distribution pipeline for AgentSH.
+This document describes how to set up the complete release and distribution pipeline for TafySH.
 
 ## Overview
 
@@ -15,7 +15,7 @@ The release pipeline automatically:
 
 ### 1. PyPI (Required)
 
-**Purpose**: Python package distribution (`pip install agentsh`)
+**Purpose**: Python package distribution (`pip install tafysh`)
 
 **Setup**:
 1. Create account at https://pypi.org/account/register/
@@ -29,9 +29,9 @@ No token needed! PyPI trusts GitHub Actions directly.
 
 1. Go to https://pypi.org/manage/account/publishing/
 2. Add a new pending publisher:
-   - PyPI Project Name: `agentsh`
-   - Owner: `agentsh` (your GitHub org/user)
-   - Repository: `agentsh`
+   - PyPI Project Name: `tafysh`
+   - Owner: `tafysh` (your GitHub org/user)
+   - Repository: `tafysh`
    - Workflow name: `release.yml`
    - Environment name: `pypi`
 
@@ -51,25 +51,25 @@ No token needed! PyPI trusts GitHub Actions directly.
 
 ### 2. GitHub Container Registry (Automatic)
 
-**Purpose**: Docker image hosting (`ghcr.io/agentsh/agentsh`)
+**Purpose**: Docker image hosting (`ghcr.io/tafysh/tafysh`)
 
 **Setup**: No additional setup needed! Uses the automatic `GITHUB_TOKEN`.
 
 Images will be available at:
-- `ghcr.io/agentsh/agentsh:latest`
-- `ghcr.io/agentsh/agentsh:0.1.0`
-- `ghcr.io/agentsh/agentsh:alpine`
+- `ghcr.io/tafysh/tafysh:latest`
+- `ghcr.io/tafysh/tafysh:0.1.0`
+- `ghcr.io/tafysh/tafysh:alpine`
 
 ---
 
 ### 3. Docker Hub (Optional)
 
-**Purpose**: Additional Docker distribution (`docker pull agentsh/agentsh`)
+**Purpose**: Additional Docker distribution (`docker pull tafysh/tafysh`)
 
 **Setup**:
 1. Create account at https://hub.docker.com/signup
 2. Create organization or use personal account
-3. Create repository: `agentsh/agentsh`
+3. Create repository: `tafysh/tafysh`
 4. Create access token: Account Settings → Security → New Access Token
 5. Add to GitHub Secrets:
    - `DOCKERHUB_USERNAME`: Your Docker Hub username
@@ -79,44 +79,44 @@ Images will be available at:
 
 ### 4. Homebrew Tap (Required for macOS)
 
-**Purpose**: macOS package distribution (`brew install agentsh/tap/agentsh`)
+**Purpose**: macOS package distribution (`brew install tafysh/tap/tafysh`)
 
 **Setup**:
 
 1. **Create the tap repository**:
    ```bash
-   # Create new repo: agentsh/homebrew-tap
-   gh repo create agentsh/homebrew-tap --public --description "Homebrew tap for AgentSH"
+   # Create new repo: tafysh/homebrew-tap
+   gh repo create tafysh/homebrew-tap --public --description "Homebrew tap for TafySH"
    ```
 
 2. **Initialize the tap**:
    ```bash
-   git clone https://github.com/agentsh/homebrew-tap
+   git clone https://github.com/tafysh/homebrew-tap
    cd homebrew-tap
    mkdir -p Formula .github/workflows
 
    # Copy the formula template
-   cp /path/to/agentsh/packaging/homebrew/agentsh.rb Formula/
+   cp /path/to/tafysh/packaging/homebrew/tafysh.rb Formula/
 
    # Copy the update workflow
-   cp /path/to/agentsh/.github/homebrew-tap/update-formula.yml .github/workflows/
+   cp /path/to/tafysh/.github/homebrew-tap/update-formula.yml .github/workflows/
 
    # Create README
    cat > README.md << 'EOF'
-   # Homebrew Tap for AgentSH
+   # Homebrew Tap for TafySH
 
    ## Installation
 
    ```bash
-   brew tap agentsh/tap
-   brew install agentsh
+   brew tap tafysh/tap
+   brew install tafysh
    ```
 
    ## Updating
 
    ```bash
    brew update
-   brew upgrade agentsh
+   brew upgrade tafysh
    ```
    EOF
 
@@ -213,17 +213,17 @@ After release, verify each channel:
 
 ```bash
 # PyPI
-pip install agentsh==0.2.0 --dry-run
+pip install tafysh==0.2.0 --dry-run
 
 # Docker (GHCR)
-docker pull ghcr.io/agentsh/agentsh:0.2.0
+docker pull ghcr.io/tafysh/tafysh:0.2.0
 
 # Docker Hub (if configured)
-docker pull agentsh/agentsh:0.2.0
+docker pull tafysh/tafysh:0.2.0
 
 # Homebrew (after tap updates)
 brew update
-brew info agentsh/tap/agentsh
+brew info tafysh/tap/tafysh
 
 # GitHub Release
 gh release view v0.2.0
@@ -231,13 +231,13 @@ gh release view v0.2.0
 
 ---
 
-## Installer Hosting (get.agentsh.dev)
+## Installer Hosting (get.tafysh.dev)
 
 For the curl installer to work, you need to host `scripts/install.sh`.
 
 ### Option A: GitHub Pages (Free)
 
-1. Create repo `agentsh/get.agentsh.dev`
+1. Create repo `tafysh/get.tafysh.dev`
 2. Copy `scripts/install.sh` to `index.html` (or use redirect)
 3. Enable GitHub Pages
 4. Configure custom domain
@@ -245,8 +245,8 @@ For the curl installer to work, you need to host `scripts/install.sh`.
 ### Option B: Simple Redirect
 
 Configure your domain to redirect:
-- `https://get.agentsh.dev` → `https://raw.githubusercontent.com/agentsh/agentsh/main/scripts/install.sh`
-- `https://get.agentsh.dev/windows` → `https://raw.githubusercontent.com/agentsh/agentsh/main/packaging/windows/install.ps1`
+- `https://get.tafysh.dev` → `https://raw.githubusercontent.com/tafysh/tafysh/main/scripts/install.sh`
+- `https://get.tafysh.dev/windows` → `https://raw.githubusercontent.com/tafysh/tafysh/main/packaging/windows/install.ps1`
 
 ### Option C: Cloudflare Worker
 
@@ -259,16 +259,16 @@ async function handleRequest(request) {
   const url = new URL(request.url)
 
   if (url.pathname === '/windows') {
-    return fetch('https://raw.githubusercontent.com/agentsh/agentsh/main/packaging/windows/install.ps1')
+    return fetch('https://raw.githubusercontent.com/tafysh/tafysh/main/packaging/windows/install.ps1')
   }
 
-  return fetch('https://raw.githubusercontent.com/agentsh/agentsh/main/scripts/install.sh')
+  return fetch('https://raw.githubusercontent.com/tafysh/tafysh/main/scripts/install.sh')
 }
 ```
 
 ---
 
-## Package Repository Hosting (pkg.agentsh.dev)
+## Package Repository Hosting (pkg.tafysh.dev)
 
 For APT/DNF repositories (advanced):
 
@@ -287,8 +287,8 @@ This is sufficient for most users.
      uses: computology/packagecloud-github-action@v0.6
      with:
        package-name: dist/*.deb
-       packagecloud-username: agentsh
-       packagecloud-reponame: agentsh
+       packagecloud-username: tafysh
+       packagecloud-reponame: tafysh
        packagecloud-distro: ubuntu/jammy
        packagecloud-token: ${{ secrets.PACKAGECLOUD_TOKEN }}
    ```

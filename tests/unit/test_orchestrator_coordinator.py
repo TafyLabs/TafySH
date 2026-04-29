@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.orchestrator.coordinator import (
+from tafysh.orchestrator.coordinator import (
     Coordinator,
     DeviceTaskResult,
     FailurePolicy,
@@ -16,12 +16,12 @@ from agentsh.orchestrator.coordinator import (
     get_coordinator,
     set_coordinator,
 )
-from agentsh.orchestrator.devices import (
+from tafysh.orchestrator.devices import (
     Device,
     DeviceStatus,
     DeviceType,
 )
-from agentsh.orchestrator.ssh import CommandResult, ParallelResult
+from tafysh.orchestrator.ssh import CommandResult, ParallelResult
 
 
 class TestRolloutStrategy:

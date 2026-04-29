@@ -1,8 +1,8 @@
-# AgentSH: Complete End-to-End Solution Design
+# TafySH: Complete End-to-End Solution Design
 
 ## Executive Summary
 
-AgentSH is an AI-enhanced terminal shell that wraps traditional shells (Bash/Zsh/Fish) with LLM-powered capabilities. This document presents a complete end-to-end solution design synthesized from comprehensive analysis of the design specification and implementation plan.
+TafySH is an AI-enhanced terminal shell that wraps traditional shells (Bash/Zsh/Fish) with LLM-powered capabilities. This document presents a complete end-to-end solution design synthesized from comprehensive analysis of the design specification and implementation plan.
 
 **Key Capabilities:**
 - Natural language to command translation
@@ -56,7 +56,7 @@ kubernetes                   # K8s plugin
 ### 2.1 Package Structure
 
 ```
-agentsh/
+tafysh/
 ├── __init__.py
 ├── main.py                    # Entry point
 ├── shell/                     # Shell Wrapper Interface
@@ -812,7 +812,7 @@ def aggregation_node(state):
 ### 7.1 Configuration Schema
 
 ```yaml
-# ~/.agentsh/config.yaml
+# ~/.tafysh/config.yaml
 
 llm:
   provider: anthropic          # openai, anthropic, ollama
@@ -834,7 +834,7 @@ security:
   mode: normal                 # strict, normal, lenient
   require_confirmation: true
   allow_autonomous: false
-  audit_log_path: ~/.agentsh/audit.log
+  audit_log_path: ~/.tafysh/audit.log
   deny_patterns:
     - "rm -rf /"
     - "mkfs"
@@ -842,7 +842,7 @@ security:
 
 memory:
   type: persistent             # in-memory, persistent
-  db_path: ~/.agentsh/memory.db
+  db_path: ~/.tafysh/memory.db
   session_max_entries: 100
   enable_semantic_search: true
   embedding_model: all-MiniLM-L6-v2
@@ -866,18 +866,18 @@ plugins:
 
 orchestrator:
   enabled: false
-  devices_file: ~/.agentsh/devices.yaml
+  devices_file: ~/.tafysh/devices.yaml
   ssh_timeout: 30
   max_parallel_connections: 10
   mcp_server:
     enabled: false
     port: 9999
-    auth_token_env: AGENTSH_MCP_TOKEN
+    auth_token_env: TAFYSH_MCP_TOKEN
 
 telemetry:
   enabled: true
   log_level: INFO
-  log_file: ~/.agentsh/agentsh.log
+  log_file: ~/.tafysh/tafysh.log
   metrics_enabled: false
   metrics_port: 9090
 
@@ -886,10 +886,10 @@ log_level: INFO
 
 ### 7.2 Configuration Loading Order
 
-1. `/etc/agentsh/config.yaml` (system-wide)
-2. `~/.agentsh/config.yaml` (user-level)
-3. `.agentsh.yaml` (project-level)
-4. Environment variables (`AGENTSH_*`)
+1. `/etc/tafysh/config.yaml` (system-wide)
+2. `~/.tafysh/config.yaml` (user-level)
+3. `.tafysh.yaml` (project-level)
+4. Environment variables (`TAFYSH_*`)
 
 ---
 
@@ -902,7 +902,7 @@ class ROS2MCPBridge:
     """Bridge between ROS2 and MCP protocol."""
 
     def __init__(self):
-        self.node = rclpy.create_node('agentsh_bridge')
+        self.node = rclpy.create_node('tafysh_bridge')
         self.subscriptions = {}
         self.services = {}
 
@@ -1082,7 +1082,7 @@ class RobotSafetyController:
 ┌─────────────────────────────────────────┐
 │              Developer Machine           │
 │  ┌───────────────────────────────────┐  │
-│  │           AgentSH                  │  │
+│  │           TafySH                  │  │
 │  │  ┌─────────┐  ┌─────────────────┐ │  │
 │  │  │  PTY    │  │   LLM Client    │ │  │
 │  │  │ Wrapper │  │ (API/Local)     │ │  │
@@ -1100,7 +1100,7 @@ class RobotSafetyController:
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Central Server                            │
 │  ┌───────────────────────────────────────────────────────────┐  │
-│  │                   AgentSH Orchestrator                     │  │
+│  │                   TafySH Orchestrator                     │  │
 │  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐│  │
 │  │  │ MCP Server  │  │ PostgreSQL  │  │  Prometheus/Grafana ││  │
 │  │  │  (API)      │  │  Memory DB  │  │     Telemetry       ││  │
@@ -1136,7 +1136,7 @@ class RobotSafetyController:
 
 ## Conclusion
 
-This solution design provides a comprehensive blueprint for implementing AgentSH. The architecture emphasizes:
+This solution design provides a comprehensive blueprint for implementing TafySH. The architecture emphasizes:
 
 1. **Modularity**: Clear separation of concerns with plugin-based extensibility
 2. **Security**: Defense-in-depth with risk classification, RBAC, and human-in-the-loop

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.shell.memory import (
+from tafysh.shell.memory import (
     MemoryEntry,
     MemoryStore,
     format_memory_list,
@@ -252,7 +252,7 @@ class TestConvenienceFunctions:
     def test_remember_function(self, tmp_path: Path, monkeypatch) -> None:
         """Should store via convenience function."""
         # Use temp path for test
-        import agentsh.shell.memory as memory_module
+        import tafysh.shell.memory as memory_module
 
         db_path = tmp_path / "test.db"
         test_store = MemoryStore(db_path)
@@ -265,7 +265,7 @@ class TestConvenienceFunctions:
 
     def test_recall_function(self, tmp_path: Path, monkeypatch) -> None:
         """Should recall via convenience function."""
-        import agentsh.shell.memory as memory_module
+        import tafysh.shell.memory as memory_module
 
         db_path = tmp_path / "test.db"
         test_store = MemoryStore(db_path)
@@ -279,7 +279,7 @@ class TestConvenienceFunctions:
 
     def test_forget_function(self, tmp_path: Path, monkeypatch) -> None:
         """Should forget via convenience function."""
-        import agentsh.shell.memory as memory_module
+        import tafysh.shell.memory as memory_module
 
         db_path = tmp_path / "test.db"
         test_store = MemoryStore(db_path)

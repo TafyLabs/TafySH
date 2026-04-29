@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.plugins.builtin.process import ProcessToolset
+from tafysh.plugins.builtin.process import ProcessToolset
 
 
 class TestProcessToolsetProperties:

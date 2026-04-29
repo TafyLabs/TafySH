@@ -1,10 +1,10 @@
-# AgentSH Architecture Summary
+# TafySH Architecture Summary
 
-**Quick Reference for Understanding AgentSH's Design**
+**Quick Reference for Understanding TafySH's Design**
 
 ---
 
-## What is AgentSH?
+## What is TafySH?
 
 An AI-enhanced terminal shell that wraps around traditional shells (Bash/Zsh/Fish) to provide:
 - Natural language understanding of commands
@@ -279,7 +279,7 @@ If denied:
 ### 1. Custom Toolset (Plugin)
 
 ```python
-from agentsh.plugins.base import Toolset
+from tafysh.plugins.base import Toolset
 
 class MyToolset(Toolset):
     name = "my_domain"
@@ -364,12 +364,12 @@ security:
 
 Configs loaded in order (later overrides earlier):
 
-1. **Default** (`agentsh/config/defaults.py`)
-2. **System** (`/etc/agentsh.conf`)
-3. **User** (`~/.agentsh/config.yaml`)
-4. **Environment** (env vars like `AGENTSH_LLM_MODEL`)
+1. **Default** (`tafysh/config/defaults.py`)
+2. **System** (`/etc/tafysh.conf`)
+3. **User** (`~/.tafysh/config.yaml`)
+4. **Environment** (env vars like `TAFYSH_LLM_MODEL`)
 5. **CLI args** (command-line flags)
-6. **Project** (`.agentsh.yml` in current directory)
+6. **Project** (`.tafysh.yml` in current directory)
 
 ---
 
@@ -378,7 +378,7 @@ Configs loaded in order (later overrides earlier):
 ### Interactive Mode (Typical User)
 
 ```
-agentsh
+tafysh
 $ (custom prompt)
 user> ai "what's the status of my web servers?"
     ↓
@@ -396,7 +396,7 @@ Agent explains
 ### Autonomous Mode (Scheduled/Triggered)
 
 ```
-agentsh --mode autonomous "Backup all devices and report errors"
+tafysh --mode autonomous "Backup all devices and report errors"
   ↓
 Agent parses goal
   ↓
@@ -413,13 +413,13 @@ Send report to user (email/webhook)
 ### MCP Server Mode (Remote AI Integration)
 
 ```
-agentsh --mcp-server --port 8001
+tafysh --mcp-server --port 8001
   ↓
 Listens for MCP requests from remote LLMs
   ↓
 Remote AI: "execute_command(device=web1, cmd=uptime)"
   ↓
-AgentSH: SSH → device → run command → return result
+TafySH: SSH → device → run command → return result
 ```
 
 ---
@@ -429,7 +429,7 @@ AgentSH: SSH → device → run command → return result
 ### Scenario 1: Personal Development Helper
 
 ```
-Laptop → AgentSH → Local shell
+Laptop → TafySH → Local shell
 
 User asks: "Set up Python project"
   ↓
@@ -443,7 +443,7 @@ Agent: Analyzes logs, suggests fix
 ### Scenario 2: DevOps Automation
 
 ```
-Central Server (AgentSH)
+Central Server (TafySH)
   ↓
 Manages 100+ servers via SSH
   ↓
@@ -457,7 +457,7 @@ Audit log: Every action recorded
 ### Scenario 3: Robotics Fleet
 
 ```
-Central Orchestrator (AgentSH + ROS bridge)
+Central Orchestrator (TafySH + ROS bridge)
   ↓
 Connected to 10 robots via ROS/MCP
   ↓
@@ -544,7 +544,7 @@ See `DeveloperChecklist.md` for detailed task breakdown.
 ## File Structure Quick Reference
 
 ```
-agentsh/
+tafysh/
 ├── shell/         → User I/O, PTY, input classification
 ├── agent/         → LLM client, planning, execution
 ├── tools/         → Tool interface, registry, schemas

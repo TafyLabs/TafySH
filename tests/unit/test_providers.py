@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from agentsh.agent.llm_client import (
+from tafysh.agent.llm_client import (
     Message,
     MessageRole,
     StopReason,
@@ -19,10 +19,10 @@ class TestAnthropicClient:
 
     def test_init_with_api_key(self) -> None:
         """Should initialize with explicit API key."""
-        with patch("agentsh.agent.providers.anthropic.anthropic") as mock_anthropic:
+        with patch("tafysh.agent.providers.anthropic.anthropic") as mock_anthropic:
             mock_anthropic.AsyncAnthropic.return_value = MagicMock()
 
-            from agentsh.agent.providers.anthropic import AnthropicClient
+            from tafysh.agent.providers.anthropic import AnthropicClient
 
             client = AnthropicClient(api_key="test-key", model="claude-3-sonnet")
 
@@ -31,11 +31,11 @@ class TestAnthropicClient:
 
     def test_init_from_env_var(self) -> None:
         """Should use environment variable for API key."""
-        with patch("agentsh.agent.providers.anthropic.anthropic") as mock_anthropic:
+        with patch("tafysh.agent.providers.anthropic.anthropic") as mock_anthropic:
             mock_anthropic.AsyncAnthropic.return_value = MagicMock()
 
             with patch.dict(os.environ, {"ANTHROPIC_API_KEY": "env-key"}):
-                from agentsh.agent.providers.anthropic import AnthropicClient
+                from tafysh.agent.providers.anthropic import AnthropicClient
 
                 client = AnthropicClient()
 
@@ -43,14 +43,14 @@ class TestAnthropicClient:
 
     def test_init_no_api_key_warning(self) -> None:
         """Should warn when no API key provided."""
-        with patch("agentsh.agent.providers.anthropic.anthropic") as mock_anthropic:
+        with patch("tafysh.agent.providers.anthropic.anthropic") as mock_anthropic:
             mock_anthropic.AsyncAnthropic.return_value = MagicMock()
 
             with patch.dict(os.environ, {}, clear=True):
                 # Remove ANTHROPIC_API_KEY if it exists
                 env_without_key = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
                 with patch.dict(os.environ, env_without_key, clear=True):
-                    from agentsh.agent.providers.anthropic import AnthropicClient
+                    from tafysh.agent.providers.anthropic import AnthropicClient
 
                     client = AnthropicClient(api_key=None)
                     # Should have empty string
@@ -58,30 +58,30 @@ class TestAnthropicClient:
 
     def test_provider_property(self) -> None:
         """Should return 'anthropic' as provider."""
-        with patch("agentsh.agent.providers.anthropic.anthropic") as mock_anthropic:
+        with patch("tafysh.agent.providers.anthropic.anthropic") as mock_anthropic:
             mock_anthropic.AsyncAnthropic.return_value = MagicMock()
 
-            from agentsh.agent.providers.anthropic import AnthropicClient
+            from tafysh.agent.providers.anthropic import AnthropicClient
 
             client = AnthropicClient(api_key="test")
             assert client.provider == "anthropic"
 
     def test_model_property(self) -> None:
         """Should return model name."""
-        with patch("agentsh.agent.providers.anthropic.anthropic") as mock_anthropic:
+        with patch("tafysh.agent.providers.anthropic.anthropic") as mock_anthropic:
             mock_anthropic.AsyncAnthropic.return_value = MagicMock()
 
-            from agentsh.agent.providers.anthropic import AnthropicClient
+            from tafysh.agent.providers.anthropic import AnthropicClient
 
             client = AnthropicClient(api_key="test", model="claude-3-opus")
             assert client.model == "claude-3-opus"
 
     def test_default_model(self) -> None:
         """Should use default model."""
-        with patch("agentsh.agent.providers.anthropic.anthropic") as mock_anthropic:
+        with patch("tafysh.agent.providers.anthropic.anthropic") as mock_anthropic:
             mock_anthropic.AsyncAnthropic.return_value = MagicMock()
 
-            from agentsh.agent.providers.anthropic import AnthropicClient
+            from tafysh.agent.providers.anthropic import AnthropicClient
 
             client = AnthropicClient(api_key="test")
             assert "claude" in client.model.lower()
@@ -89,7 +89,7 @@ class TestAnthropicClient:
     @pytest.mark.asyncio
     async def test_invoke_simple_message(self) -> None:
         """Should invoke with simple message."""
-        with patch("agentsh.agent.providers.anthropic.anthropic") as mock_anthropic:
+        with patch("tafysh.agent.providers.anthropic.anthropic") as mock_anthropic:
             mock_client = MagicMock()
             mock_response = MagicMock()
             mock_response.content = [MagicMock(type="text", text="Hello!")]
@@ -98,7 +98,7 @@ class TestAnthropicClient:
             mock_client.messages.create = AsyncMock(return_value=mock_response)
             mock_anthropic.AsyncAnthropic.return_value = mock_client
 
-            from agentsh.agent.providers.anthropic import AnthropicClient
+            from tafysh.agent.providers.anthropic import AnthropicClient
 
             client = AnthropicClient(api_key="test")
             messages = [Message.user("Hi")]
@@ -112,7 +112,7 @@ class TestAnthropicClient:
     @pytest.mark.asyncio
     async def test_invoke_with_tools(self) -> None:
         """Should invoke with tool definitions."""
-        with patch("agentsh.agent.providers.anthropic.anthropic") as mock_anthropic:
+        with patch("tafysh.agent.providers.anthropic.anthropic") as mock_anthropic:
             mock_client = MagicMock()
             mock_response = MagicMock()
 
@@ -132,7 +132,7 @@ class TestAnthropicClient:
             mock_client.messages.create = AsyncMock(return_value=mock_response)
             mock_anthropic.AsyncAnthropic.return_value = mock_client
 
-            from agentsh.agent.providers.anthropic import AnthropicClient
+            from tafysh.agent.providers.anthropic import AnthropicClient
 
             client = AnthropicClient(api_key="test")
             messages = [Message.user("Use the tool")]
@@ -156,10 +156,10 @@ class TestOpenAIClient:
 
     def test_init_with_api_key(self) -> None:
         """Should initialize with explicit API key."""
-        with patch("agentsh.agent.providers.openai.openai") as mock_openai:
+        with patch("tafysh.agent.providers.openai.openai") as mock_openai:
             mock_openai.AsyncOpenAI.return_value = MagicMock()
 
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test-key", model="gpt-4")
 
@@ -168,11 +168,11 @@ class TestOpenAIClient:
 
     def test_init_from_env_var(self) -> None:
         """Should use environment variable for API key."""
-        with patch("agentsh.agent.providers.openai.openai") as mock_openai:
+        with patch("tafysh.agent.providers.openai.openai") as mock_openai:
             mock_openai.AsyncOpenAI.return_value = MagicMock()
 
             with patch.dict(os.environ, {"OPENAI_API_KEY": "env-key"}):
-                from agentsh.agent.providers.openai import OpenAIClient
+                from tafysh.agent.providers.openai import OpenAIClient
 
                 client = OpenAIClient()
 
@@ -180,30 +180,30 @@ class TestOpenAIClient:
 
     def test_provider_property(self) -> None:
         """Should return 'openai' as provider."""
-        with patch("agentsh.agent.providers.openai.openai") as mock_openai:
+        with patch("tafysh.agent.providers.openai.openai") as mock_openai:
             mock_openai.AsyncOpenAI.return_value = MagicMock()
 
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test")
             assert client.provider == "openai"
 
     def test_model_property(self) -> None:
         """Should return model name."""
-        with patch("agentsh.agent.providers.openai.openai") as mock_openai:
+        with patch("tafysh.agent.providers.openai.openai") as mock_openai:
             mock_openai.AsyncOpenAI.return_value = MagicMock()
 
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test", model="gpt-4-turbo")
             assert client.model == "gpt-4-turbo"
 
     def test_default_model(self) -> None:
         """Should use default model."""
-        with patch("agentsh.agent.providers.openai.openai") as mock_openai:
+        with patch("tafysh.agent.providers.openai.openai") as mock_openai:
             mock_openai.AsyncOpenAI.return_value = MagicMock()
 
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test")
             assert "gpt" in client.model.lower()
@@ -211,7 +211,7 @@ class TestOpenAIClient:
     @pytest.mark.asyncio
     async def test_invoke_simple_message(self) -> None:
         """Should invoke with simple message."""
-        with patch("agentsh.agent.providers.openai.openai") as mock_openai:
+        with patch("tafysh.agent.providers.openai.openai") as mock_openai:
             mock_client = MagicMock()
             mock_choice = MagicMock()
             mock_choice.message.content = "Hello from GPT!"
@@ -223,7 +223,7 @@ class TestOpenAIClient:
             mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
             mock_openai.AsyncOpenAI.return_value = mock_client
 
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test")
             messages = [Message.user("Hi")]
@@ -237,7 +237,7 @@ class TestOpenAIClient:
     @pytest.mark.asyncio
     async def test_invoke_with_tools(self) -> None:
         """Should invoke with tool definitions."""
-        with patch("agentsh.agent.providers.openai.openai") as mock_openai:
+        with patch("tafysh.agent.providers.openai.openai") as mock_openai:
             mock_client = MagicMock()
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_1"
@@ -256,7 +256,7 @@ class TestOpenAIClient:
             mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
             mock_openai.AsyncOpenAI.return_value = mock_client
 
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test")
             messages = [Message.user("Use the tool")]
@@ -280,7 +280,7 @@ class TestProvidersInit:
 
     def test_imports(self) -> None:
         """Should export provider classes."""
-        from agentsh.agent.providers import AnthropicClient, OpenAIClient
+        from tafysh.agent.providers import AnthropicClient, OpenAIClient
 
         assert AnthropicClient is not None
         assert OpenAIClient is not None

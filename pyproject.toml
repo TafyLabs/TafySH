@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tafysh"
-version = "0.1.0"
+version = "0.2.0"
 description = "AI-enhanced terminal shell with LLM-powered capabilities"
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -91,17 +91,16 @@ all = [
 ]
 
 [project.scripts]
-tafysh = "agentsh.__main__:main"
-agentsh = "agentsh.__main__:main"
+tafysh = "tafysh.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/TafyLabs/AgentSH"
-Documentation = "https://github.com/TafyLabs/AgentSH/tree/main/docs"
-Repository = "https://github.com/TafyLabs/AgentSH"
-Issues = "https://github.com/TafyLabs/AgentSH/issues"
+Homepage = "https://github.com/TafyLabs/TafySH"
+Documentation = "https://github.com/TafyLabs/TafySH/tree/main/docs"
+Repository = "https://github.com/TafyLabs/TafySH"
+Issues = "https://github.com/TafyLabs/TafySH/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/agentsh"]
+packages = ["src/tafysh"]
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -145,7 +144,7 @@ ignore = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["agentsh"]
+known-first-party = ["tafysh"]
 
 [tool.mypy]
 python_version = "3.10"
@@ -183,7 +182,7 @@ markers = [
 ]
 
 [tool.coverage.run]
-source = ["src/agentsh"]
+source = ["src/tafysh"]
 branch = true
 omit = [
     "*/tests/*",

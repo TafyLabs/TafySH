@@ -4,22 +4,22 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.config.schemas import AgentSHConfig
-from agentsh.shell.input_classifier import InputType
-from agentsh.shell.prompt import AgentStatus
-from agentsh.shell.wrapper import ShellWrapper
+from tafysh.config.schemas import TafySHConfig
+from tafysh.shell.input_classifier import InputType
+from tafysh.shell.prompt import AgentStatus
+from tafysh.shell.wrapper import ShellWrapper
 
 
 class TestShellWrapper:
     """Test cases for ShellWrapper."""
 
     @pytest.fixture
-    def config(self) -> AgentSHConfig:
+    def config(self) -> TafySHConfig:
         """Create a test configuration."""
-        return AgentSHConfig()
+        return TafySHConfig()
 
     @pytest.fixture
-    def wrapper(self, config: AgentSHConfig) -> ShellWrapper:
+    def wrapper(self, config: TafySHConfig) -> ShellWrapper:
         """Create a shell wrapper for testing."""
         return ShellWrapper(config)
 
@@ -31,7 +31,7 @@ class TestShellWrapper:
         assert wrapper._last_exit_code == 0
         assert wrapper._ai_handler is None
 
-    def test_initialization_with_config(self, config: AgentSHConfig) -> None:
+    def test_initialization_with_config(self, config: TafySHConfig) -> None:
         """Test initialization respects config."""
         config.shell.ai_prefix = "ask "
         config.shell.shell_prefix = "$"
@@ -69,7 +69,7 @@ class TestShellWrapper:
 
     def test_process_special_command_help(self, wrapper: ShellWrapper) -> None:
         """Test processing :help command."""
-        with patch("agentsh.shell.wrapper.show_help") as mock_help:
+        with patch("tafysh.shell.wrapper.show_help") as mock_help:
             mock_help.return_value = "Help content"
             with patch("builtins.print"):
                 wrapper._process_input(":help")
@@ -203,12 +203,12 @@ class TestShellWrapperHelpers:
     """Test cases for ShellWrapper helper methods."""
 
     @pytest.fixture
-    def config(self) -> AgentSHConfig:
+    def config(self) -> TafySHConfig:
         """Create a test configuration."""
-        return AgentSHConfig()
+        return TafySHConfig()
 
     @pytest.fixture
-    def wrapper(self, config: AgentSHConfig) -> ShellWrapper:
+    def wrapper(self, config: TafySHConfig) -> ShellWrapper:
         """Create a shell wrapper for testing."""
         return ShellWrapper(config)
 
@@ -219,14 +219,14 @@ class TestShellWrapperHelpers:
 
         # Check that welcome was printed
         calls = [str(call) for call in mock_print.call_args_list]
-        assert any("AgentSH" in str(call) for call in calls)
+        assert any("TafySH" in str(call) for call in calls)
 
     def test_show_help(self, wrapper: ShellWrapper) -> None:
         """Test help display via show_help function."""
-        from agentsh.shell.help import show_help
+        from tafysh.shell.help import show_help
 
         output = show_help(use_color=False)
-        assert "AgentSH Help" in output
+        assert "TafySH Help" in output
 
     def test_show_config(self, wrapper: ShellWrapper) -> None:
         """Test config display."""
@@ -298,7 +298,7 @@ class TestShellWrapperHelpers:
 
     def test_show_status(self, wrapper: ShellWrapper) -> None:
         """Test status display."""
-        from agentsh.telemetry.health import HealthChecker, HealthResult, HealthStatus
+        from tafysh.telemetry.health import HealthChecker, HealthResult, HealthStatus
 
         with patch("builtins.print") as mock_print:
             with patch.object(HealthChecker, "check_all") as mock_check:
@@ -319,12 +319,12 @@ class TestShellWrapperMemoryCommands:
     """Test cases for memory-related commands."""
 
     @pytest.fixture
-    def config(self) -> AgentSHConfig:
+    def config(self) -> TafySHConfig:
         """Create a test configuration."""
-        return AgentSHConfig()
+        return TafySHConfig()
 
     @pytest.fixture
-    def wrapper(self, config: AgentSHConfig) -> ShellWrapper:
+    def wrapper(self, config: TafySHConfig) -> ShellWrapper:
         """Create a shell wrapper for testing."""
         return ShellWrapper(config)
 
@@ -338,7 +338,7 @@ class TestShellWrapperMemoryCommands:
 
     def test_handle_remember_with_content(self, wrapper: ShellWrapper) -> None:
         """Test :remember with content stores a note."""
-        with patch("agentsh.shell.wrapper.get_memory_store") as mock_get_store:
+        with patch("tafysh.shell.wrapper.get_memory_store") as mock_get_store:
             mock_store = MagicMock()
             mock_store.remember.return_value = 123
             mock_get_store.return_value = mock_store
@@ -352,13 +352,13 @@ class TestShellWrapperMemoryCommands:
 
     def test_handle_recall_without_query(self, wrapper: ShellWrapper) -> None:
         """Test :recall without query shows all memories."""
-        with patch("agentsh.shell.wrapper.get_memory_store") as mock_get_store:
+        with patch("tafysh.shell.wrapper.get_memory_store") as mock_get_store:
             mock_store = MagicMock()
             mock_store.recall.return_value = []
             mock_get_store.return_value = mock_store
 
             with patch("builtins.print"):
-                with patch("agentsh.shell.wrapper.format_memory_list") as mock_format:
+                with patch("tafysh.shell.wrapper.format_memory_list") as mock_format:
                     mock_format.return_value = "No memories"
                     wrapper._handle_recall([])
 
@@ -366,13 +366,13 @@ class TestShellWrapperMemoryCommands:
 
     def test_handle_recall_with_query(self, wrapper: ShellWrapper) -> None:
         """Test :recall with query searches memories."""
-        with patch("agentsh.shell.wrapper.get_memory_store") as mock_get_store:
+        with patch("tafysh.shell.wrapper.get_memory_store") as mock_get_store:
             mock_store = MagicMock()
             mock_store.recall.return_value = []
             mock_get_store.return_value = mock_store
 
             with patch("builtins.print"):
-                with patch("agentsh.shell.wrapper.format_memory_list") as mock_format:
+                with patch("tafysh.shell.wrapper.format_memory_list") as mock_format:
                     mock_format.return_value = "Results"
                     wrapper._handle_recall(["deploy", "friday"])
 
@@ -396,7 +396,7 @@ class TestShellWrapperMemoryCommands:
 
     def test_handle_forget_with_valid_id_found(self, wrapper: ShellWrapper) -> None:
         """Test :forget with valid ID that exists."""
-        with patch("agentsh.shell.wrapper.get_memory_store") as mock_get_store:
+        with patch("tafysh.shell.wrapper.get_memory_store") as mock_get_store:
             mock_store = MagicMock()
             mock_store.forget.return_value = True
             mock_get_store.return_value = mock_store
@@ -410,7 +410,7 @@ class TestShellWrapperMemoryCommands:
 
     def test_handle_forget_with_valid_id_not_found(self, wrapper: ShellWrapper) -> None:
         """Test :forget with valid ID that doesn't exist."""
-        with patch("agentsh.shell.wrapper.get_memory_store") as mock_get_store:
+        with patch("tafysh.shell.wrapper.get_memory_store") as mock_get_store:
             mock_store = MagicMock()
             mock_store.forget.return_value = False
             mock_get_store.return_value = mock_store
@@ -426,12 +426,12 @@ class TestShellWrapperSpecialCommands:
     """Test cases for remaining special commands."""
 
     @pytest.fixture
-    def config(self) -> AgentSHConfig:
+    def config(self) -> TafySHConfig:
         """Create a test configuration."""
-        return AgentSHConfig()
+        return TafySHConfig()
 
     @pytest.fixture
-    def wrapper(self, config: AgentSHConfig) -> ShellWrapper:
+    def wrapper(self, config: TafySHConfig) -> ShellWrapper:
         """Create a shell wrapper for testing."""
         return ShellWrapper(config)
 
@@ -468,7 +468,7 @@ class TestShellWrapperSpecialCommands:
 
     def test_process_h_command(self, wrapper: ShellWrapper) -> None:
         """Test processing :h command (help alias)."""
-        with patch("agentsh.shell.wrapper.show_help") as mock_help:
+        with patch("tafysh.shell.wrapper.show_help") as mock_help:
             mock_help.return_value = "Help"
             with patch("builtins.print"):
                 wrapper._process_input(":h")
@@ -476,7 +476,7 @@ class TestShellWrapperSpecialCommands:
 
     def test_process_help_with_topic(self, wrapper: ShellWrapper) -> None:
         """Test processing :help with a topic."""
-        with patch("agentsh.shell.wrapper.show_help") as mock_help:
+        with patch("tafysh.shell.wrapper.show_help") as mock_help:
             mock_help.return_value = "Help for tools"
             with patch("builtins.print"):
                 wrapper._process_input(":help tools")

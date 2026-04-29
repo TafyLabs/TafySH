@@ -3,11 +3,11 @@ set -e
 
 case "$1" in
     configure)
-        # Add agentsh to /etc/shells if not present
-        AGENTSH_PATH="/usr/bin/agentsh"
-        if [ -x "$AGENTSH_PATH" ]; then
-            if ! grep -q "^${AGENTSH_PATH}$" /etc/shells 2>/dev/null; then
-                echo "$AGENTSH_PATH" >> /etc/shells
+        # Add tafysh to /etc/shells if not present
+        TAFYSH_PATH="/usr/bin/tafysh"
+        if [ -x "$TAFYSH_PATH" ]; then
+            if ! grep -q "^${TAFYSH_PATH}$" /etc/shells 2>/dev/null; then
+                echo "$TAFYSH_PATH" >> /etc/shells
             fi
         fi
         ;;

@@ -2,7 +2,7 @@
 
 import pytest
 
-from agentsh.shell.help import (
+from tafysh.shell.help import (
     HelpCategory,
     HelpSystem,
     HelpTopic,
@@ -173,7 +173,7 @@ class TestHelpSystem:
         """Should format help overview."""
         overview = help_system.format_overview(use_color=False)
 
-        assert "AgentSH Help" in overview
+        assert "TafySH Help" in overview
         assert ":help <topic>" in overview
 
     def test_format_topic_list(self, help_system: HelpSystem) -> None:
@@ -187,7 +187,7 @@ class TestHelpSystem:
         """Should show overview when no topic specified."""
         output = help_system.show(use_color=False)
 
-        assert "AgentSH Help" in output
+        assert "TafySH Help" in output
 
     def test_show_topic(self, help_system: HelpSystem) -> None:
         """Should show specific topic."""
@@ -229,7 +229,7 @@ class TestGlobalHelpSystem:
         """Should show help via convenience function."""
         output = show_help(use_color=False)
 
-        assert "AgentSH Help" in output
+        assert "TafySH Help" in output
 
     def test_show_help_topic(self) -> None:
         """Should show topic via convenience function."""

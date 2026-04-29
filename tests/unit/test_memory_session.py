@@ -2,8 +2,8 @@
 
 import pytest
 
-from agentsh.memory.schemas import Turn, MemoryType
-from agentsh.memory.session import (
+from tafysh.memory.schemas import Turn, MemoryType
+from tafysh.memory.session import (
     SessionConfig,
     SessionStore,
     MultiSessionStore,

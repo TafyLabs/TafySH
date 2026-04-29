@@ -1,11 +1,11 @@
-# AgentSH Documentation Index
+# TafySH Documentation Index
 
-Welcome to the AgentSH documentation suite. This folder contains comprehensive specifications and implementation guidance for the AI-enhanced terminal shell project.
+Welcome to the TafySH documentation suite. This folder contains comprehensive specifications and implementation guidance for the AI-enhanced terminal shell project.
 
 ## Documents at a Glance
 
 ### 1. **ARCHITECTURE_SUMMARY.md** 📋
-**Quick start guide for understanding AgentSH**
+**Quick start guide for understanding TafySH**
 
 - Conceptual overview with layer diagrams
 - Key data flows (user input → execution, approval flow, multi-device)

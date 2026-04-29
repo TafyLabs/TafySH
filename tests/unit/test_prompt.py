@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
-from agentsh.shell.prompt import (
+from tafysh.shell.prompt import (
     AgentStatus,
     Colors,
     PromptContext,

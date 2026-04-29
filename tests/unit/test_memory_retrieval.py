@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from agentsh.memory.retrieval import MemoryRetrieval, RetrievalConfig, SemanticRetrieval
-from agentsh.memory.schemas import MemoryMetadata, MemoryRecord, MemoryType
-from agentsh.memory.store import InMemoryStore
+from tafysh.memory.retrieval import MemoryRetrieval, RetrievalConfig, SemanticRetrieval
+from tafysh.memory.schemas import MemoryMetadata, MemoryRecord, MemoryType
+from tafysh.memory.store import InMemoryStore
 
 
 class TestRetrievalConfig:

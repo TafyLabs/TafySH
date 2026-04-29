@@ -4,7 +4,7 @@ import asyncio
 import pytest
 import time
 
-from agentsh.utils.async_utils import (
+from tafysh.utils.async_utils import (
     AsyncCache,
     AsyncTimeoutError,
     Debouncer,

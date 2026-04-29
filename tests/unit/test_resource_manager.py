@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.utils.resource_manager import (
+from tafysh.utils.resource_manager import (
     CleanupHandler,
     ResourceLimits,
     ResourceManager,

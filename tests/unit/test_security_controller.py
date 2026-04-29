@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from agentsh.security.controller import (
+from tafysh.security.controller import (
     SecurityContext,
     SecurityController,
     SecurityDecision,
@@ -121,11 +121,11 @@ class TestSecurityControllerInit:
 
     def test_default_initialization(self) -> None:
         """Should initialize with defaults."""
-        with patch("agentsh.security.controller.RiskClassifier") as mock_classifier:
-            with patch("agentsh.security.controller.PolicyManager") as mock_policy:
-                with patch("agentsh.security.controller.RBAC") as mock_rbac:
-                    with patch("agentsh.security.controller.ApprovalFlow") as mock_approval:
-                        with patch("agentsh.security.controller.AuditLogger") as mock_audit:
+        with patch("tafysh.security.controller.RiskClassifier") as mock_classifier:
+            with patch("tafysh.security.controller.PolicyManager") as mock_policy:
+                with patch("tafysh.security.controller.RBAC") as mock_rbac:
+                    with patch("tafysh.security.controller.ApprovalFlow") as mock_approval:
+                        with patch("tafysh.security.controller.AuditLogger") as mock_audit:
                             controller = SecurityController()
 
                             mock_classifier.assert_called_once()
@@ -356,7 +356,7 @@ class TestSecurityControllerValidateAndApprove:
         controller.rbac.check_access.return_value = (True, False, "")
 
         mock_response = MockApprovalResponse(result="APPROVED")
-        from agentsh.security.approval import ApprovalResult
+        from tafysh.security.approval import ApprovalResult
         mock_response.result = ApprovalResult.APPROVED
         controller.approval_flow.request_approval.return_value = mock_response
 
@@ -402,7 +402,7 @@ class TestHandleApprovalResponse:
         context: SecurityContext,
     ) -> None:
         """Should handle approved response."""
-        from agentsh.security.approval import ApprovalResult
+        from tafysh.security.approval import ApprovalResult
 
         response = MagicMock()
         response.result = ApprovalResult.APPROVED
@@ -424,7 +424,7 @@ class TestHandleApprovalResponse:
         context: SecurityContext,
     ) -> None:
         """Should handle edited response when new command is allowed."""
-        from agentsh.security.approval import ApprovalResult
+        from tafysh.security.approval import ApprovalResult
 
         response = MagicMock()
         response.result = ApprovalResult.EDITED
@@ -455,7 +455,7 @@ class TestHandleApprovalResponse:
         context: SecurityContext,
     ) -> None:
         """Should handle edited response when new command is blocked."""
-        from agentsh.security.approval import ApprovalResult
+        from tafysh.security.approval import ApprovalResult
 
         response = MagicMock()
         response.result = ApprovalResult.EDITED
@@ -480,7 +480,7 @@ class TestHandleApprovalResponse:
         context: SecurityContext,
     ) -> None:
         """Should handle skipped response."""
-        from agentsh.security.approval import ApprovalResult
+        from tafysh.security.approval import ApprovalResult
 
         response = MagicMock()
         response.result = ApprovalResult.SKIPPED
@@ -501,7 +501,7 @@ class TestHandleApprovalResponse:
         context: SecurityContext,
     ) -> None:
         """Should handle denied response."""
-        from agentsh.security.approval import ApprovalResult
+        from tafysh.security.approval import ApprovalResult
 
         response = MagicMock()
         response.result = ApprovalResult.DENIED
@@ -523,7 +523,7 @@ class TestHandleApprovalResponse:
         context: SecurityContext,
     ) -> None:
         """Should use default reason if none provided."""
-        from agentsh.security.approval import ApprovalResult
+        from tafysh.security.approval import ApprovalResult
 
         response = MagicMock()
         response.result = ApprovalResult.DENIED
@@ -555,7 +555,7 @@ class TestSecurityControllerHelpers:
 
     def test_is_safe_true(self, controller: SecurityController) -> None:
         """Should return True for safe commands."""
-        from agentsh.security.classifier import RiskLevel
+        from tafysh.security.classifier import RiskLevel
 
         assessment = MagicMock()
         assessment.risk_level = RiskLevel.LOW
@@ -568,7 +568,7 @@ class TestSecurityControllerHelpers:
 
     def test_is_safe_false_blocked(self, controller: SecurityController) -> None:
         """Should return False for blocked commands."""
-        from agentsh.security.classifier import RiskLevel
+        from tafysh.security.classifier import RiskLevel
 
         assessment = MagicMock()
         assessment.risk_level = RiskLevel.LOW
@@ -581,7 +581,7 @@ class TestSecurityControllerHelpers:
 
     def test_is_safe_false_high_risk(self, controller: SecurityController) -> None:
         """Should return False for high risk commands."""
-        from agentsh.security.classifier import RiskLevel
+        from tafysh.security.classifier import RiskLevel
 
         assessment = MagicMock()
         assessment.risk_level = RiskLevel.HIGH
@@ -594,7 +594,7 @@ class TestSecurityControllerHelpers:
 
     def test_get_risk_level(self, controller: SecurityController) -> None:
         """Should return risk level from classifier."""
-        from agentsh.security.classifier import RiskLevel
+        from tafysh.security.classifier import RiskLevel
 
         assessment = MagicMock()
         assessment.risk_level = RiskLevel.MEDIUM

@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import patch
 
-from agentsh.agent.providers import (
+from tafysh.agent.providers import (
     AnthropicClient,
     OpenAIClient,
     OllamaClient,

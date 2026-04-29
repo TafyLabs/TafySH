@@ -4,17 +4,17 @@ import asyncio
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from agentsh.agent.llm_client import LLMResponse, Message, StopReason, ToolCall
-from agentsh.tools.base import RiskLevel, Tool, ToolResult
-from agentsh.tools.registry import ToolRegistry
-from agentsh.workflows.nodes import (
+from tafysh.agent.llm_client import LLMResponse, Message, StopReason, ToolCall
+from tafysh.tools.base import RiskLevel, Tool, ToolResult
+from tafysh.tools.registry import ToolRegistry
+from tafysh.workflows.nodes import (
     AgentNode,
     ApprovalNode,
     ErrorRecoveryNode,
     MemoryNode,
     ToolNode,
 )
-from agentsh.workflows.states import create_initial_state
+from tafysh.workflows.states import create_initial_state
 
 
 class TestAgentNode:
@@ -715,7 +715,7 @@ class TestApprovalNodeWithSecurity:
 
     def test_blocks_dangerous_command(self) -> None:
         """Should block dangerous commands."""
-        from agentsh.security.controller import (
+        from tafysh.security.controller import (
             SecurityContext,
             SecurityController,
             SecurityDecision,

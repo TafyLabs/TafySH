@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from agentsh.agent.llm_client import Message, StopReason, ToolCall, ToolDefinition
+from tafysh.agent.llm_client import Message, StopReason, ToolCall, ToolDefinition
 
 
 class TestOpenAIClientInitialization:
@@ -16,7 +16,7 @@ class TestOpenAIClientInitialization:
     def test_init_with_api_key(self) -> None:
         """Should initialize with provided API key."""
         with patch("openai.AsyncOpenAI") as mock_client:
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test-key", model="gpt-4")
 
@@ -28,7 +28,7 @@ class TestOpenAIClientInitialization:
         """Should use environment variable if no key provided."""
         with patch.dict(os.environ, {"OPENAI_API_KEY": "env-key"}):
             with patch("openai.AsyncOpenAI"):
-                from agentsh.agent.providers.openai import OpenAIClient
+                from tafysh.agent.providers.openai import OpenAIClient
 
                 client = OpenAIClient()
                 assert client._api_key == "env-key"
@@ -37,8 +37,8 @@ class TestOpenAIClientInitialization:
         """Should warn if no API key available."""
         with patch.dict(os.environ, {"OPENAI_API_KEY": ""}, clear=True):
             with patch("openai.AsyncOpenAI"):
-                with patch("agentsh.agent.providers.openai.logger") as mock_logger:
-                    from agentsh.agent.providers.openai import OpenAIClient
+                with patch("tafysh.agent.providers.openai.logger") as mock_logger:
+                    from tafysh.agent.providers.openai import OpenAIClient
 
                     OpenAIClient(api_key="")
                     mock_logger.warning.assert_called()
@@ -46,7 +46,7 @@ class TestOpenAIClientInitialization:
     def test_init_with_base_url(self) -> None:
         """Should support custom base URL."""
         with patch("openai.AsyncOpenAI") as mock_client:
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(
                 api_key="test",
@@ -64,7 +64,7 @@ class TestOpenAIClientInitialization:
     def test_init_custom_settings(self) -> None:
         """Should use custom settings."""
         with patch("openai.AsyncOpenAI"):
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(
                 api_key="test",
@@ -78,7 +78,7 @@ class TestOpenAIClientInitialization:
     def test_provider_property(self) -> None:
         """Should return provider name."""
         with patch("openai.AsyncOpenAI"):
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test")
             assert client.provider == "openai"
@@ -86,7 +86,7 @@ class TestOpenAIClientInitialization:
     def test_model_property(self) -> None:
         """Should return model name."""
         with patch("openai.AsyncOpenAI"):
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test", model="gpt-4-turbo")
             assert client.model == "gpt-4-turbo"
@@ -108,7 +108,7 @@ class TestOpenAIClientInvoke:
 
     def test_invoke_simple_message(self, mock_openai) -> None:
         """Should invoke with simple message."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         # Mock response
         mock_choice = MagicMock()
@@ -132,7 +132,7 @@ class TestOpenAIClientInvoke:
 
     def test_invoke_with_system_prompt(self, mock_openai) -> None:
         """Should include system message in messages."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         mock_choice = MagicMock()
         mock_choice.message = MagicMock(content="Response", tool_calls=None)
@@ -158,7 +158,7 @@ class TestOpenAIClientInvoke:
 
     def test_invoke_with_tools(self, mock_openai) -> None:
         """Should pass tools to API."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         # Create explicit mock for function
         mock_function = MagicMock()
@@ -199,7 +199,7 @@ class TestOpenAIClientInvoke:
 
     def test_invoke_with_invalid_tool_args(self, mock_openai) -> None:
         """Should handle invalid JSON in tool arguments."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         mock_tc = MagicMock()
         mock_tc.id = "tool_1"
@@ -227,7 +227,7 @@ class TestOpenAIClientInvoke:
 
     def test_invoke_with_assistant_tool_calls(self, mock_openai) -> None:
         """Should convert assistant messages with tool calls."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         mock_choice = MagicMock()
         mock_choice.message = MagicMock(content="Done", tool_calls=None)
@@ -256,7 +256,7 @@ class TestOpenAIClientInvoke:
     def test_invoke_handles_api_error(self, mock_openai) -> None:
         """Should propagate API errors."""
         import openai
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         mock_openai.chat.completions.create.side_effect = openai.APIError(
             message="API Error",
@@ -271,7 +271,7 @@ class TestOpenAIClientInvoke:
 
     def test_invoke_length_stop(self, mock_openai) -> None:
         """Should handle length stop reason."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         mock_choice = MagicMock()
         mock_choice.message = MagicMock(content="Truncated...", tool_calls=None)
@@ -290,7 +290,7 @@ class TestOpenAIClientInvoke:
 
     def test_invoke_content_filter_stop(self, mock_openai) -> None:
         """Should handle content_filter stop reason."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         mock_choice = MagicMock()
         mock_choice.message = MagicMock(content="", tool_calls=None)
@@ -309,7 +309,7 @@ class TestOpenAIClientInvoke:
 
     def test_invoke_no_usage(self, mock_openai) -> None:
         """Should handle response without usage info."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         mock_choice = MagicMock()
         mock_choice.message = MagicMock(content="Response", tool_calls=None)
@@ -344,7 +344,7 @@ class TestOpenAIClientStream:
 
     def test_stream_yields_text(self, mock_openai) -> None:
         """Should yield text chunks from stream."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         # Mock async iterator for streaming
         async def mock_stream_iter():
@@ -372,7 +372,7 @@ class TestOpenAIClientStream:
 
     def test_stream_skips_empty_content(self, mock_openai) -> None:
         """Should skip chunks without content."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         async def mock_stream_iter():
             chunk1 = MagicMock()
@@ -415,7 +415,7 @@ class TestOpenAIClientMessageConversion:
 
     def test_convert_system_message(self, mock_openai) -> None:
         """Should convert system message."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         client = OpenAIClient(api_key="test")
         messages = [Message.system("Be helpful")]
@@ -428,7 +428,7 @@ class TestOpenAIClientMessageConversion:
 
     def test_convert_user_message(self, mock_openai) -> None:
         """Should convert user message."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         client = OpenAIClient(api_key="test")
         messages = [Message.user("Hello")]
@@ -441,7 +441,7 @@ class TestOpenAIClientMessageConversion:
 
     def test_convert_assistant_with_tool_calls(self, mock_openai) -> None:
         """Should convert assistant message with tool calls."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         client = OpenAIClient(api_key="test")
         tool_call = ToolCall(id="call_1", name="test", arguments={"x": 1})
@@ -457,7 +457,7 @@ class TestOpenAIClientMessageConversion:
 
     def test_convert_tool_result(self, mock_openai) -> None:
         """Should convert tool result message."""
-        from agentsh.agent.providers.openai import OpenAIClient
+        from tafysh.agent.providers.openai import OpenAIClient
 
         client = OpenAIClient(api_key="test")
         messages = [Message.tool_result("call_1", "test", "Result")]
@@ -476,7 +476,7 @@ class TestOpenAIClientTokenCounting:
     def test_count_tokens_estimate(self) -> None:
         """Should estimate token count."""
         with patch("openai.AsyncOpenAI"):
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test")
 
@@ -487,7 +487,7 @@ class TestOpenAIClientTokenCounting:
     def test_count_tokens_empty_string(self) -> None:
         """Should handle empty string."""
         with patch("openai.AsyncOpenAI"):
-            from agentsh.agent.providers.openai import OpenAIClient
+            from tafysh.agent.providers.openai import OpenAIClient
 
             client = OpenAIClient(api_key="test")
             result = client.count_tokens("")

@@ -2,14 +2,14 @@
 
 import pytest
 
-from agentsh.plugins.robotics.robotics_toolset import RoboticsToolset
-from agentsh.plugins.robotics.ros_interface import ROS2_AVAILABLE, ROS2Client
-from agentsh.plugins.robotics.safety import (
+from tafysh.plugins.robotics.robotics_toolset import RoboticsToolset
+from tafysh.plugins.robotics.ros_interface import ROS2_AVAILABLE, ROS2Client
+from tafysh.plugins.robotics.safety import (
     RobotSafetyController,
     RobotSafetyState,
     SafetyConstraints,
 )
-from agentsh.tools.registry import ToolRegistry
+from tafysh.tools.registry import ToolRegistry
 
 
 class TestRoboticsToolsetProperties:

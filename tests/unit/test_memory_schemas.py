@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from agentsh.memory.schemas import (
+from tafysh.memory.schemas import (
     MemoryMetadata,
     MemoryRecord,
     MemoryType,

@@ -3,8 +3,8 @@
 import pytest
 from datetime import datetime
 
-from agentsh.security.classifier import RiskLevel
-from agentsh.workflows.states import (
+from tafysh.security.classifier import RiskLevel
+from tafysh.workflows.states import (
     AgentState,
     ApprovalRequest,
     DeviceResult,

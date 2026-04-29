@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from agentsh.shell.completion_modes import (
+from tafysh.shell.completion_modes import (
     CompletionConfig,
     CompletionMode,
     ShellCompletionProxy,
@@ -197,13 +197,13 @@ class TestMergeCompletions:
         result = merge_completions([], [])
         assert result == []
 
-    def test_merge_agentsh_only(self) -> None:
-        """Should return AgentSH completions when no shell."""
+    def test_merge_tafysh_only(self) -> None:
+        """Should return TafySH completions when no shell."""
         result = merge_completions(["help", "config"], [])
         assert result == ["help", "config"]
 
     def test_merge_shell_only(self) -> None:
-        """Should return shell completions when no AgentSH."""
+        """Should return shell completions when no TafySH."""
         result = merge_completions([], ["ls", "cd"])
         assert result == ["ls", "cd"]
 
@@ -217,8 +217,8 @@ class TestMergeCompletions:
         assert "help" in result
         assert "cd" in result
 
-    def test_merge_agentsh_priority(self) -> None:
-        """AgentSH completions should come first."""
+    def test_merge_tafysh_priority(self) -> None:
+        """TafySH completions should come first."""
         result = merge_completions(
             ["help", "config"],
             ["ls", "cd"],
@@ -241,7 +241,7 @@ class TestMergeCompletions:
             ["z", "a"],
             ["m", "b"],
         )
-        # AgentSH first in original order
+        # TafySH first in original order
         assert result.index("z") < result.index("a")
         # Shell second in original order
         assert result.index("m") < result.index("b")

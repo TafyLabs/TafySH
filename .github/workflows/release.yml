@@ -58,7 +58,7 @@ jobs:
       - name: Verify package
         run: |
           uv pip install dist/*.whl
-          agentsh --version
+          tafysh --version
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/project/agentsh/
+      url: https://pypi.org/project/tafysh/
 
     steps:
       - name: Download artifacts
@@ -169,7 +169,7 @@ jobs:
         with:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            agentsh/agentsh
+            tafysh/tafysh
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -232,13 +232,13 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-          repository: agentsh/homebrew-tap
+          repository: tafysh/homebrew-tap
           event-type: update-formula
           client-payload: |
             {
               "version": "${{ needs.build.outputs.version }}",
               "sha256": "${{ steps.sha.outputs.sha256 }}",
-              "url": "https://files.pythonhosted.org/packages/source/a/agentsh/agentsh-${{ needs.build.outputs.version }}.tar.gz"
+              "url": "https://files.pythonhosted.org/packages/source/a/tafysh/tafysh-${{ needs.build.outputs.version }}.tar.gz"
             }
 
   # ==========================================================================
@@ -278,22 +278,22 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ needs.build.outputs.version }}
-          name: AgentSH v${{ needs.build.outputs.version }}
+          name: TafySH v${{ needs.build.outputs.version }}
           body: |
             ## Installation
 
             ### Quick Install
             ```bash
-            curl -fsSL https://get.agentsh.dev | bash
+            curl -fsSL https://get.tafysh.dev | bash
             ```
 
             ### Package Managers
             ```bash
             # Homebrew (macOS)
-            brew install agentsh/tap/agentsh
+            brew install tafysh/tap/tafysh
 
             # pip
-            pip install agentsh==${{ needs.build.outputs.version }}
+            pip install tafysh==${{ needs.build.outputs.version }}
 
             # Docker
             docker pull ghcr.io/${{ github.repository }}:${{ needs.build.outputs.version }}

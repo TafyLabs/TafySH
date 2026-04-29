@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from agentsh.agent.factory import (
+from tafysh.agent.factory import (
     create_agent_loop,
     create_ai_handler,
     create_async_ai_handler,
@@ -15,8 +15,8 @@ from agentsh.agent.factory import (
     create_workflow_executor,
     create_workflow_handler,
 )
-from agentsh.config.schemas import (
-    AgentSHConfig,
+from tafysh.config.schemas import (
+    TafySHConfig,
     LLMConfig,
     LLMProvider,
     ShellConfig,
@@ -64,9 +64,9 @@ def openai_config() -> MagicMock:
 class TestCreateLLMClient:
     """Tests for create_llm_client function."""
 
-    def test_create_anthropic_client(self, anthropic_config: AgentSHConfig) -> None:
+    def test_create_anthropic_client(self, anthropic_config: TafySHConfig) -> None:
         """Should create Anthropic client."""
-        with patch("agentsh.agent.factory.AnthropicClient") as mock_client:
+        with patch("tafysh.agent.factory.AnthropicClient") as mock_client:
             mock_client.return_value = MagicMock()
             client = create_llm_client(anthropic_config)
 
@@ -76,9 +76,9 @@ class TestCreateLLMClient:
                 timeout=60,
             )
 
-    def test_create_openai_client(self, openai_config: AgentSHConfig) -> None:
+    def test_create_openai_client(self, openai_config: TafySHConfig) -> None:
         """Should create OpenAI client."""
-        with patch("agentsh.agent.factory.OpenAIClient") as mock_client:
+        with patch("tafysh.agent.factory.OpenAIClient") as mock_client:
             mock_client.return_value = MagicMock()
             client = create_llm_client(openai_config)
 
@@ -102,10 +102,10 @@ class TestCreateAgentLoop:
     """Tests for create_agent_loop function."""
 
     def test_create_agent_loop_default_registry(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should create agent loop with default registry."""
-        with patch("agentsh.agent.factory.AnthropicClient") as mock_client:
+        with patch("tafysh.agent.factory.AnthropicClient") as mock_client:
             mock_client.return_value = MagicMock()
             agent_loop = create_agent_loop(anthropic_config)
 
@@ -113,10 +113,10 @@ class TestCreateAgentLoop:
             assert agent_loop.tool_registry is not None
 
     def test_create_agent_loop_custom_registry(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should use provided tool registry."""
-        from agentsh.tools.registry import ToolRegistry
+        from tafysh.tools.registry import ToolRegistry
 
         custom_registry = ToolRegistry()
         custom_registry.register_tool(
@@ -126,7 +126,7 @@ class TestCreateAgentLoop:
             parameters={"type": "object", "properties": {}},
         )
 
-        with patch("agentsh.agent.factory.AnthropicClient") as mock_client:
+        with patch("tafysh.agent.factory.AnthropicClient") as mock_client:
             mock_client.return_value = MagicMock()
             agent_loop = create_agent_loop(anthropic_config, tool_registry=custom_registry)
 
@@ -136,19 +136,19 @@ class TestCreateAgentLoop:
 class TestCreateAIHandler:
     """Tests for create_ai_handler function."""
 
-    def test_create_handler(self, anthropic_config: AgentSHConfig) -> None:
+    def test_create_handler(self, anthropic_config: TafySHConfig) -> None:
         """Should create a callable handler."""
-        with patch("agentsh.agent.factory.AnthropicClient") as mock_client:
+        with patch("tafysh.agent.factory.AnthropicClient") as mock_client:
             mock_client.return_value = MagicMock()
             handler = create_ai_handler(anthropic_config)
 
             assert callable(handler)
 
     def test_handler_returns_success_response(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should return success response."""
-        with patch("agentsh.agent.factory.create_agent_loop") as mock_loop:
+        with patch("tafysh.agent.factory.create_agent_loop") as mock_loop:
             mock_agent = MagicMock()
             mock_result = MagicMock(success=True, response="Hello!")
             mock_agent.invoke = AsyncMock(return_value=mock_result)
@@ -160,10 +160,10 @@ class TestCreateAIHandler:
             assert result == "Hello!"
 
     def test_handler_returns_error_response(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should return error response on failure."""
-        with patch("agentsh.agent.factory.create_agent_loop") as mock_loop:
+        with patch("tafysh.agent.factory.create_agent_loop") as mock_loop:
             mock_agent = MagicMock()
             mock_result = MagicMock(
                 success=False, error="Something went wrong", response="Details"
@@ -178,10 +178,10 @@ class TestCreateAIHandler:
             assert "Something went wrong" in result
 
     def test_handler_catches_exceptions(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should catch and return exceptions."""
-        with patch("agentsh.agent.factory.create_agent_loop") as mock_loop:
+        with patch("tafysh.agent.factory.create_agent_loop") as mock_loop:
             mock_agent = MagicMock()
             mock_agent.invoke = AsyncMock(side_effect=Exception("Network error"))
             mock_loop.return_value = mock_agent
@@ -198,10 +198,10 @@ class TestCreateAsyncAIHandler:
 
     @pytest.mark.asyncio
     async def test_create_async_handler(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should create async handler."""
-        with patch("agentsh.agent.factory.create_agent_loop") as mock_loop:
+        with patch("tafysh.agent.factory.create_agent_loop") as mock_loop:
             mock_agent = MagicMock()
             mock_result = MagicMock(success=True, response="Async response")
             mock_agent.invoke = AsyncMock(return_value=mock_result)
@@ -214,10 +214,10 @@ class TestCreateAsyncAIHandler:
 
     @pytest.mark.asyncio
     async def test_async_handler_error_response(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should return error in async handler."""
-        with patch("agentsh.agent.factory.create_agent_loop") as mock_loop:
+        with patch("tafysh.agent.factory.create_agent_loop") as mock_loop:
             mock_agent = MagicMock()
             mock_result = MagicMock(success=False, error="Error", response="Info")
             mock_agent.invoke = AsyncMock(return_value=mock_result)
@@ -232,19 +232,19 @@ class TestCreateAsyncAIHandler:
 class TestCreateMemoryManager:
     """Tests for create_memory_manager function."""
 
-    def test_create_memory_manager(self, anthropic_config: AgentSHConfig) -> None:
+    def test_create_memory_manager(self, anthropic_config: TafySHConfig) -> None:
         """Should create memory manager."""
-        with patch("agentsh.agent.factory.MemoryManager") as mock_manager:
+        with patch("tafysh.agent.factory.MemoryManager") as mock_manager:
             mock_manager.return_value = MagicMock()
             manager = create_memory_manager(anthropic_config)
 
             mock_manager.assert_called_once()
 
     def test_create_memory_manager_custom_path(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should use custom database path."""
-        with patch("agentsh.agent.factory.MemoryManager") as mock_manager:
+        with patch("tafysh.agent.factory.MemoryManager") as mock_manager:
             mock_manager.return_value = MagicMock()
             manager = create_memory_manager(anthropic_config, db_path="/tmp/memory.db")
 
@@ -254,10 +254,10 @@ class TestCreateMemoryManager:
 class TestCreateWorkflowExecutor:
     """Tests for create_workflow_executor function."""
 
-    def test_create_executor(self, anthropic_config: AgentSHConfig) -> None:
+    def test_create_executor(self, anthropic_config: TafySHConfig) -> None:
         """Should create workflow executor."""
-        with patch("agentsh.agent.factory.create_llm_client") as mock_create:
-            with patch("agentsh.agent.factory.WorkflowExecutor") as mock_executor:
+        with patch("tafysh.agent.factory.create_llm_client") as mock_create:
+            with patch("tafysh.agent.factory.WorkflowExecutor") as mock_executor:
                 mock_create.return_value = MagicMock()
                 mock_executor.return_value = MagicMock()
 
@@ -266,17 +266,17 @@ class TestCreateWorkflowExecutor:
                 mock_executor.assert_called_once()
 
     def test_create_executor_with_all_options(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should create executor with all options."""
-        from agentsh.tools.registry import ToolRegistry
+        from tafysh.tools.registry import ToolRegistry
 
         tool_registry = ToolRegistry()
         security_controller = MagicMock()
         memory_manager = MagicMock()
 
-        with patch("agentsh.agent.factory.create_llm_client") as mock_create:
-            with patch("agentsh.agent.factory.WorkflowExecutor") as mock_executor:
+        with patch("tafysh.agent.factory.create_llm_client") as mock_create:
+            with patch("tafysh.agent.factory.WorkflowExecutor") as mock_executor:
                 mock_create.return_value = MagicMock()
                 mock_executor.return_value = MagicMock()
 
@@ -296,17 +296,17 @@ class TestCreateWorkflowExecutor:
 class TestCreateWorkflowHandler:
     """Tests for create_workflow_handler function."""
 
-    def test_create_handler(self, anthropic_config: AgentSHConfig) -> None:
+    def test_create_handler(self, anthropic_config: TafySHConfig) -> None:
         """Should create workflow handler."""
-        with patch("agentsh.agent.factory.create_workflow_executor") as mock_executor:
+        with patch("tafysh.agent.factory.create_workflow_executor") as mock_executor:
             mock_executor.return_value = MagicMock()
             handler = create_workflow_handler(anthropic_config)
 
             assert callable(handler)
 
-    def test_handler_success(self, anthropic_config: AgentSHConfig) -> None:
+    def test_handler_success(self, anthropic_config: TafySHConfig) -> None:
         """Should return success response."""
-        with patch("agentsh.agent.factory.create_workflow_executor") as mock_create:
+        with patch("tafysh.agent.factory.create_workflow_executor") as mock_create:
             mock_executor = MagicMock()
             mock_result = MagicMock(success=True, response="Workflow done")
             mock_executor.execute = AsyncMock(return_value=mock_result)
@@ -317,9 +317,9 @@ class TestCreateWorkflowHandler:
 
             assert result == "Workflow done"
 
-    def test_handler_error(self, anthropic_config: AgentSHConfig) -> None:
+    def test_handler_error(self, anthropic_config: TafySHConfig) -> None:
         """Should return error response."""
-        with patch("agentsh.agent.factory.create_workflow_executor") as mock_create:
+        with patch("tafysh.agent.factory.create_workflow_executor") as mock_create:
             mock_executor = MagicMock()
             mock_result = MagicMock(success=False, error="Failed", response="Details")
             mock_executor.execute = AsyncMock(return_value=mock_result)
@@ -331,9 +331,9 @@ class TestCreateWorkflowHandler:
             assert "Error:" in result
             assert "Failed" in result
 
-    def test_handler_exception(self, anthropic_config: AgentSHConfig) -> None:
+    def test_handler_exception(self, anthropic_config: TafySHConfig) -> None:
         """Should catch exceptions."""
-        with patch("agentsh.agent.factory.create_workflow_executor") as mock_create:
+        with patch("tafysh.agent.factory.create_workflow_executor") as mock_create:
             mock_executor = MagicMock()
             mock_executor.execute = AsyncMock(side_effect=Exception("Workflow error"))
             mock_create.return_value = mock_executor
@@ -349,10 +349,10 @@ class TestCreateAsyncWorkflowHandler:
 
     @pytest.mark.asyncio
     async def test_create_async_handler(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should create async workflow handler."""
-        with patch("agentsh.agent.factory.create_workflow_executor") as mock_create:
+        with patch("tafysh.agent.factory.create_workflow_executor") as mock_create:
             mock_executor = MagicMock()
             mock_result = MagicMock(success=True, response="Async workflow")
             mock_executor.execute = AsyncMock(return_value=mock_result)
@@ -365,10 +365,10 @@ class TestCreateAsyncWorkflowHandler:
 
     @pytest.mark.asyncio
     async def test_async_handler_error(
-        self, anthropic_config: AgentSHConfig
+        self, anthropic_config: TafySHConfig
     ) -> None:
         """Should return error in async handler."""
-        with patch("agentsh.agent.factory.create_workflow_executor") as mock_create:
+        with patch("tafysh.agent.factory.create_workflow_executor") as mock_create:
             mock_executor = MagicMock()
             mock_result = MagicMock(success=False, error="Error", response="Info")
             mock_executor.execute = AsyncMock(return_value=mock_result)

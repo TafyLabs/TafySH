@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from agentsh.shell.history import HistoryEntry, HistoryManager, ReadlineHistory
+from tafysh.shell.history import HistoryEntry, HistoryManager, ReadlineHistory
 
 
 class TestHistoryEntry:

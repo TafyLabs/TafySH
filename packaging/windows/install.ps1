@@ -1,12 +1,12 @@
-# AgentSH Windows Installer
+# TafySH Windows Installer
 #
 # Usage (PowerShell):
-#   irm https://get.agentsh.dev/windows | iex
+#   irm https://get.tafysh.dev/windows | iex
 #
 # Or:
 #   Set-ExecutionPolicy Bypass -Scope Process -Force
 #   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-#   iex ((New-Object System.Net.WebClient).DownloadString('https://get.agentsh.dev/windows'))
+#   iex ((New-Object System.Net.WebClient).DownloadString('https://get.tafysh.dev/windows'))
 
 param(
     [string]$Version = "latest",
@@ -18,8 +18,8 @@ param(
 $ErrorActionPreference = "Stop"
 
 # Configuration
-$GITHUB_REPO = "agentsh/agentsh"
-$PYPI_PACKAGE = "agentsh"
+$GITHUB_REPO = "tafysh/tafysh"
+$PYPI_PACKAGE = "tafysh"
 $MIN_PYTHON_VERSION = [Version]"3.10"
 
 # Colors
@@ -111,11 +111,11 @@ function Install-Python {
     return $false
 }
 
-# Install AgentSH via pip
-function Install-AgentSH {
+# Install TafySH via pip
+function Install-TafySH {
     param([string]$PythonCmd)
 
-    Info "Installing AgentSH..."
+    Info "Installing TafySH..."
 
     $pkgSpec = $PYPI_PACKAGE
     if ($Version -ne "latest") {
@@ -167,12 +167,12 @@ function Add-ToPath {
 # Verify installation
 function Test-Installation {
     try {
-        $version = & agentsh --version 2>$null
+        $version = & tafysh --version 2>$null
         if ($version) {
-            Success "AgentSH installed successfully!"
+            Success "TafySH installed successfully!"
             Write-Host ""
             Write-Host "  Version:  $version" -ForegroundColor Cyan
-            Write-Host "  Location: $(Get-Command agentsh | Select-Object -ExpandProperty Source)" -ForegroundColor Cyan
+            Write-Host "  Location: $(Get-Command tafysh | Select-Object -ExpandProperty Source)" -ForegroundColor Cyan
             Write-Host ""
             return $true
         }
@@ -180,17 +180,17 @@ function Test-Installation {
 
     # Check common locations
     $locations = @(
-        "$env:USERPROFILE\.local\bin\agentsh.exe",
-        "$env:USERPROFILE\AppData\Local\Programs\Python\Python311\Scripts\agentsh.exe",
-        "$env:USERPROFILE\AppData\Roaming\Python\Python311\Scripts\agentsh.exe"
+        "$env:USERPROFILE\.local\bin\tafysh.exe",
+        "$env:USERPROFILE\AppData\Local\Programs\Python\Python311\Scripts\tafysh.exe",
+        "$env:USERPROFILE\AppData\Roaming\Python\Python311\Scripts\tafysh.exe"
     )
 
     foreach ($loc in $locations) {
         if (Test-Path $loc) {
             $dir = Split-Path $loc -Parent
             Add-ToPath $dir
-            Success "AgentSH installed to $loc"
-            Warn "Restart your terminal and run 'agentsh' to start."
+            Success "TafySH installed to $loc"
+            Warn "Restart your terminal and run 'tafysh' to start."
             return $true
         }
     }
@@ -253,8 +253,8 @@ function Main {
     }
     Info "Using Python: $pythonCmd ($pyVersion)"
 
-    # Install AgentSH
-    if (-not (Install-AgentSH -PythonCmd $pythonCmd)) {
+    # Install TafySH
+    if (-not (Install-TafySH -PythonCmd $pythonCmd)) {
         Error "Installation failed."
         exit 1
     }
@@ -268,9 +268,9 @@ function Main {
     # Print next steps
     Write-Host ""
     Write-Host "Next steps:" -ForegroundColor White
-    Write-Host "  1. Start AgentSH:     agentsh" -ForegroundColor Gray
-    Write-Host "  2. Configure:         agentsh config init" -ForegroundColor Gray
-    Write-Host "  3. Check status:      agentsh status" -ForegroundColor Gray
+    Write-Host "  1. Start TafySH:     tafysh" -ForegroundColor Gray
+    Write-Host "  2. Configure:         tafysh config init" -ForegroundColor Gray
+    Write-Host "  3. Check status:      tafysh status" -ForegroundColor Gray
     Write-Host ""
     Write-Host "Documentation: https://github.com/$GITHUB_REPO" -ForegroundColor Cyan
     Write-Host ""

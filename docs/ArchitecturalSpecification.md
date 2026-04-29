@@ -1,4 +1,4 @@
-# AgentSH: Comprehensive Architectural Specification
+# TafySH: Comprehensive Architectural Specification
 
 **Version:** 1.0
 **Date:** December 2025
@@ -23,9 +23,9 @@
 ### Recommended Directory Layout
 
 ```
-agentsh/
+tafysh/
 ├── src/
-│   └── agentsh/
+│   └── tafysh/
 │       ├── __init__.py
 │       ├── __main__.py              # CLI entrypoint
 │       │
@@ -501,7 +501,7 @@ agentsh/
     ┌──────────▼──────────────────────┐
     │ Exporter (async):                │
     │ - To stdout (JSON lines)         │
-    │ - To file (~/.agentsh/logs/)     │
+    │ - To file (~/.tafysh/logs/)     │
     │ - To Prometheus endpoint         │
     │ - To ELK stack (if configured)   │
     └──────────┬───────────────────────┘
@@ -913,7 +913,7 @@ agentsh/
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "TelemetryEvent",
-  "description": "An event logged by AgentSH for observability",
+  "description": "An event logged by TafySH for observability",
   "type": "object",
   "properties": {
     "event_id": {
@@ -1595,8 +1595,8 @@ Device-level RBAC:
 ```python
 # Template for creating a plugin
 
-from agentsh.plugins.base import Toolset
-from agentsh.tools.registry import ToolRegistry
+from tafysh.plugins.base import Toolset
+from tafysh.tools.registry import ToolRegistry
 
 class MyCustomToolset(Toolset):
     """Custom toolset for domain-specific operations."""
@@ -1622,7 +1622,7 @@ class MyCustomToolset(Toolset):
         """Do something custom."""
         return f"Processed {arg1}"
 
-# In ~/.agentsh/config.yaml:
+# In ~/.tafysh/config.yaml:
 # plugins:
 #   enabled:
 #     - my_custom
@@ -1712,7 +1712,7 @@ for record in memory_records:
 ```python
 # Implement custom LLM client
 
-from agentsh.agent.llm_client import LLMClient
+from tafysh.agent.llm_client import LLMClient
 
 class MyCustomLLM(LLMClient):
     """Wrapper around custom LLM service."""
@@ -1740,12 +1740,12 @@ class MyCustomLLM(LLMClient):
 ## Appendix: Configuration Schema Example
 
 ```yaml
-# ~/.agentsh/config.yaml
+# ~/.tafysh/config.yaml
 
 shell:
   backend: /bin/zsh
   login_shell: true
-  history_file: ~/.agentsh/history
+  history_file: ~/.tafysh/history
 
 llm:
   provider: openai  # or 'anthropic', 'local', 'custom'
@@ -1772,11 +1772,11 @@ security:
     - "^mkfs"
     - "^dd if=.*of=/dev"
   rbac_enabled: true
-  audit_log_path: ~/.agentsh/audit.log
+  audit_log_path: ~/.tafysh/audit.log
 
 memory:
   backend: "sqlite"  # or 'postgres', 'redis'
-  path: ~/.agentsh/memory.db
+  path: ~/.tafysh/memory.db
   ttl_days: 90
   enable_embeddings: false  # set true for semantic search
   embedding_model: "text-embedding-3-small"
@@ -1786,7 +1786,7 @@ telemetry:
   log_level: "info"
   exporters:
     - type: "file"
-      path: ~/.agentsh/logs/
+      path: ~/.tafysh/logs/
       format: "jsonl"
     - type: "prometheus"
       port: 9090
@@ -1804,7 +1804,7 @@ plugins:
     default_robot_namespace: "/robot"
 
 orchestrator:
-  devices_file: ~/.agentsh/devices.yaml
+  devices_file: ~/.tafysh/devices.yaml
   ssh_config_path: ~/.ssh/config
   ssh_key_env: SSH_KEY_PATH
   connection_pool_size: 10
