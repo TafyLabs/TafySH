@@ -164,4 +164,4 @@ Contributions are welcome! Please read the documentation and submit PRs.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+Apache License 2.0 - see [LICENSE](LICENSE) for details.

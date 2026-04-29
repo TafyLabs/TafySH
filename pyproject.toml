@@ -7,10 +7,10 @@ name = "agentsh"
 version = "0.1.0"
 description = "AI-enhanced terminal shell with LLM-powered capabilities"
 readme = "README.md"
-license = {text = "MIT"}
+license = {text = "Apache-2.0"}
 requires-python = ">=3.10"
 authors = [
-    { name = "AgentSH Team" }
+    { name = "Bobby Larson", email = "bobby@tafy.ai" }
 ]
 keywords = ["ai", "shell", "terminal", "llm", "agent", "automation"]
 classifiers = [
@@ -18,7 +18,7 @@ classifiers = [
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Operating System :: POSIX :: Linux",
     "Operating System :: MacOS",
     "Programming Language :: Python :: 3",
@@ -94,9 +94,10 @@ all = [
 agentsh = "agentsh.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/agentsh/agentsh"
-Documentation = "https://github.com/agentsh/agentsh/docs"
-Repository = "https://github.com/agentsh/agentsh"
+Homepage = "https://github.com/TafyLabs/AgentSH"
+Documentation = "https://github.com/TafyLabs/AgentSH/tree/main/docs"
+Repository = "https://github.com/TafyLabs/AgentSH"
+Issues = "https://github.com/TafyLabs/AgentSH/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/agentsh"]
