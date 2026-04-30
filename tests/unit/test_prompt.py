@@ -315,7 +315,7 @@ class TestPromptRenderer:
     def test_colorize_with_color(self, renderer: PromptRenderer) -> None:
         """Test colorizing text."""
         result = renderer._colorize("test", Colors.RED)
-        assert result == f"{Colors.RED}test{Colors.RESET}"
+        assert result == f"\001{Colors.RED}\002test\001{Colors.RESET}\002"
 
     def test_colorize_without_color(
         self, no_color_renderer: PromptRenderer

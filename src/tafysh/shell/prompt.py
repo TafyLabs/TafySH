@@ -317,9 +317,13 @@ class PromptRenderer:
         return self._colorize(char, Colors.BRIGHT_WHITE)
 
     def _colorize(self, text: str, color: str) -> str:
-        """Apply color to text if colors are enabled."""
+        """Apply color to text if colors are enabled.
+
+        Wraps ANSI sequences in \\001/\\002 markers so readline
+        correctly calculates visible prompt width and cursor position.
+        """
         if self.use_color:
-            return f"{color}{text}{Colors.RESET}"
+            return f"\001{color}\002{text}\001{Colors.RESET}\002"
         return text
 
     def _get_git_branch(self) -> Optional[str]:

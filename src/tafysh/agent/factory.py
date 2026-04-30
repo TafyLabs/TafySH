@@ -6,6 +6,7 @@ from typing import Any, Callable, Optional
 from tafysh.agent.agent_loop import AgentConfig, AgentContext, AgentLoop
 from tafysh.agent.llm_client import LLMClient
 from tafysh.agent.providers.anthropic import AnthropicClient
+from tafysh.agent.providers.ollama import OllamaClient
 from tafysh.agent.providers.openai import OpenAIClient
 from tafysh.config.schemas import TafySHConfig, LLMProvider
 from tafysh.memory.manager import MemoryManager
@@ -38,6 +39,11 @@ def create_llm_client(config: TafySHConfig) -> LLMClient:
     elif config.llm.provider == LLMProvider.OPENAI:
         return OpenAIClient(
             api_key=config.llm.api_key,
+            model=config.llm.model,
+            timeout=config.llm.timeout_seconds,
+        )
+    elif config.llm.provider == LLMProvider.OLLAMA:
+        return OllamaClient(
             model=config.llm.model,
             timeout=config.llm.timeout_seconds,
         )

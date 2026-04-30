@@ -421,8 +421,9 @@ def cmd_interactive_shell(
         if profile_startup:
             print(f"[startup] Shell initialized: {(time.time() - start_time)*1000:.1f}ms")
 
-        # Set up AI handler if API key is configured
-        if config.llm.api_key:
+        # Set up AI handler if API key is configured (or provider doesn't need one)
+        from tafysh.config.schemas import LLMProvider
+        if config.llm.api_key or config.llm.provider == LLMProvider.OLLAMA:
             try:
                 from tafysh.agent.factory import create_ai_handler
 

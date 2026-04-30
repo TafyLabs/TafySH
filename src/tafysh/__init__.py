@@ -9,7 +9,7 @@ TafySH wraps traditional shells (Bash/Zsh/Fish) with intelligent features:
 - Memory and context management
 """
 
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 __author__ = "Bobby Larson"
 
 from tafysh.config.schemas import TafySHConfig
